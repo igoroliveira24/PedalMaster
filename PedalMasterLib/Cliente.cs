@@ -129,6 +129,7 @@ namespace PedalMasterLib
             cmd.CommandText = $"update clientes set Ativo = 1 where pk_idCliente = {id}";
             cmd.ExecuteNonQuery();
             cmd.Connection.Close();
+
         }
 
     }
