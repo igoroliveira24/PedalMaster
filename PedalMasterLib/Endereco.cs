@@ -21,6 +21,7 @@ namespace PedalMasterLib
         public string? Cep { get; set; }
         public bool Ativo { get; set; }
         public Cliente IdCliente { get; set; }
+        public Funcionarios IdFuncionarios { get; set; }
 
         public Endereco()
         {
@@ -140,10 +141,26 @@ namespace PedalMasterLib
             cmd.Connection.Close();
         }
 
-        /*public void InserirEnderecosEmFuncionarios()
+        public void InserirEnderecosEmFuncionarios()
         {
-        Voltar aq depois
-        }*/
+            var cmd = Banco.Abrir();
+            cmd.CommandType = CommandType.StoredProcedure;
+            cmd.CommandText = "spFuncionarios_Insert_Enderecos";
+            cmd.Parameters.AddWithValue("spid_Funcionarios", IdFuncionarios);
+            cmd.Parameters.AddWithValue("splograouro", Logradouro);
+            cmd.Parameters.AddWithValue("spnumero", Numero);
+            cmd.Parameters.AddWithValue("spbairro", Bairro);
+            cmd.Parameters.AddWithValue("spcidade", Cidade);
+            cmd.Parameters.AddWithValue("spuf", Uf);
+            cmd.Parameters.AddWithValue("spcomplemento", Complemento);
+            cmd.Parameters.AddWithValue("spcep", Cep);
+            var dr = cmd.ExecuteReader();
+            while (dr.Read())
+            {
+                Id = dr.GetInt32(0);
+            }
+            cmd.Connection.Close();
+        }
 
 
         public void Atualizar()
