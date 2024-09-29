@@ -120,6 +120,56 @@ namespace PedalMasterLib
             return enderecos;
         }
 
+        public static List<Endereco> ObterListaPorIdCliente(int id)
+        {
+            List<Endereco> enderecos = new();
+            var cmd = Banco.Abrir();
+            cmd.CommandText = $"select * from enderecos where pk_idEnderecos = (select fk_idClientesEnderecos_Enderecos from clientesenderecos where fk_idClientesEnderecos_Clientes = {id})";
+            var dr = cmd.ExecuteReader();
+            while (dr.Read())
+            {
+                enderecos.Add(new(
+                    dr.GetInt32(0),
+                    dr.GetString(1),
+                    dr.GetString(2),
+                    dr.GetString(3),
+                    dr.GetString(4),
+                    dr.GetString(5),
+                    dr.GetString(6),
+                    dr.GetString(7),
+                    dr.GetBoolean(8)
+                    ));
+            }
+
+            cmd.Connection.Close();
+            return enderecos;
+        }
+
+        public static List<Endereco> ObterListaPorIdFuncionarios(int id)
+        {
+            List<Endereco> enderecos = new();
+            var cmd = Banco.Abrir();
+            cmd.CommandText = $"select * from enderecos where pk_idEnderecos = (select fk_idFuncionariosEnderecos_Enderecos from funcionariosenderecos where fk_idFuncionariosEnderecos_Funcionarios = {id})";
+            var dr = cmd.ExecuteReader();
+            while (dr.Read())
+            {
+                enderecos.Add(new(
+                    dr.GetInt32(0),
+                    dr.GetString(1),
+                    dr.GetString(2),
+                    dr.GetString(3),
+                    dr.GetString(4),
+                    dr.GetString(5),
+                    dr.GetString(6),
+                    dr.GetString(7),
+                    dr.GetBoolean(8)
+                    ));
+            }
+
+            cmd.Connection.Close();
+            return enderecos;
+        }
+
         public void InserirEnderecosEmClientes()
         {
             var cmd = Banco.Abrir();
