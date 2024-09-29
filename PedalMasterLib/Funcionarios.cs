@@ -129,7 +129,7 @@ namespace PedalMasterLib
         {
             var cmd = Banco.Abrir();
             cmd.CommandType = CommandType.Text;
-            cmd.CommandText = $"update funcionarios set Ativo = 0 where pk_idFuncionarios= {id}";
+            cmd.CommandText = $"update funcionarios set Ativo = 0 where pk_idFuncionarios = {id}";
             cmd.ExecuteNonQuery();
             cmd.Connection.Close();
         }
