@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace PedalMasterLib
 {
-    internal class TipoProduto
+    public class TipoProduto
     {
         
 
