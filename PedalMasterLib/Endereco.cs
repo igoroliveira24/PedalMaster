@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace PedalMasterLib
 {
-    internal class Endereco
+    public class Endereco
     {
 
 
@@ -27,6 +27,20 @@ namespace PedalMasterLib
         {
 
 
+
+        }
+
+        public Endereco(string? logradouro, string? numero, string? bairro, string? cidade, string? uf, string? complemento, string? cep,Cliente idCliente)
+        {
+
+            Logradouro = logradouro;
+            Numero = numero;
+            Bairro = bairro;
+            Cidade = cidade;
+            Uf = uf;
+            Complemento = complemento;
+            Cep = cep;
+            IdCliente = idCliente;
 
         }
 
@@ -175,8 +189,8 @@ namespace PedalMasterLib
             var cmd = Banco.Abrir();
             cmd.CommandType = CommandType.StoredProcedure;
             cmd.CommandText = "spClientes_Insert_Enderecos";
-            cmd.Parameters.AddWithValue("spid_Cliente", IdCliente);
-            cmd.Parameters.AddWithValue("splograouro", Logradouro);
+            cmd.Parameters.AddWithValue("spid_Cliente", IdCliente.Id);
+            cmd.Parameters.AddWithValue("splogradouro", Logradouro);
             cmd.Parameters.AddWithValue("spnumero", Numero);
             cmd.Parameters.AddWithValue("spbairro", Bairro);
             cmd.Parameters.AddWithValue("spcidade", Cidade);

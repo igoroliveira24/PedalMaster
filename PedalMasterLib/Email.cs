@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace PedalMasterLib
 {
-    internal class Email
+    public class Email
     {
         
 
@@ -21,10 +21,10 @@ namespace PedalMasterLib
         {          
         }
 
-        public Email(string? emails, bool ativo)
+        public Email(string? emails, Cliente idCliente)
         {          
             Emails = emails;
-            Ativo = ativo;
+            IdCliente = idCliente;
         }
 
         public Email(int id, string? emails, bool ativo)
@@ -115,7 +115,7 @@ namespace PedalMasterLib
             var cmd = Banco.Abrir();
             cmd.CommandType = System.Data.CommandType.StoredProcedure;
             cmd.CommandText = "spClientes_Insert_Email";
-            cmd.Parameters.AddWithValue("sp_idCliente",IdCliente);
+            cmd.Parameters.AddWithValue("sp_idCliente",IdCliente.Id);
             cmd.Parameters.AddWithValue("Email",Emails);
             var dr = cmd.ExecuteReader();
             while (dr.Read())

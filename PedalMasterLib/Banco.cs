@@ -1,6 +1,9 @@
 ﻿using MySql.Data.MySqlClient;
 using System;
 using System.Collections.Generic;
+using MySql.Data.MySqlClient;
+using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -10,6 +13,9 @@ namespace PedalMasterLib
     /// <summary>
     /// Classe estática (não necessita declaração de instancia) de conexão de banco de dados MYSQL
     /// </summary>
+    
+    }
+
     public class Banco
     {
         /// <summary>
@@ -18,7 +24,7 @@ namespace PedalMasterLib
         /// <returns>Entrega um objeto de comandos SQL, que serão executados na conexão informada</returns>
         public static MySqlCommand Abrir()
         {
-            string strconn = @"localhost;database=pedalteste;user=root;password=";
+            string strconn = @"server=localhost;database=pedalteste;user=root;password=";
             MySqlConnection cn = new MySqlConnection(strconn);
             MySqlCommand cmd = new MySqlCommand();
             try
@@ -33,4 +39,4 @@ namespace PedalMasterLib
             return cmd;
         }
     }
-}
+

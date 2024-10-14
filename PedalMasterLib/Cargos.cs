@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace PedalMasterLib
 {
-    internal class Cargos
+    public class Cargos
     {
         
 

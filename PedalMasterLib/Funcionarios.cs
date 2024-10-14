@@ -10,7 +10,7 @@ using System.Threading.Tasks;
 
 namespace PedalMasterLib
 {
-    internal class Funcionarios
+    public class Funcionarios
     {
         
 

@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 
 namespace PedalMasterLib
 {
-    internal class Cartoes
+    public class Cartoes
     {
         
 

@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace PedalMasterLib
 {
-    internal class Cliente
+    public class Cliente
     {
         
 
@@ -20,6 +20,14 @@ namespace PedalMasterLib
         public Cliente()
         {
             
+        }
+
+        public Cliente(string? nome, string? cpf, DateTime dataCad)
+        {
+
+            Nome = nome;
+            Cpf = cpf;
+            DataCad = dataCad;      
         }
 
         public Cliente(string? nome, string? cpf, DateTime dataCad, DateTime dataNasc, bool ativo)
@@ -46,6 +54,7 @@ namespace PedalMasterLib
         {
             Cliente cliente = new();
             var cmd = Banco.Abrir();
+            cmd.CommandType = CommandType.Text;
             cmd.CommandText = $"select * from clientes where pk_idCliente = {id}";
             var dr = cmd.ExecuteReader();
             while (dr.Read())

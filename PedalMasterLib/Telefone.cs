@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace PedalMasterLib
 {
-    internal class Telefone
+    public class Telefone
     {
         
 
@@ -22,11 +22,18 @@ namespace PedalMasterLib
         {
         }
 
-        public Telefone(string? telefones, string? tipo, bool ativo)
+        public Telefone(string? telefones, string? tipo, Cliente idClientes)
         {
             Telefones = telefones;
             Tipo = tipo;
-            Ativo = ativo;
+            IdClientes = idClientes;
+        }
+
+        public Telefone(string? telefones, string? tipo, Funcionarios idFuncionarios)
+        {
+            Telefones = telefones;
+            Tipo = tipo;
+            IdFuncionarios = idFuncionarios;
         }
 
         public Telefone(int id, string? telefones, string? tipo, bool ativo)
@@ -117,7 +124,7 @@ namespace PedalMasterLib
             var cmd = Banco.Abrir();
             cmd.CommandType = System.Data.CommandType.StoredProcedure;
             cmd.CommandText = "spClientes_Insert_Telefone";
-            cmd.Parameters.AddWithValue("sp_idCliente", IdClientes);
+            cmd.Parameters.AddWithValue("sp_idCliente", IdClientes.Id);
             cmd.Parameters.AddWithValue("sptelefone",Telefones);
             cmd.Parameters.AddWithValue("sptipo",Tipo);
             var dr = cmd.ExecuteReader();

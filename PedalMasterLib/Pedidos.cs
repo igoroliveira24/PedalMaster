@@ -2,7 +2,7 @@
 
 namespace PedalMasterLib
 {
-    internal class Pedidos
+    public class Pedidos
     {
         
 
