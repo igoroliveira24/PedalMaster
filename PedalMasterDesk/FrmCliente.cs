@@ -22,6 +22,7 @@ namespace PedalMasterDesk
         private void FrmCliente_Load(object sender, EventArgs e)
         {
             rdbtnCelular.Checked = true;
+            CarregaGrid();
             mskCEPCliente.TextMaskFormat = MaskFormat.ExcludePromptAndLiterals;
             mskCPFCliente.TextMaskFormat = MaskFormat.ExcludePromptAndLiterals;
             mskTelefoneCliente.TextMaskFormat = MaskFormat.ExcludePromptAndLiterals;
@@ -177,6 +178,26 @@ namespace PedalMasterDesk
 
         private void txtNumeroClientes_TextChanged(object sender, EventArgs e)
         {
+
+        }
+
+        private void CarregaGrid()
+        {
+            var lista = Cliente.ObterLista();
+            dataGridView1.Rows.Clear();
+            int cont = 0;
+
+
+            foreach (var cliente in lista)// para cada usuario na lista
+            {
+                dataGridView1.Rows.Add();//linhas do datagrid usuarios adiciona
+                dataGridView1.Rows[cont].Cells[0].Value = cliente.Id;//linhas do datagrid usuarios com linha varivael cont e coluna 0 vale usuario id
+                dataGridView1.Rows[cont].Cells[1].Value = cliente.Nome;//linhas do datagrid usuarios com linha varivael cont e coluna 2 vale usuario Email               
+              
+
+                cont++;//{cont esta em loop para listar os usuarios}
+            }
+
 
         }
     }
