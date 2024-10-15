@@ -74,23 +74,26 @@ namespace PedalMasterLib
 
         public static List<Cliente> ObterLista()
         {
-            List<Cliente> cliente = new();
+            List<Cliente> clientes = new();
             var cmd = Banco.Abrir();
+            cmd.CommandType = CommandType.Text;
             cmd.CommandText = $"select * from clientes";
             var dr = cmd.ExecuteReader();
             while (dr.Read())
             {
-                cliente.Add(new(
+                clientes.Add(
+                    new(
                     dr.GetInt32(0),
                     dr.GetString(1),
                     dr.GetString(2),
                     dr.GetDateTime(3),
                     dr.GetDateTime(4),
                     dr.GetBoolean(5)
-                    ));
+                    )
+                );
             }
             cmd.Connection.Close();
-            return cliente;
+            return clientes;
         }
 
         public void Inserir()
