@@ -23,8 +23,14 @@ namespace PedalMasterDesk
 
         private void Principal_Load(object sender, EventArgs e)
         {
-        
+
         }
- 
+
+        private void cadastrarToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            FrmFuncionario frmFuncionario = new();
+            frmFuncionario.MdiParent = this;
+            frmFuncionario.Show();
+        }
     }
 }

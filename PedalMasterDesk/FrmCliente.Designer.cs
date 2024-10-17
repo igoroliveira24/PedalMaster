@@ -249,6 +249,7 @@
             dataGridView1.RowHeadersVisible = false;
             dataGridView1.Size = new Size(250, 334);
             dataGridView1.TabIndex = 38;
+            dataGridView1.CellContentClick += dataGridView1_CellContentClick;
             // 
             // Id
             // 

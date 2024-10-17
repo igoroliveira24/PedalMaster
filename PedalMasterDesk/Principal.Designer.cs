@@ -34,6 +34,9 @@
             clientesToolStripMenuItem = new ToolStripMenuItem();
             lisToolStripMenuItem = new ToolStripMenuItem();
             inserirToolStripMenuItem = new ToolStripMenuItem();
+            funcionariosToolStripMenuItem = new ToolStripMenuItem();
+            listaToolStripMenuItem = new ToolStripMenuItem();
+            cadastrarToolStripMenuItem = new ToolStripMenuItem();
             toolStrip1.SuspendLayout();
             SuspendLayout();
             // 
@@ -49,7 +52,7 @@
             // toolStripDropDownButton1
             // 
             toolStripDropDownButton1.DisplayStyle = ToolStripItemDisplayStyle.Text;
-            toolStripDropDownButton1.DropDownItems.AddRange(new ToolStripItem[] { clientesToolStripMenuItem });
+            toolStripDropDownButton1.DropDownItems.AddRange(new ToolStripItem[] { clientesToolStripMenuItem, funcionariosToolStripMenuItem });
             toolStripDropDownButton1.Image = (Image)resources.GetObject("toolStripDropDownButton1.Image");
             toolStripDropDownButton1.ImageTransparentColor = Color.Magenta;
             toolStripDropDownButton1.Name = "toolStripDropDownButton1";
@@ -75,6 +78,26 @@
             inserirToolStripMenuItem.Size = new Size(180, 22);
             inserirToolStripMenuItem.Text = "Inserir";
             inserirToolStripMenuItem.Click += inserirToolStripMenuItem_Click;
+            // 
+            // funcionariosToolStripMenuItem
+            // 
+            funcionariosToolStripMenuItem.DropDownItems.AddRange(new ToolStripItem[] { listaToolStripMenuItem, cadastrarToolStripMenuItem });
+            funcionariosToolStripMenuItem.Name = "funcionariosToolStripMenuItem";
+            funcionariosToolStripMenuItem.Size = new Size(180, 22);
+            funcionariosToolStripMenuItem.Text = "Funcionarios";
+            // 
+            // listaToolStripMenuItem
+            // 
+            listaToolStripMenuItem.Name = "listaToolStripMenuItem";
+            listaToolStripMenuItem.Size = new Size(180, 22);
+            listaToolStripMenuItem.Text = "Lista";
+            // 
+            // cadastrarToolStripMenuItem
+            // 
+            cadastrarToolStripMenuItem.Name = "cadastrarToolStripMenuItem";
+            cadastrarToolStripMenuItem.Size = new Size(180, 22);
+            cadastrarToolStripMenuItem.Text = "Inserir";
+            cadastrarToolStripMenuItem.Click += cadastrarToolStripMenuItem_Click;
             // 
             // Principal
             // 
@@ -103,5 +126,8 @@
         private ToolStripMenuItem clientesToolStripMenuItem;
         private ToolStripMenuItem lisToolStripMenuItem;
         private ToolStripMenuItem inserirToolStripMenuItem;
+        private ToolStripMenuItem funcionariosToolStripMenuItem;
+        private ToolStripMenuItem listaToolStripMenuItem;
+        private ToolStripMenuItem cadastrarToolStripMenuItem;
     }
 }

@@ -26,6 +26,7 @@ namespace PedalMasterDesk
             mskCEPCliente.TextMaskFormat = MaskFormat.ExcludePromptAndLiterals;
             mskCPFCliente.TextMaskFormat = MaskFormat.ExcludePromptAndLiterals;
             mskTelefoneCliente.TextMaskFormat = MaskFormat.ExcludePromptAndLiterals;
+            txtUFClientes.MaxLength = 2;
 
         }
 
@@ -33,9 +34,9 @@ namespace PedalMasterDesk
         {
             if (rdbtnTelefone.Checked)
             {
-                mskTelefoneCliente.Mask = "(00)0000-0000";            
+                mskTelefoneCliente.Mask = "(00)0000-0000";
             }
-            
+
         }
 
         private void rdbtnCelular_CheckedChanged(object sender, EventArgs e)
@@ -44,7 +45,7 @@ namespace PedalMasterDesk
             {
                 mskTelefoneCliente.Mask = "(00)00000-0000";
             }
-            
+
         }
 
         private void btnCadastrarClientes_Click(object sender, EventArgs e)
@@ -54,7 +55,7 @@ namespace PedalMasterDesk
                                 mskCPFCliente.Text,
                                 dtpDatNascCliente.Value
                                 );
-            
+
 
             if (textBoxVazias() && MaskedTextBoxVazias())
             {
@@ -78,7 +79,7 @@ namespace PedalMasterDesk
                         {
                             cliente.Inserir();
 
-                            
+
 
                             Telefone telefone = new(
                                 mskTelefoneCliente.Text,
@@ -101,7 +102,7 @@ namespace PedalMasterDesk
                                 mskCEPCliente.Text,
                                 Cliente.ObterId(cliente.Id)
                                 );
-                            
+
                             email.InserirEmailClientes();
                             telefone.InserirTelefoneClientes();
                             endereco.InserirEnderecosEmClientes();
@@ -147,10 +148,10 @@ namespace PedalMasterDesk
                         }
                     }
                 }
-                
+
             }
         }
-        
+
 
         private bool textBoxVazias()
         {
@@ -193,11 +194,16 @@ namespace PedalMasterDesk
                 dataGridView1.Rows.Add();//linhas do datagrid usuarios adiciona
                 dataGridView1.Rows[cont].Cells[0].Value = cliente.Id;//linhas do datagrid usuarios com linha varivael cont e coluna 0 vale usuario id
                 dataGridView1.Rows[cont].Cells[1].Value = cliente.Nome;//linhas do datagrid usuarios com linha varivael cont e coluna 2 vale usuario Email               
-              
+
 
                 cont++;//{cont esta em loop para listar os usuarios}
             }
 
+
+        }
+
+        private void dataGridView1_CellContentClick(object sender, DataGridViewCellEventArgs e)
+        {
 
         }
     }
