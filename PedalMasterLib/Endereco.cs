@@ -30,6 +30,20 @@ namespace PedalMasterLib
 
         }
 
+        public Endereco(string? logradouro, string? numero, string? bairro, string? cidade, string? uf, string? complemento, string? cep, Funcionarios idFuncionarios)
+        {
+
+            Logradouro = logradouro;
+            Numero = numero;
+            Bairro = bairro;
+            Cidade = cidade;
+            Uf = uf;
+            Complemento = complemento;
+            Cep = cep;
+            IdFuncionarios = idFuncionarios;
+
+        }
+
         public Endereco(string? logradouro, string? numero, string? bairro, string? cidade, string? uf, string? complemento, string? cep,Cliente idCliente)
         {
 
@@ -210,8 +224,8 @@ namespace PedalMasterLib
             var cmd = Banco.Abrir();
             cmd.CommandType = CommandType.StoredProcedure;
             cmd.CommandText = "spFuncionarios_Insert_Enderecos";
-            cmd.Parameters.AddWithValue("spid_Funcionarios", IdFuncionarios);
-            cmd.Parameters.AddWithValue("splograouro", Logradouro);
+            cmd.Parameters.AddWithValue("sp_idFuncionarios", IdFuncionarios.Id);
+            cmd.Parameters.AddWithValue("splogradouro", Logradouro);
             cmd.Parameters.AddWithValue("spnumero", Numero);
             cmd.Parameters.AddWithValue("spbairro", Bairro);
             cmd.Parameters.AddWithValue("spcidade", Cidade);

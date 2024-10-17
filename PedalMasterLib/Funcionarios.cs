@@ -27,6 +27,15 @@ namespace PedalMasterLib
             
         }
 
+        public Funcionarios(string? nome, string? cpf, string? rg, DateTime dataNasc, Cargos idFuncionarios)
+        {
+            Nome = nome;
+            Cpf = cpf;
+            Rg = rg;
+            DataNasc = dataNasc;
+            IdFuncionarios = idFuncionarios;
+           
+        }
         public Funcionarios(string? nome, string? cpf, string? rg, DateTime dataNasc, Cargos idFuncionarios, bool ativo)
         {
             Nome = nome;
@@ -100,8 +109,8 @@ namespace PedalMasterLib
             cmd.Parameters.AddWithValue("spnome",Nome);
             cmd.Parameters.AddWithValue("spcpf",Cpf);
             cmd.Parameters.AddWithValue("sprg",Rg);
-            cmd.Parameters.AddWithValue("spdatanasc",DataNasc);
-            cmd.Parameters.AddWithValue("spid_cargos",IdFuncionarios);
+            cmd.Parameters.AddWithValue("spdatnasc",DataNasc);
+            cmd.Parameters.AddWithValue("spid_cargos", IdFuncionarios.Id);
             var dr = cmd.ExecuteReader();
             while (dr.Read())
             {

@@ -140,7 +140,7 @@ namespace PedalMasterLib
             var cmd = Banco.Abrir();
             cmd.CommandType = System.Data.CommandType.StoredProcedure;
             cmd.CommandText = "spFuncionarios_Insert_Telefone";
-            cmd.Parameters.AddWithValue("spid_Funcionarios", IdFuncionarios);
+            cmd.Parameters.AddWithValue("spid_Funcionarios", IdFuncionarios.Id);
             cmd.Parameters.AddWithValue("sptelefone", Telefones);
             cmd.Parameters.AddWithValue("sptipo", Tipo);
             var dr = cmd.ExecuteReader();

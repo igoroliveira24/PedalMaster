@@ -21,6 +21,12 @@ namespace PedalMasterLib
         {          
         }
 
+        public Email(string? emails, Funcionarios idFuncionarios)
+        {
+            Emails = emails;
+            IdFuncionarios = idFuncionarios;
+        }
+
         public Email(string? emails, Cliente idCliente)
         {          
             Emails = emails;
@@ -130,7 +136,7 @@ namespace PedalMasterLib
             var cmd = Banco.Abrir();
             cmd.CommandType = System.Data.CommandType.StoredProcedure;
             cmd.CommandText = "spFuncionarios_Insert_Emails";
-            cmd.Parameters.AddWithValue("spid_Funcionarios", IdFuncionarios);
+            cmd.Parameters.AddWithValue("spid_Funcionarios", IdFuncionarios.Id);
             cmd.Parameters.AddWithValue("spemail", Emails);
             var dr = cmd.ExecuteReader();
             while (dr.Read())
