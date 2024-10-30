@@ -3,8 +3,10 @@ using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
+using System.Diagnostics.CodeAnalysis;
 using System.Drawing;
 using System.Linq;
+using System.Reflection.Metadata.Ecma335;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
@@ -14,6 +16,8 @@ namespace PedalMasterDesk
 {
     public partial class FrmFuncionario : Form
     {
+
+       
         public FrmFuncionario()
         {
             InitializeComponent();
@@ -31,7 +35,6 @@ namespace PedalMasterDesk
 
         private void FrmFuncionario_Load(object sender, EventArgs e)
         {
-            txtUFFuncionarios.MaxLength = 2;
             var cargo = Cargos.ObterLista();
             cmbCargoFuncionarios.DataSource = cargo;
             cmbCargoFuncionarios.DisplayMember = "Cargo";
@@ -50,7 +53,7 @@ namespace PedalMasterDesk
 
         private void rdbtnTelefone_CheckedChanged(object sender, EventArgs e)
         {
-            
+
 
         }
 
@@ -70,6 +73,28 @@ namespace PedalMasterDesk
                                 Cargos.ObterPorId(Convert.ToInt32(cmbCargoFuncionarios.SelectedValue))
                                 );
 
+            Telefone celular = new(
+                                mskTelefoneFuncionarios.Text,
+                                "Celular",
+                                Funcionarios.ObrterPorID(Convert.ToInt32(funcionarios.Id))
+                                );
+
+            Email email = new(
+                txtEmailFuncionarios.Text,
+                Funcionarios.ObrterPorID(Convert.ToInt32(funcionarios.Id))
+                );
+
+            Endereco endereco = new(
+                txtLogradouroFuncionarios.Text,
+                txtNumeroFuncionarios.Text,
+                txtBairroFuncionarios.Text,
+                txtCidadeFuncionarios.Text,
+                txtUFFuncionarios.Text,
+                txtComplementoFuncionarios.Text,
+                mskCEPFuncionarios.Text,
+                Funcionarios.ObrterPorID(funcionarios.Id)
+                );
+
 
             if (textBoxVazias() && MaskedTextBoxVazias())
             {
@@ -77,7 +102,7 @@ namespace PedalMasterDesk
             }
             else
             {
-                if (mskCEPFuncionarios.TextLength != 9 && mskCPFFuncionarios.TextLength != 14 && txtUFFuncionarios.TextLength != 2)
+                if (mskCEPFuncionarios.TextLength != 9 && txtUFFuncionarios.TextLength != 2)
                 {
                     MessageBox.Show("Preencha as informações com valores validos");
                 }
@@ -91,35 +116,68 @@ namespace PedalMasterDesk
                         }
                         else
                         {
-                            funcionarios.Inserir();
+                            if (VerificacaoEmails(txtEmailFuncionarios.Text))
+                            {
+                                if (VerificacaoCPF(mskCPFFuncionarios.Text))
+                                {
+
+                                    if (ValidaCpf.Validar(mskCPFFuncionarios.Text))
+                                    {
+
+
+                                        funcionarios.Inserir();
+
+                                        if (funcionarios.Id > 0)
+                                        {
 
 
 
-                            Telefone telefone = new(
-                                mskTelefoneFuncionarios.Text,
-                                "Celular",
-                                Funcionarios.ObrterPorID(Convert.ToInt32(funcionarios.Id))
-                                );
+                                            email.IdFuncionarios.Id = funcionarios.Id;
+                                            endereco.IdFuncionarios.Id = funcionarios.Id;
+                                            celular.IdFuncionarios.Id = funcionarios.Id;
 
-                            Email email = new(
-                                txtEmailFuncionarios.Text,
-                                Funcionarios.ObrterPorID(Convert.ToInt32(funcionarios.Id))
-                                );
+                                            email.InserirEmailFuncionarios();
+                                            celular.InserirTelefoneFuncionarios();
+                                            endereco.InserirEnderecosEmFuncionarios();
+                                            if (email.Id > 0 && celular.Id > 0 && endereco.Id > 0)
+                                            {
+                                                MessageBox.Show($"O Funcionarios {funcionarios.Nome}, " +
+                                                $"foi inserido com sucesso , com o ID {funcionarios.Id}");
+                                                txtNomeFuncionarios.Clear();
+                                                mskCPFFuncionarios.Clear();
+                                                mskRGFuncionarios.Clear();
+                                                txtEmailFuncionarios.Clear();
+                                                mskTelefoneFuncionarios.Clear();
+                                                mskCEPFuncionarios.Clear();
+                                                txtLogradouroFuncionarios.Clear();
+                                                txtNumeroFuncionarios.Clear();
+                                                txtBairroFuncionarios.Clear();
+                                                txtCidadeFuncionarios.Clear();
+                                                txtUFFuncionarios.Clear();
+                                                txtComplementoFuncionarios.Clear();
+                                                txtNomeFuncionarios.Focus();
+                                                FrmFuncionario_Load(sender, e);
+                                            }
+                                        }
 
-                            Endereco endereco = new(
-                                txtLogradouroFuncionarios.Text,
-                                txtNumeroFuncionarios.Text,
-                                txtBairroFuncionarios.Text,
-                                txtCidadeFuncionarios.Text,
-                                txtUFFuncionarios.Text,
-                                txtComplementoFuncionarios.Text,
-                                mskCEPFuncionarios.Text,
-                                Funcionarios.ObrterPorID(funcionarios.Id)
-                                );
+                                    }
+                                    else
+                                    {
+                                        MessageBox.Show("O número é um CPF Inválido !");
+                                    }
 
-                            email.InserirEmailFuncionarios();
-                            telefone.InserirTelefoneFuncionarios();
-                            endereco.InserirEnderecosEmFuncionarios();
+                                }
+                                else
+                                {
+                                    MessageBox.Show("Este CPF ja pertence a outro cadastro");
+
+                                }
+                            }
+                            else
+                            {
+                                MessageBox.Show("Este email ja pertence a outro cadastro");
+                            }
+
                         }
                     }
                     else
@@ -130,41 +188,111 @@ namespace PedalMasterDesk
                         }
                         else
                         {
-                            funcionarios.Inserir();
+                            if (VerificacaoEmails(txtEmailFuncionarios.Text))
+                            {
+                                if (VerificacaoCPF(mskCPFFuncionarios.Text))
+                                {
 
-                            var id = funcionarios.Id;
+                                    if (ValidaCpf.Validar(mskCPFFuncionarios.Text))
+                                    {
+                                        funcionarios.Inserir();
+                                        if (funcionarios.Id > 0)
+                                        {
 
-                            Telefone telefone = new(
-                                mskTelefoneFuncionarios.Text,
-                                "Telefone",
-                                Funcionarios.ObrterPorID(Convert.ToInt32(funcionarios.Id))
-                                );
+                                            Telefone telefone = new(
+                                                mskTelefoneFuncionarios.Text,
+                                                "Telefone",
+                                                Funcionarios.ObrterPorID(Convert.ToInt32(funcionarios.Id))
+                                                );
 
-                            Email email = new(
-                                txtEmailFuncionarios.Text,
-                                Funcionarios.ObrterPorID(Convert.ToInt32(funcionarios.Id))
-                                );
 
-                            Endereco endereco = new(
-                               txtLogradouroFuncionarios.Text,
-                               txtNumeroFuncionarios.Text,
-                               txtBairroFuncionarios.Text,
-                               txtCidadeFuncionarios.Text,
-                               txtUFFuncionarios.Text,
-                               txtComplementoFuncionarios.Text,
-                               mskCEPFuncionarios.Text,
-                               Funcionarios.ObrterPorID(funcionarios.Id)
-                               );
 
-                            email.InserirEmailClientes();
-                            telefone.InserirTelefoneClientes();
-                            endereco.InserirEnderecosEmClientes();
+                                            email.InserirEmailFuncionarios();
+                                            telefone.InserirTelefoneFuncionarios();
+                                            endereco.InserirEnderecosEmFuncionarios();
+                                            if (funcionarios.Id > 0 && email.Id > 0
+                                                && telefone.Id > 0 && endereco.Id > 0)
+                                            {
+                                                MessageBox.Show($"O Funcionarios {funcionarios.Nome}, " +
+                                                $"foi inserido com sucesso , com o ID {funcionarios.Id}");
+                                                txtNomeFuncionarios.Clear();
+                                                mskCPFFuncionarios.Clear();
+                                                mskRGFuncionarios.Clear();
+                                                txtEmailFuncionarios.Clear();
+                                                mskTelefoneFuncionarios.Clear();
+                                                mskCEPFuncionarios.Clear();
+                                                txtLogradouroFuncionarios.Clear();
+                                                txtNumeroFuncionarios.Clear();
+                                                txtBairroFuncionarios.Clear();
+                                                txtCidadeFuncionarios.Clear();
+                                                txtUFFuncionarios.Clear();
+                                                txtComplementoFuncionarios.Clear();
+                                                txtNomeFuncionarios.Focus();
+                                                FrmFuncionario_Load(sender, e);
+
+                                            }
+                                        }
+                                        else
+                                        {
+                                            MessageBox.Show("O número é um CPF Inválido !");
+                                        }
+
+                                    }
+                                    else
+                                    {
+                                        MessageBox.Show("Este CPF ja pertence a outro cadastro");
+
+                                    }
+
+                                }
+                                else
+                                {
+                                    MessageBox.Show("Este email ja pertence a outro cadastro");
+                                }
+                            }
                         }
                     }
                 }
 
             }
         }
+
+        private bool VerificacaoEmails(string emailescrito)
+        {
+            Email email = new();
+            email.ObterPorEmail(emailescrito);
+
+            if (email.Id > 0)
+            {
+                return false;
+            }
+            return true;
+
+
+
+
+
+        }
+
+        private bool VerificacaoCPF(string CPF)
+        {
+            Funcionarios funcionarios = new();
+            funcionarios.ObrterPorCPF(CPF);
+            if (funcionarios.Id > 0)
+            {
+                return false;
+            }
+
+            return true;
+
+
+
+
+        }
+
+
+
+
         private bool textBoxVazias()
         {
             foreach (Control c in this.Controls)
@@ -206,6 +334,7 @@ namespace PedalMasterDesk
             }
 
 
+
         }
 
         private void rdbtnCelular_CheckedChanged_1(object sender, EventArgs e)
@@ -223,6 +352,18 @@ namespace PedalMasterDesk
             {
                 mskTelefoneFuncionarios.Mask = "(00)0000-0000";
                 mskTelefoneFuncionarios.TextMaskFormat = MaskFormat.ExcludePromptAndLiterals;
+            }
+        }
+
+        private void mskCEPFuncionarios_KeyPress(object sender, KeyPressEventArgs e)
+        {
+            if (e.KeyChar == (char)13)
+            {
+                WebCEP webcep = new(mskCEPFuncionarios.Text);
+                txtBairroFuncionarios.Text = webcep.Bairro;
+                txtCidadeFuncionarios.Text = webcep.Cidade;
+                txtLogradouroFuncionarios.Text = webcep.Lagradouro;
+                txtUFFuncionarios.Text = webcep.UF;
             }
         }
     }

@@ -31,6 +31,11 @@
             dataGridView1 = new DataGridView();
             Id = new DataGridViewTextBoxColumn();
             Nome = new DataGridViewTextBoxColumn();
+            Cpf = new DataGridViewTextBoxColumn();
+            Rg = new DataGridViewTextBoxColumn();
+            DatNasc = new DataGridViewTextBoxColumn();
+            CargoFuncionarios = new DataGridViewTextBoxColumn();
+            Ativo = new DataGridViewCheckBoxColumn();
             ((System.ComponentModel.ISupportInitialize)dataGridView1).BeginInit();
             SuspendLayout();
             // 
@@ -38,12 +43,15 @@
             // 
             dataGridView1.AllowUserToAddRows = false;
             dataGridView1.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            dataGridView1.Columns.AddRange(new DataGridViewColumn[] { Id, Nome });
+            dataGridView1.Columns.AddRange(new DataGridViewColumn[] { Id, Nome, Cpf, Rg, DatNasc, CargoFuncionarios, Ativo });
             dataGridView1.Location = new Point(52, 53);
             dataGridView1.Name = "dataGridView1";
             dataGridView1.RowHeadersVisible = false;
+            dataGridView1.SelectionMode = DataGridViewSelectionMode.FullRowSelect;
             dataGridView1.Size = new Size(694, 334);
             dataGridView1.TabIndex = 69;
+            dataGridView1.CellContentClick += dataGridView1_CellContentClick;
+            dataGridView1.CellContentDoubleClick += dataGridView1_CellContentDoubleClick;
             // 
             // Id
             // 
@@ -60,15 +68,42 @@
             Nome.ReadOnly = true;
             Nome.Width = 197;
             // 
+            // Cpf
+            // 
+            Cpf.HeaderText = "Cpf";
+            Cpf.Name = "Cpf";
+            // 
+            // Rg
+            // 
+            Rg.HeaderText = "RG";
+            Rg.Name = "Rg";
+            // 
+            // DatNasc
+            // 
+            DatNasc.HeaderText = "Data de Nascimento";
+            DatNasc.Name = "DatNasc";
+            // 
+            // CargoFuncionarios
+            // 
+            CargoFuncionarios.HeaderText = "Cargo";
+            CargoFuncionarios.Name = "CargoFuncionarios";
+            // 
+            // Ativo
+            // 
+            Ativo.HeaderText = "Ativo";
+            Ativo.Name = "Ativo";
+            Ativo.Resizable = DataGridViewTriState.True;
+            Ativo.SortMode = DataGridViewColumnSortMode.Automatic;
+            // 
             // FrmListaFuncionarios
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
             ClientSize = new Size(800, 450);
-            ControlBox = false;
             Controls.Add(dataGridView1);
             Name = "FrmListaFuncionarios";
             Text = "FrmListaFuncionarios";
+            Load += FrmListaFuncionarios_Load;
             ((System.ComponentModel.ISupportInitialize)dataGridView1).EndInit();
             ResumeLayout(false);
         }
@@ -78,5 +113,10 @@
         private DataGridView dataGridView1;
         private DataGridViewTextBoxColumn Id;
         private DataGridViewTextBoxColumn Nome;
+        private DataGridViewTextBoxColumn Cpf;
+        private DataGridViewTextBoxColumn Rg;
+        private DataGridViewTextBoxColumn DatNasc;
+        private DataGridViewTextBoxColumn CargoFuncionarios;
+        private DataGridViewCheckBoxColumn Ativo;
     }
 }

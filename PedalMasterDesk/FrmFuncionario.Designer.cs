@@ -107,7 +107,7 @@
             // label11
             // 
             label11.AutoSize = true;
-            label11.Location = new Point(353, 269);
+            label11.Location = new Point(388, 269);
             label11.Name = "label11";
             label11.Size = new Size(38, 15);
             label11.TabIndex = 72;
@@ -116,7 +116,7 @@
             // label10
             // 
             label10.AutoSize = true;
-            label10.Location = new Point(229, 269);
+            label10.Location = new Point(264, 269);
             label10.Name = "label10";
             label10.Size = new Size(51, 15);
             label10.TabIndex = 71;
@@ -170,6 +170,7 @@
             // 
             txtUFFuncionarios.Location = new Point(141, 384);
             txtUFFuncionarios.Name = "txtUFFuncionarios";
+            txtUFFuncionarios.ReadOnly = true;
             txtUFFuncionarios.Size = new Size(35, 23);
             txtUFFuncionarios.TabIndex = 67;
             txtUFFuncionarios.TextChanged += txtUFFuncionarios_TextChanged;
@@ -178,6 +179,7 @@
             // 
             txtCidadeFuncionarios.Location = new Point(18, 384);
             txtCidadeFuncionarios.Name = "txtCidadeFuncionarios";
+            txtCidadeFuncionarios.ReadOnly = true;
             txtCidadeFuncionarios.Size = new Size(100, 23);
             txtCidadeFuncionarios.TabIndex = 66;
             // 
@@ -190,14 +192,15 @@
             // 
             // txtBairroFuncionarios
             // 
-            txtBairroFuncionarios.Location = new Point(353, 306);
+            txtBairroFuncionarios.Location = new Point(388, 306);
             txtBairroFuncionarios.Name = "txtBairroFuncionarios";
-            txtBairroFuncionarios.Size = new Size(100, 23);
+            txtBairroFuncionarios.ReadOnly = true;
+            txtBairroFuncionarios.Size = new Size(119, 23);
             txtBairroFuncionarios.TabIndex = 64;
             // 
             // txtNumeroFuncionarios
             // 
-            txtNumeroFuncionarios.Location = new Point(229, 306);
+            txtNumeroFuncionarios.Location = new Point(264, 306);
             txtNumeroFuncionarios.Name = "txtNumeroFuncionarios";
             txtNumeroFuncionarios.Size = new Size(100, 23);
             txtNumeroFuncionarios.TabIndex = 63;
@@ -206,7 +209,8 @@
             // 
             txtLogradouroFuncionarios.Location = new Point(107, 306);
             txtLogradouroFuncionarios.Name = "txtLogradouroFuncionarios";
-            txtLogradouroFuncionarios.Size = new Size(100, 23);
+            txtLogradouroFuncionarios.ReadOnly = true;
+            txtLogradouroFuncionarios.Size = new Size(134, 23);
             txtLogradouroFuncionarios.TabIndex = 62;
             // 
             // mskCEPFuncionarios
@@ -216,6 +220,7 @@
             mskCEPFuncionarios.Name = "mskCEPFuncionarios";
             mskCEPFuncionarios.Size = new Size(62, 23);
             mskCEPFuncionarios.TabIndex = 61;
+            mskCEPFuncionarios.KeyPress += mskCEPFuncionarios_KeyPress;
             // 
             // dtpDatNascFuncionarios
             // 
