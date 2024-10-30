@@ -21,6 +21,12 @@ namespace PedalMasterLib
         {          
         }
 
+        public Email(string? emails)
+        {
+            Emails = emails;
+
+        }
+
         public Email(string? emails, Funcionarios idFuncionarios)
         {
             Emails = emails;
@@ -31,6 +37,12 @@ namespace PedalMasterLib
         {          
             Emails = emails;
             IdCliente = idCliente;
+        }
+
+        public Email(int id, string? emails)
+        {
+            Id = id;
+            Emails = emails;
         }
 
         public Email(int id, string? emails, bool ativo)
@@ -57,6 +69,23 @@ namespace PedalMasterLib
 
             cmd.Connection.Close();
             return email;
+        }
+
+        public void ObterPorEmail(string emailescrito)
+        {
+            Email email = new();
+            var cmd = Banco.Abrir();
+            cmd.CommandText = $"select * from email where Email = '{emailescrito}' and Ativo = 1";
+            var dr = cmd.ExecuteReader();
+            while (dr.Read())
+            {
+
+                Id = dr.GetInt32(0);               
+                        
+                
+            }
+            cmd.Connection.Close();
+           
         }
 
         public static List<Email> ObterLista()
@@ -101,14 +130,14 @@ namespace PedalMasterLib
         {
             List<Email> email = new();
             var cmd = Banco.Abrir();
-            cmd.CommandText = $"select * from email where pk_idEmail = (select fk_idFuncionariosEmails_Emails from funcionariosemails where fk_idFuncionariosEmails_Funcionarios = {id})";
+            cmd.CommandText = $"select pk_idEmail,Email from funcionarios INNER JOIN funcionariosemails ON funcionariosemails.fk_idFuncionariosEmails_Funcionarios = funcionarios.pk_idFuncionarios inner join email on email.pk_idEmail = funcionariosemails.fk_idFuncionariosEmails_Emails where funcionarios.pk_idFuncionarios = {id} and email.Ativo";        
             var dr = cmd.ExecuteReader();
             while (dr.Read())
             {
                 email.Add(new(
                     dr.GetInt32(0),
-                    dr.GetString(1),
-                    dr.GetBoolean(2)
+                    dr.GetString(1)
+
                     ));
             }
 
@@ -153,11 +182,15 @@ namespace PedalMasterLib
             cmd.CommandText = "sp_Update_Email";
             cmd.Parameters.AddWithValue("spid", Id);
             cmd.Parameters.AddWithValue("spemail", Emails);
-            cmd.Parameters.AddWithValue("spAtivo", Ativo);
+            var dr = cmd.ExecuteReader();
+            while (dr.Read())
+            {
+                Id = dr.GetInt32(0);
+            }
             cmd.Connection.Close();
         }
 
-        public static void Arquivar(int id)
+        public void Arquivar(int id)
         {
             var cmd = Banco.Abrir();
             cmd.CommandType = CommandType.Text;
@@ -166,7 +199,7 @@ namespace PedalMasterLib
             cmd.Connection.Close();
         }
 
-        public static void Restaurar(int id)
+        public void Restaurar(int id)
         {
             var cmd = Banco.Abrir();
             cmd.CommandType = CommandType.Text;

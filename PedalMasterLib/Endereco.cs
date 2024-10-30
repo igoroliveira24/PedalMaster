@@ -30,6 +30,15 @@ namespace PedalMasterLib
 
         }
 
+        public Endereco(int id, string? cep, string? numero, string? complemento)
+        {
+            Id = id;
+            Cep = cep;
+            Numero = numero;
+            Complemento = complemento;
+
+        }
+
         public Endereco(string? logradouro, string? numero, string? bairro, string? cidade, string? uf, string? complemento, string? cep, Funcionarios idFuncionarios)
         {
 
@@ -82,6 +91,18 @@ namespace PedalMasterLib
             Complemento = complemento;
             Cep = cep;
             Ativo = ativo;
+        }
+
+        public Endereco(int id, string? logradouro, string? numero, string? bairro, string? cidade, string? uf, string? complemento, string? cep)
+        {
+            Id = id;
+            Logradouro = logradouro;
+            Numero = numero;
+            Bairro = bairro;
+            Cidade = cidade;
+            Uf = uf;
+            Complemento = complemento;
+            Cep = cep;
         }
 
         public Endereco(int id, string? logradouro, string? numero, string? bairro, string? cidade, string? uf, string? complemento, string? cep, bool ativo)
@@ -177,7 +198,7 @@ namespace PedalMasterLib
         {
             List<Endereco> enderecos = new();
             var cmd = Banco.Abrir();
-            cmd.CommandText = $"select * from enderecos where pk_idEnderecos = (select fk_idFuncionariosEnderecos_Enderecos from funcionariosenderecos where fk_idFuncionariosEnderecos_Funcionarios = {id})";
+            cmd.CommandText = $"select pk_idEnderecos,CEP,Numero,Complemento from funcionarios INNER JOIN funcionariosenderecos ON funcionariosenderecos.fk_idFuncionariosEnderecos_Funcionarios = funcionarios.pk_idFuncionarios inner join enderecos on enderecos.pk_idEnderecos = funcionariosenderecos.fk_idFuncionariosEnderecos_Enderecos where funcionarios.pk_idFuncionarios = {id} and enderecos.Ativo = 1";
             var dr = cmd.ExecuteReader();
             while (dr.Read())
             {
@@ -185,12 +206,7 @@ namespace PedalMasterLib
                     dr.GetInt32(0),
                     dr.GetString(1),
                     dr.GetString(2),
-                    dr.GetString(3),
-                    dr.GetString(4),
-                    dr.GetString(5),
-                    dr.GetString(6),
-                    dr.GetString(7),
-                    dr.GetBoolean(8)
+                    dr.GetString(3)
                     ));
             }
 
@@ -247,18 +263,22 @@ namespace PedalMasterLib
             cmd.CommandType = System.Data.CommandType.StoredProcedure;
             cmd.CommandText = "sp_Update_Endereco";
             cmd.Parameters.AddWithValue("spid", Id);
-            cmd.Parameters.AddWithValue("splograouro", Logradouro);
+            cmd.Parameters.AddWithValue("splogradouro", Logradouro);
             cmd.Parameters.AddWithValue("spnumero", Numero);
             cmd.Parameters.AddWithValue("spbairro", Bairro);
             cmd.Parameters.AddWithValue("spcidade", Cidade);
             cmd.Parameters.AddWithValue("spuf", Uf);
             cmd.Parameters.AddWithValue("spcomplemento", Complemento);
             cmd.Parameters.AddWithValue("spcep", Cep);
-            cmd.Parameters.AddWithValue("spAtivo", Ativo);
+            var dr = cmd.ExecuteReader();
+            while (dr.Read())
+            {
+                Id = dr.GetInt32(0);
+            }
             cmd.Connection.Close();
         }
 
-        public static void Arquivar(int id)
+        public void Arquivar(int id)
         {
             var cmd = Banco.Abrir();
             cmd.CommandType = CommandType.Text;
@@ -267,7 +287,7 @@ namespace PedalMasterLib
             cmd.Connection.Close();
         }
 
-        public static void Restaurar(int id)
+        public void Restaurar(int id)
         {
             var cmd = Banco.Abrir();
             cmd.CommandType = CommandType.Text;

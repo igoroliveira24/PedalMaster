@@ -21,6 +21,10 @@ namespace PedalMasterLib
         public DateTime DataNasc { get; set; }
         public Cargos IdFuncionarios { get; set; }
         public bool Ativo { get; set; }
+        public List<Email> Emails { get; set; }
+        public Email Emails2 { get; set; }
+        public List<Endereco> Enderecos { get; set; }
+        public List<Telefone> Telefones { get; set; }
 
         public Funcionarios()
         {
@@ -57,6 +61,20 @@ namespace PedalMasterLib
             Ativo = ativo;
         }
 
+        public Funcionarios(int id, string? nome, string? cpf, string? rg, DateTime dataNasc, Cargos idFuncionarios, bool ativo, List<Email> email, List<Endereco> endereco, List<Telefone> telefone)
+        {
+            Id = id;
+            Nome = nome;
+            Cpf = cpf;
+            Rg = rg;
+            DataNasc = dataNasc;
+            IdFuncionarios = idFuncionarios;
+            Ativo = ativo;
+            Emails = email;
+            Enderecos = endereco;
+            Telefones = telefone;
+        }
+
         public static Funcionarios ObrterPorID(int id)
         {
             Funcionarios funcionarios = new();
@@ -79,9 +97,26 @@ namespace PedalMasterLib
             return funcionarios;
         }
 
+        public void ObrterPorCPF(string Cpf)
+        {
+            Funcionarios funcionarios = new();
+            var cmd = Banco.Abrir();
+            cmd.CommandText = $"select * from funcionarios where CPF = {Cpf}";
+            var dr = cmd.ExecuteReader();
+            while (dr.Read())
+            {
+
+                Id = dr.GetInt32(0);
+                    
+            }
+            cmd.Connection.Close();
+            
+        }
+
         public static List<Funcionarios> ObrterLista()
         {
             List<Funcionarios> funcionarios = new();
+            Funcionarios funcionario = new();
             var cmd = Banco.Abrir();
             cmd.CommandText = "select * from funcionarios";
             var dr = cmd.ExecuteReader();
@@ -96,6 +131,33 @@ namespace PedalMasterLib
                     Cargos.ObterPorId(dr.GetInt32(5)),
                     dr.GetBoolean(6)
                     ));
+                funcionario.Id = dr.GetInt32(0);
+            }
+            cmd.Connection.Close();
+            return funcionarios;
+        }
+
+        public static List<Funcionarios> ObrterListaPorId(int id)
+        {
+            List<Funcionarios> funcionarios = new();
+            var cmd = Banco.Abrir();
+            cmd.CommandText = $"select * from funcionarios where pk_idFuncionarios = {id}";
+            var dr = cmd.ExecuteReader();
+            while (dr.Read())
+            {
+                funcionarios.Add(new(
+                    dr.GetInt32(0),
+                    dr.GetString(1),
+                    dr.GetString(2),
+                    dr.GetString(3),
+                    dr.GetDateTime(4),
+                    Cargos.ObterPorId(dr.GetInt32(5)),
+                    dr.GetBoolean(6),
+                    Email.ObterListaPorIdFuncionarios(dr.GetInt32(0)),
+                    Endereco.ObterListaPorIdFuncionarios(dr.GetInt32(0)),
+                    Telefone.ObterListaPorIdFuncionarios(dr.GetInt32(0))
+                    ));
+                
             }
             cmd.Connection.Close();
             return funcionarios;

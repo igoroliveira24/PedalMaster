@@ -22,6 +22,11 @@ namespace PedalMasterLib
         {
         }
 
+        public Telefone(string? telefones)
+        {
+            Telefones = telefones;
+        }
+
         public Telefone(string? telefones, string? tipo, Cliente idClientes)
         {
             Telefones = telefones;
@@ -34,6 +39,13 @@ namespace PedalMasterLib
             Telefones = telefones;
             Tipo = tipo;
             IdFuncionarios = idFuncionarios;
+        }
+
+        public Telefone(int id, string? telefones, string? tipo)
+        {
+            Id = id;
+            Telefones = telefones;
+            Tipo = tipo;
         }
 
         public Telefone(int id, string? telefones, string? tipo, bool ativo)
@@ -104,15 +116,14 @@ namespace PedalMasterLib
         {
             List<Telefone> telefone = new();
             var cmd = Banco.Abrir();
-            cmd.CommandText = $"select * from telefone where pk_idTelefone = (select fk_idFuncionariosTelefones_Telefones from funcionariostelefones where fk_idFuncionariosTelefones_Funcionarios = {id})";
+            cmd.CommandText = $"select telefone.pk_idTelefone,telefone.Telefone,telefone.Tipo from funcionarios INNER JOIN funcionariostelefones ON funcionariostelefones.fk_idFuncionariosTelefones_Funcionarios = funcionarios.pk_idFuncionarios inner join telefone on telefone.pk_idTelefone = funcionariostelefones.fk_idFuncionariosTelefones_Telefones where funcionarios.pk_idFuncionarios = {id} and telefone.Ativo = 1";
             var dr = cmd.ExecuteReader();
             while (dr.Read())
             {
                 telefone.Add(new(
                     dr.GetInt32(0),
                     dr.GetString(1),
-                    dr.GetString(2),
-                    dr.GetBoolean(3)
+                    dr.GetString(2)
                     ));
             }
             cmd.Connection.Close();
@@ -155,15 +166,19 @@ namespace PedalMasterLib
         {
             var cmd = Banco.Abrir();
             cmd.CommandType = System.Data.CommandType.StoredProcedure;
-            cmd.CommandText = "spFuncionarios_Insert_Telefone";
+            cmd.CommandText = "sp_Update_Telefone";
             cmd.Parameters.AddWithValue("spid", Id);
             cmd.Parameters.AddWithValue("sptelefone", Telefones);
             cmd.Parameters.AddWithValue("sptipo", Tipo);
-            cmd.Parameters.AddWithValue("spAtivo", Ativo);
+            var dr = cmd.ExecuteReader();
+            while (dr.Read())
+            {
+                Id = dr.GetInt32(0);
+            }
             cmd.Connection.Close();
         }
 
-        public static void Arquivar(int id)
+        public void Arquivar(int id)
         {
             var cmd = Banco.Abrir();
             cmd.CommandType = CommandType.Text;
@@ -172,7 +187,7 @@ namespace PedalMasterLib
             cmd.Connection.Close();
         }
 
-        public static void Restaurar(int id)
+        public void Restaurar(int id)
         {
             var cmd = Banco.Abrir();
             cmd.CommandType = CommandType.Text;

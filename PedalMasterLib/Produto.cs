@@ -8,14 +8,15 @@ namespace PedalMasterLib
 {
     public class Produto
     {
-        
+
 
         public int Id { get; set; }
         public string? CodBar { get; set; }
         public string? Nome { get; set; }
         public string? Marca { get; set; }
         public TipoProduto Tipo { get; set; }
-        public int Tamanho { get; set; }
+        public string? TipoTamanho { get; set; }
+        public double Tamanho { get; set; }
         public double Preco { get; set; }
         public int EstoqueMin { get; set; }
         public DateTime DataCad { get; set; }
@@ -26,11 +27,11 @@ namespace PedalMasterLib
         public Produto()
         {
 
-            
+
         }
 
         public Produto(string? codBar, string? nome, string? marca,
-            TipoProduto tipo, int tamanho, double preco,
+            TipoProduto tipo, string? tipoTamanho, double tamanho, double preco,
             string? cor, double desconto, string? descricao)
         {
 
@@ -38,22 +39,42 @@ namespace PedalMasterLib
             Nome = nome;
             Marca = marca;
             Tipo = tipo;
+            TipoTamanho = tipoTamanho;
             Tamanho = tamanho;
-            Preco = preco;      
+            Preco = preco;
             Cor = cor;
             Desconto = desconto;
             Descricao = descricao;
         }
 
         public Produto(string? codBar, string? nome, string? marca,
-            TipoProduto tipo, int tamanho, double preco, int estoqueMin,
-            DateTime dataCad, string? cor, double desconto, string? descricao)
+            TipoProduto tipo, string? tipoTamanho, double tamanho, double preco, int estoqueMin,
+            string? cor, double desconto, string? descricao)
         {
-            
+
             CodBar = codBar;
             Nome = nome;
             Marca = marca;
             Tipo = tipo;
+            TipoTamanho = tipoTamanho;
+            Tamanho = tamanho;
+            Preco = preco;
+            EstoqueMin = estoqueMin;
+            Cor = cor;
+            Desconto = desconto;
+            Descricao = descricao;
+        }
+
+        public Produto(string? codBar, string? nome, string? marca,
+            TipoProduto tipo, string? tipoTamanho, double tamanho, double preco, int estoqueMin,
+            DateTime dataCad, string? cor, double desconto, string? descricao)
+        {
+
+            CodBar = codBar;
+            Nome = nome;
+            Marca = marca;
+            Tipo = tipo;
+            TipoTamanho = tipoTamanho;
             Tamanho = tamanho;
             Preco = preco;
             EstoqueMin = estoqueMin;
@@ -64,7 +85,7 @@ namespace PedalMasterLib
         }
 
         public Produto(int id, string? codBar, string? nome, string? marca,
-            TipoProduto tipo, int tamanho, double preco, int estoqueMin, 
+            TipoProduto tipo, string? tipoTamanho, double tamanho, double preco, int estoqueMin,
             DateTime dataCad, string? cor, double desconto, string? descricao)
         {
             Id = id;
@@ -72,6 +93,7 @@ namespace PedalMasterLib
             Nome = nome;
             Marca = marca;
             Tipo = tipo;
+            TipoTamanho = tipoTamanho;
             Tamanho = tamanho;
             Preco = preco;
             EstoqueMin = estoqueMin;
@@ -96,13 +118,14 @@ namespace PedalMasterLib
                     dr.GetString(2),
                     dr.GetString(3),
                     TipoProduto.ObterPorId(dr.GetInt32(4)),
-                    dr.GetInt32(5),
+                    dr.GetString(5),
                     dr.GetDouble(6),
-                    dr.GetInt32(7),
-                    dr.GetDateTime(8),
-                    dr.GetString(9),
-                    dr.GetDouble(10),
-                    dr.GetString(11)
+                    dr.GetDouble(7),
+                    dr.GetInt32(8),
+                    dr.GetDateTime(9),
+                    dr.GetString(10),
+                    dr.GetDouble(11),
+                    dr.GetString(12)
 
                     );
             }
@@ -110,7 +133,7 @@ namespace PedalMasterLib
             return produto;
         }
 
-        
+
 
         public static List<Produto> ObterLista()
         {
@@ -126,13 +149,14 @@ namespace PedalMasterLib
                     dr.GetString(2),
                     dr.GetString(3),
                     TipoProduto.ObterPorId(dr.GetInt32(4)),
-                    dr.GetInt32(5),
+                    dr.GetString(5),
                     dr.GetDouble(6),
-                    dr.GetInt32(7),
-                    dr.GetDateTime(8),
-                    dr.GetString(9),
-                    dr.GetDouble(10),
-                    dr.GetString(11)
+                    dr.GetDouble(7),
+                    dr.GetInt32(8),
+                    dr.GetDateTime(9),
+                    dr.GetString(10),
+                    dr.GetDouble(11),
+                    dr.GetString(12)
 
                     ));
             }
@@ -154,13 +178,14 @@ namespace PedalMasterLib
                     dr.GetString(2),
                     dr.GetString(3),
                     TipoProduto.ObterPorId(dr.GetInt32(4)),
-                    dr.GetInt32(5),
+                    dr.GetString(5),
                     dr.GetDouble(6),
-                    dr.GetInt32(7),
-                    dr.GetDateTime(8),
-                    dr.GetString(9),
-                    dr.GetDouble(10),
-                    dr.GetString(11)
+                    dr.GetDouble(7),
+                    dr.GetInt32(8),
+                    dr.GetDateTime(9),
+                    dr.GetString(10),
+                    dr.GetDouble(11),
+                    dr.GetString(12)
 
                     ));
             }
@@ -182,13 +207,14 @@ namespace PedalMasterLib
                     dr.GetString(2),
                     dr.GetString(3),
                     TipoProduto.ObterPorId(dr.GetInt32(4)),
-                    dr.GetInt32(5),
+                    dr.GetString(5),
                     dr.GetDouble(6),
-                    dr.GetInt32(7),
-                    dr.GetDateTime(8),
-                    dr.GetString(9),
-                    dr.GetDouble(10),
-                    dr.GetString(11)
+                    dr.GetDouble(7),
+                    dr.GetInt32(8),
+                    dr.GetDateTime(9),
+                    dr.GetString(10),
+                    dr.GetDouble(11),
+                    dr.GetString(12)
 
                     ));
             }
@@ -210,13 +236,14 @@ namespace PedalMasterLib
                     dr.GetString(2),
                     dr.GetString(3),
                     TipoProduto.ObterPorId(dr.GetInt32(4)),
-                    dr.GetInt32(5),
+                    dr.GetString(5),
                     dr.GetDouble(6),
-                    dr.GetInt32(7),
-                    dr.GetDateTime(8),
-                    dr.GetString(9),
-                    dr.GetDouble(10),
-                    dr.GetString(11)
+                    dr.GetDouble(7),
+                    dr.GetInt32(8),
+                    dr.GetDateTime(9),
+                    dr.GetString(10),
+                    dr.GetDouble(11),
+                    dr.GetString(12)
 
                     ));
             }
@@ -238,13 +265,14 @@ namespace PedalMasterLib
                     dr.GetString(2),
                     dr.GetString(3),
                     TipoProduto.ObterPorId(dr.GetInt32(4)),
-                    dr.GetInt32(5),
+                    dr.GetString(5),
                     dr.GetDouble(6),
-                    dr.GetInt32(7),
-                    dr.GetDateTime(8),
-                    dr.GetString(9),
-                    dr.GetDouble(10),
-                    dr.GetString(11)
+                    dr.GetDouble(7),
+                    dr.GetInt32(8),
+                    dr.GetDateTime(9),
+                    dr.GetString(10),
+                    dr.GetDouble(11),
+                    dr.GetString(12)
 
                     ));
             }
@@ -257,15 +285,17 @@ namespace PedalMasterLib
             var cmd = Banco.Abrir();
             cmd.CommandType = System.Data.CommandType.StoredProcedure;
             cmd.CommandText = "spInsert_Produto";
-            cmd.Parameters.AddWithValue("spCodigoDeBarras",CodBar);
+            cmd.Parameters.AddWithValue("spCodigoDeBarras", CodBar);
             cmd.Parameters.AddWithValue("spNome", Nome);
             cmd.Parameters.AddWithValue("spMarca", Marca);
-            cmd.Parameters.AddWithValue("sp_fkTipoProduto", Tipo);
+            cmd.Parameters.AddWithValue("sp_fkTipoProduto", Tipo.Id);
+            cmd.Parameters.AddWithValue("spTipoTamanho", TipoTamanho);
             cmd.Parameters.AddWithValue("spTamanho", Tamanho);
             cmd.Parameters.AddWithValue("spPreco", Preco);
             cmd.Parameters.AddWithValue("spClasseDesconto", Desconto);
             cmd.Parameters.AddWithValue("spCor", Cor);
             cmd.Parameters.AddWithValue("spDescricao", Descricao);
+            cmd.Parameters.AddWithValue("spEstoqueMinimo", EstoqueMin);
             var dr = cmd.ExecuteReader();
             while (dr.Read())
             {
@@ -284,12 +314,26 @@ namespace PedalMasterLib
             cmd.Parameters.AddWithValue("spNome", Nome);
             cmd.Parameters.AddWithValue("spMarca", Marca);
             cmd.Parameters.AddWithValue("sp_fkTipoProduto", Tipo);
+            cmd.Parameters.AddWithValue("spTipoTamanho", TipoTamanho);
             cmd.Parameters.AddWithValue("spTamanho", Tamanho);
             cmd.Parameters.AddWithValue("spPreco", Preco);
             cmd.Parameters.AddWithValue("spEstoqueMinimo", EstoqueMin);
             cmd.Parameters.AddWithValue("spClasseDesconto", Desconto);
             cmd.Parameters.AddWithValue("spCor", Cor);
             cmd.Parameters.AddWithValue("spDescricao", Descricao);
+            cmd.Connection.Close();
+        }
+
+        public void ObterPorUltimoId()
+        {
+            Produto produto = new();
+            var cmd = Banco.Abrir();
+            cmd.CommandText = $"select pk_idProdutos from produto order by pk_idProdutos desc limit 1";
+            var dr = cmd.ExecuteReader();
+            while (dr.Read())
+            {
+                Id = dr.GetInt32(0);       
+            }
             cmd.Connection.Close();
         }
 
