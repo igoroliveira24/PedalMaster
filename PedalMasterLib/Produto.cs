@@ -103,6 +103,12 @@ namespace PedalMasterLib
             Descricao = descricao;
         }
 
+        public Produto(int id)
+        {
+            Id = id;
+
+        }
+
         public Produto(string? cor)
         {
             Cor = cor;
@@ -135,6 +141,20 @@ namespace PedalMasterLib
             }
             cmd.Connection.Close();
             return produto;
+        }
+
+        public void ObterPorIdPorCodBar(string codbar)
+        {
+     
+            var cmd = Banco.Abrir();
+            cmd.CommandText = $"select pk_idProdutos from produto where CodigoDeBarras = '{codbar}'";
+            var dr = cmd.ExecuteReader();
+            while (dr.Read())
+            {
+                Id = dr.GetInt32(0);
+            }
+            cmd.Connection.Close();
+
         }
 
         public static Produto ObterCorPorId(int id)

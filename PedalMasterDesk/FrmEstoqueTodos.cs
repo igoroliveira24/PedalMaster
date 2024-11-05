@@ -53,5 +53,10 @@ namespace PedalMasterDesk
             FrmDgvEstoque frmdgvestoque = new();
             frmdgvestoque.ShowDialog();
         }
+
+        private void dtgEstoque_CellContentClick(object sender, DataGridViewCellEventArgs e)
+        {
+
+        }
     }
 }

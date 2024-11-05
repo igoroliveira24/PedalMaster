@@ -48,6 +48,7 @@
             dtgEstoque.SelectionMode = DataGridViewSelectionMode.FullRowSelect;
             dtgEstoque.Size = new Size(603, 310);
             dtgEstoque.TabIndex = 0;
+            dtgEstoque.CellContentClick += dtgEstoque_CellContentClick;
             dtgEstoque.CellDoubleClick += dtgEstoque_CellDoubleClick;
             // 
             // idEstoque
