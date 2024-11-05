@@ -83,7 +83,7 @@ namespace PedalMasterDesk
 
             {
 
-                cores = cores + Cores.Items[x].ToString() + ",";
+                cores =  cores + "," + Cores.Items[x].ToString() ;
 
                 x++;
 

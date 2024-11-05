@@ -111,14 +111,13 @@ namespace PedalMasterLib
         {
             List<Email> email = new();
             var cmd = Banco.Abrir();
-            cmd.CommandText = $"select * from email where pk_idEmail = (select fk_idClientesEmails_Email from clientesemails where fk_idClientesEmails_Clientes = {id})";
+            cmd.CommandText = $"select pk_idEmail,Email from clientes INNER JOIN clientesemails ON clientesemails.fk_idClientesEmails_Clientes = clientes.pk_idCliente inner join email on email.pk_idEmail = clientesemails.fk_idClientesEmails_Email where clientes.pk_idCliente = {id} and email.Ativo;";
             var dr = cmd.ExecuteReader();
             while (dr.Read())
             {
                 email.Add(new(
                     dr.GetInt32(0),
-                    dr.GetString(1),
-                    dr.GetBoolean(2)
+                    dr.GetString(1)
                     ));
             }
 

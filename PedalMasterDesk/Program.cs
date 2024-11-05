@@ -1,10 +1,13 @@
 using PedalMasterLib;
+using SysPecNSLib;
 
 namespace PedalMasterDesk
 {
     internal static class Program
     {
         public static Funcionarios frmDgvFuncionario = new();
+        public static Cliente frmDgvCliente = new();
+        public static Estoque frmdgvEstoque = new();
         /// <summary>
         ///  The main entry point for the application.
         /// </summary>

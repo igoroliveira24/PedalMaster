@@ -103,6 +103,10 @@ namespace PedalMasterLib
             Descricao = descricao;
         }
 
+        public Produto(string? cor)
+        {
+            Cor = cor;
+        }
 
         public static Produto ObterPorId(int id)
         {
@@ -132,6 +136,23 @@ namespace PedalMasterLib
             cmd.Connection.Close();
             return produto;
         }
+
+        public static Produto ObterCorPorId(int id)
+        {
+            Produto produto = new();
+            var cmd = Banco.Abrir();
+            cmd.CommandText = $"select Cor from produto where pk_idProdutos = (select fk_Estoque_Produto from estoque where pk_idEstoque = {id})";
+            var dr = cmd.ExecuteReader();
+            while (dr.Read())
+            {
+                produto = new(
+                    dr.GetString(0)
+                    );
+            }
+            cmd.Connection.Close();
+            return produto;
+        }
+        
 
 
 

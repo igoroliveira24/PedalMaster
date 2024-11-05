@@ -98,15 +98,14 @@ namespace PedalMasterLib
         {
             List<Telefone> telefone = new();
             var cmd = Banco.Abrir();
-            cmd.CommandText = $"select * from telefone where pk_idTelefone = (select fk_idClientesTelefones_Telefone from clientestelefones where fk_idClientesTelefones_Clientes = {id})";
+            cmd.CommandText = $"select telefone.pk_idTelefone,telefone.Telefone,telefone.Tipo from clientes INNER JOIN clientestelefones ON clientestelefones.fk_idClientesTelefones_Clientes = clientes.pk_idCliente inner join telefone on telefone.pk_idTelefone = clientestelefones.fk_idClientesTelefones_Telefone where clientes.pk_idCliente = {id} and telefone.Ativo = 1";
             var dr = cmd.ExecuteReader();
             while (dr.Read())
             {
                 telefone.Add(new(
                     dr.GetInt32(0),
                     dr.GetString(1),
-                    dr.GetString(2),
-                    dr.GetBoolean(3)
+                    dr.GetString(2)
                     ));
             }
             cmd.Connection.Close();

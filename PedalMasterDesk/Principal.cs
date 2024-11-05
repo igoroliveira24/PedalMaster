@@ -46,5 +46,29 @@ namespace PedalMasterDesk
             frmprodutos.MdiParent = this;
             frmprodutos.Show();
         }
+
+        private void lisToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            FrmListaClientes frmlistacliente = new();
+            frmlistacliente.MdiParent = this;
+            frmlistacliente.Show();
+        }
+
+        private void emEstoqueToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void toolStripDropDownButton2_Click(object sender, EventArgs e)
+        {
+            
+        }
+
+        private void todosToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            FrmEstoqueTodos frmestoquetodos = new();
+            frmestoquetodos.MdiParent = this;
+            frmestoquetodos.Show();
+        }
     }
 }

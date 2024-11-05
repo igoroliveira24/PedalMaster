@@ -10,6 +10,8 @@ namespace SysPecNSLib
     public class Estoque
     {
         public Produto ProdutoId { get; set; }
+        public int Id { get; set; }
+        public string Cor { get; set; }
         public int Quantidade { get; set; }
         public DateTime DataUltMov { get; set; }
 
@@ -38,6 +40,23 @@ namespace SysPecNSLib
             DataUltMov = dataUltMov;
         }
 
+        public Estoque(Produto produtoId)
+        {
+            ProdutoId = produtoId;
+        }
+
+        public Estoque(Produto produtoId, int id, int quantidade)
+        {
+            ProdutoId = produtoId;
+            Id = id;
+            Quantidade = quantidade;
+        }
+
+        public Estoque(string cor)
+        {
+            Cor = cor;
+        }
+
         public void AlterarEstoque()
         {
             var cmd = Banco.Abrir();
@@ -47,11 +66,13 @@ namespace SysPecNSLib
             cmd.ExecuteNonQuery();
             cmd.Connection.Close();
         }
-        public static List<Estoque> ObterListaPorProdutoIdEstoque()
+        public static List<Estoque> ObterListaPorProdutoIdEstoqueTodos()
         {
             List<Estoque> lista = new();
             var cmd = Banco.Abrir();
-            cmd.CommandText = $"select * from estoque";
+            cmd.CommandText = $"select produto.pk_idProdutos, estoque.pk_idEstoque, estoque.QuantidadeEstoque, produto.EstoqueMinimo from estoque " +
+                $"inner join produto on estoque.fk_Estoque_Produto = produto.pk_idProdutos ";
+
             var dr = cmd.ExecuteReader();
             while (dr.Read())
             {
@@ -59,7 +80,7 @@ namespace SysPecNSLib
                     new(
                         Produto.ObterPorId(dr.GetInt32(0)),
                         dr.GetInt32(1),
-                        dr.GetDateTime(2)
+                        dr.GetInt32(2)
                         ));
             }
             cmd.Connection.Close();
@@ -86,6 +107,23 @@ namespace SysPecNSLib
             return estoque;
         }
 
+        public static Estoque ObterCorPorProdutoId(int id)
+        {
+            Estoque estoque = new();
+            var cmd = Banco.Abrir();
+            cmd.CommandText = $"select Cor from produto where pk_idProdutos = (select fk_Estoque_Produto from estoque where pk_idEstoque = {id})";
+            var dr = cmd.ExecuteReader();
+            while (dr.Read())
+            {
+                estoque = new(
+                    dr.GetString(0)
+                );
+            }
+
+            cmd.Connection.Close();
+            return estoque;
+        }
+        
 
         public static Estoque ObterQuantidadePorProdutoId(int id)
         {

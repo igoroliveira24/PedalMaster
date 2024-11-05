@@ -173,7 +173,7 @@ namespace PedalMasterLib
         {
             List<Endereco> enderecos = new();
             var cmd = Banco.Abrir();
-            cmd.CommandText = $"select * from enderecos where pk_idEnderecos = (select fk_idClientesEnderecos_Enderecos from clientesenderecos where fk_idClientesEnderecos_Clientes = {id})";
+            cmd.CommandText = $"select pk_idEnderecos,CEP,Numero,Complemento from clientes INNER JOIN clientesenderecos ON clientesenderecos.fk_idClientesEnderecos_Clientes = clientes.pk_idCliente inner join enderecos on enderecos.pk_idEnderecos = clientesenderecos.fk_idClientesEnderecos_Enderecos where clientes.pk_idCliente = {id} and enderecos.Ativo = 1";
             var dr = cmd.ExecuteReader();
             while (dr.Read())
             {
@@ -181,12 +181,7 @@ namespace PedalMasterLib
                     dr.GetInt32(0),
                     dr.GetString(1),
                     dr.GetString(2),
-                    dr.GetString(3),
-                    dr.GetString(4),
-                    dr.GetString(5),
-                    dr.GetString(6),
-                    dr.GetString(7),
-                    dr.GetBoolean(8)
+                    dr.GetString(3)
                     ));
             }
 

@@ -76,13 +76,11 @@ namespace PedalMasterLib
         {
             List<Cliente> clientes = new();
             var cmd = Banco.Abrir();
-            cmd.CommandType = CommandType.Text;
-            cmd.CommandText = $"select * from clientes";
+            cmd.CommandText = "select * from clientes where ativo = 1";
             var dr = cmd.ExecuteReader();
             while (dr.Read())
             {
-                clientes.Add(
-                    new(
+                clientes.Add(new(
                     dr.GetInt32(0),
                     dr.GetString(1),
                     dr.GetString(2),
