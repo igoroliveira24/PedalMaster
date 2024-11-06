@@ -77,6 +77,7 @@
             // 
             // nudQuantidadeEstoque
             // 
+            nudQuantidadeEstoque.Enabled = false;
             nudQuantidadeEstoque.Location = new Point(89, 261);
             nudQuantidadeEstoque.Name = "nudQuantidadeEstoque";
             nudQuantidadeEstoque.ReadOnly = true;
@@ -155,6 +156,7 @@
             btnCancelar.TabIndex = 6;
             btnCancelar.Text = "Cancelar";
             btnCancelar.UseVisualStyleBackColor = true;
+            btnCancelar.Click += btnCancelar_Click;
             // 
             // FrmDgvEstoque
             // 

@@ -17,7 +17,7 @@ namespace PedalMasterDesk
     public partial class FrmDgvEstoque : Form
     {
         public int EstoqueIdUNiQ { get; set; }
-        public int EstoqueId{ get; set; }
+        public int EstoqueId { get; set; }
         public int ProdutoId { get; set; }
         public FrmDgvEstoque()
         {
@@ -75,6 +75,7 @@ namespace PedalMasterDesk
             btnAdicionar.Enabled = false;
             btnSalvar.Enabled = true;
             btnCancelar.Enabled = true;
+
         }
 
         private void dtgEstoque_CellContentDoubleClick(object sender, DataGridViewCellEventArgs e)
@@ -99,7 +100,7 @@ namespace PedalMasterDesk
             if (btnAdicionar.Enabled)
             {
                 Estoque estoque = new();
-                var estoqueCor = Estoque.VerificarCor(cmbCorEstoque.SelectedValue.ToString(),ProdutoId);
+                var estoqueCor = Estoque.VerificarCor(cmbCorEstoque.SelectedValue.ToString(), ProdutoId);
                 if (estoqueCor.Cor != null)
                 {
                     MessageBox.Show("Já existe um cadastro para esta cor");
@@ -108,12 +109,48 @@ namespace PedalMasterDesk
                 {
                     estoque.Inserir(ProdutoId, (int)nudQuantidadeEstoque.Value, cmbCorEstoque.SelectedValue.ToString());
                     estoque.AlterarEstoque(EstoqueIdUNiQ, ProdutoId);
+                    btnSalvar.Enabled = false;
+                    btnCancelar.Enabled = false;
+                    btnEditar.Enabled = true;
+                    btnAdicionar.Enabled = true;
                     FrmDgvEstoque_Load(sender, e);
                 }
-                
 
-                   
+
+
             }
+            if (btnEditar.Enabled)
+            {
+                Estoque estoque = new();
+                var estoqueCor = Estoque.VerificarCor(cmbCorEstoque.SelectedValue.ToString(), ProdutoId);
+                if (estoqueCor.Cor != null && estoqueCor.Cor != "")
+                {
+                    estoque.Alterar((int)nudQuantidadeEstoque.Value, ProdutoId, cmbCorEstoque.SelectedValue.ToString());
+                    estoque.AlterarEstoque(EstoqueIdUNiQ, ProdutoId);
+                    btnSalvar.Enabled = false;
+                    btnCancelar.Enabled = false;
+                    btnEditar.Enabled = true;
+                    btnAdicionar.Enabled = true;
+                    FrmDgvEstoque_Load(sender, e);
+                }
+                else
+                {
+                    MessageBox.Show("Impossivel editar (não há registros nessa cor)");
+                }
+            }
+            nudQuantidadeEstoque.Enabled = false;
+            cmbCorEstoque.Enabled = false;
+
+        }
+
+        private void btnCancelar_Click(object sender, EventArgs e)
+        {
+            nudQuantidadeEstoque.Enabled = false;
+            cmbCorEstoque.Enabled = false;
+            btnSalvar.Enabled = false;
+            btnCancelar.Enabled = false;
+            btnEditar.Enabled = true;
+            btnAdicionar.Enabled = true;
         }
     }
 }
