@@ -12,9 +12,10 @@ using System.Windows.Forms;
 
 namespace PedalMasterDesk
 {
-    public partial class FrmEstoqueTodos : Form
+    public partial class FrmEstoque : Form
     {
-        public FrmEstoqueTodos()
+
+        public FrmEstoque()
         {
             InitializeComponent();
         }
@@ -26,22 +27,73 @@ namespace PedalMasterDesk
 
         public void CarregaGrid()
         {
-            var lista = Estoque.ObterListaPorProdutoIdEstoqueTodos();
-            dtgEstoque.Rows.Clear();
-            int cont = 0;
-
-
-            foreach (var estoque in lista)// para cada usuario na lista
+            if (Program.frmpreguiça.Quantidade == 1)
             {
-                dtgEstoque.Rows.Add();//linhas do datagrid usuarios adiciona
-                dtgEstoque.Rows[cont].Cells[0].Value = estoque.Id;
-                dtgEstoque.Rows[cont].Cells[1].Value = estoque.ProdutoId.Nome;
-                dtgEstoque.Rows[cont].Cells[2].Value = estoque.ProdutoId.CodBar;
-                dtgEstoque.Rows[cont].Cells[3].Value = estoque.Quantidade;
-                dtgEstoque.Rows[cont].Cells[4].Value = estoque.ProdutoId.EstoqueMin;
+                var lista = Estoque.ObterListaPorProdutoIdEstoqueTodos();
+
+                dtgEstoque.Rows.Clear();
+                int cont = 0;
 
 
-                cont++;//{cont esta em loop para listar os usuarios}
+                foreach (var estoque in lista)// para cada usuario na lista
+                {
+                    dtgEstoque.Rows.Add();//linhas do datagrid usuarios adiciona
+                    dtgEstoque.Rows[cont].Cells[0].Value = estoque.Id;
+                    dtgEstoque.Rows[cont].Cells[1].Value = estoque.ProdutoId.Nome;
+                    dtgEstoque.Rows[cont].Cells[2].Value = estoque.ProdutoId.CodBar;
+                    dtgEstoque.Rows[cont].Cells[3].Value = estoque.Quantidade;
+                    dtgEstoque.Rows[cont].Cells[4].Value = estoque.ProdutoId.EstoqueMin;
+                    cont++;//{cont esta em loop para listar os usuarios}
+
+
+                }
+            }
+            else
+            {
+                if (Program.frmpreguiça.Quantidade == 2)
+                {
+                    var lista = Estoque.ObterListaPorProdutoIdEmEstoque();
+
+                    dtgEstoque.Rows.Clear();
+                    int cont = 0;
+
+
+                    foreach (var estoque in lista)// para cada usuario na lista
+                    {
+                        dtgEstoque.Rows.Add();//linhas do datagrid usuarios adiciona
+                        dtgEstoque.Rows[cont].Cells[0].Value = estoque.Id;
+                        dtgEstoque.Rows[cont].Cells[1].Value = estoque.ProdutoId.Nome;
+                        dtgEstoque.Rows[cont].Cells[2].Value = estoque.ProdutoId.CodBar;
+                        dtgEstoque.Rows[cont].Cells[3].Value = estoque.Quantidade;
+                        dtgEstoque.Rows[cont].Cells[4].Value = estoque.ProdutoId.EstoqueMin;
+                        cont++;//{cont esta em loop para listar os usuarios}
+
+
+                    }
+                }
+
+                if (Program.frmpreguiça.Quantidade == 3)
+                {
+                    var lista = Estoque.ObterListaPorProdutoIdEmFalta();
+
+                    dtgEstoque.Rows.Clear();
+                    int cont = 0;
+
+
+                    foreach (var estoque in lista)// para cada usuario na lista
+                    {
+                        dtgEstoque.Rows.Add();//linhas do datagrid usuarios adiciona
+                        dtgEstoque.Rows[cont].Cells[0].Value = estoque.Id;
+                        dtgEstoque.Rows[cont].Cells[1].Value = estoque.ProdutoId.Nome;
+                        dtgEstoque.Rows[cont].Cells[2].Value = estoque.ProdutoId.CodBar;
+                        dtgEstoque.Rows[cont].Cells[3].Value = estoque.Quantidade;
+                        dtgEstoque.Rows[cont].Cells[4].Value = estoque.ProdutoId.EstoqueMin;
+                        cont++;//{cont esta em loop para listar os usuarios}
+
+
+                    }
+                }
+
             }
         }
 

@@ -1,6 +1,6 @@
 ﻿namespace PedalMasterDesk
 {
-    partial class FrmEstoqueTodos
+    partial class FrmEstoque
     {
         /// <summary>
         /// Required designer variable.
@@ -84,14 +84,14 @@
             EstoqueMin.Name = "EstoqueMin";
             EstoqueMin.ReadOnly = true;
             // 
-            // FrmEstoqueTodos
+            // FrmEstoque
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
             ClientSize = new Size(800, 450);
             Controls.Add(dtgEstoque);
-            Name = "FrmEstoqueTodos";
-            Text = "FrmEstoqueTodos";
+            Name = "FrmEstoque";
+            Text = "FrmEstoque";
             Load += FrmEstoqueTodos_Load;
             ((System.ComponentModel.ISupportInitialize)dtgEstoque).EndInit();
             ResumeLayout(false);
