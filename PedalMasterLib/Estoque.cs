@@ -75,11 +75,21 @@ namespace SysPecNSLib
             Cor = cor;
         }
 
+        public void Alterar(int quantidade, int id, string cor)
+        {
+            var cmd = Banco.Abrir();
+            cmd.CommandText = "update estoque " +
+                $"set QuantidadeEstoque = {quantidade} " +
+                $"where fk_Estoque_Produto = {id} and Cor = '{cor}'";
+            cmd.ExecuteNonQuery();
+            cmd.Connection.Close();
+        }
+
         public void AlterarEstoque(int id,int produtoid)
         {
             var cmd = Banco.Abrir();
             cmd.CommandText = "update estoque " +
-                $"set QuantidadeEstoque = (SELECT SUM(QuantidadeEstoque) AS Quantidade FROM estoque where fk_Estoque_Produto = {produtoid}) " +
+                $"set QuantidadeEstoque = (SELECT SUM(QuantidadeEstoque) AS Quantidade FROM estoque where fk_Estoque_Produto = {produtoid} and Cor != '') " +
                 $"where pk_idEstoque = {id} and Cor = ''";
             cmd.ExecuteNonQuery();
             cmd.Connection.Close();
@@ -89,7 +99,50 @@ namespace SysPecNSLib
             List<Estoque> lista = new();
             var cmd = Banco.Abrir();
             cmd.CommandText = $"select produto.pk_idProdutos, estoque.pk_idEstoque, estoque.QuantidadeEstoque, produto.EstoqueMinimo from estoque " +
-                $"inner join produto on estoque.fk_Estoque_Produto = produto.pk_idProdutos ";
+                $"inner join produto on estoque.fk_Estoque_Produto = produto.pk_idProdutos " +
+                $"where estoque.Cor = ''";
+
+            var dr = cmd.ExecuteReader();
+            while (dr.Read())
+            {
+                lista.Add(
+                    new(
+                        Produto.ObterPorId(dr.GetInt32(0)),
+                        dr.GetInt32(1),
+                        dr.GetInt32(2)
+                        ));
+            }
+            cmd.Connection.Close();
+            return lista;
+
+        }
+
+        public static List<Estoque> ObterListaPorProdutoIdEmEstoque()
+        {
+            List<Estoque> lista = new();
+            var cmd = Banco.Abrir();
+            cmd.CommandText = "select produto.pk_idProdutos, estoque.pk_idEstoque, estoque.QuantidadeEstoque, produto.EstoqueMinimo from estoque inner join produto on estoque.fk_Estoque_Produto = produto.pk_idProdutos where estoque.Cor = '' and estoque.QuantidadeEstoque >= produto.EstoqueMinimo";
+
+            var dr = cmd.ExecuteReader();
+            while (dr.Read())
+            {
+                lista.Add(
+                    new(
+                        Produto.ObterPorId(dr.GetInt32(0)),
+                        dr.GetInt32(1),
+                        dr.GetInt32(2)
+                        ));
+            }
+            cmd.Connection.Close();
+            return lista;
+
+        }
+
+        public static List<Estoque> ObterListaPorProdutoIdEmFalta()
+        {
+            List<Estoque> lista = new();
+            var cmd = Banco.Abrir();
+            cmd.CommandText = "select produto.pk_idProdutos, estoque.pk_idEstoque, estoque.QuantidadeEstoque, produto.EstoqueMinimo from estoque inner join produto on estoque.fk_Estoque_Produto = produto.pk_idProdutos where estoque.Cor = '' and estoque.QuantidadeEstoque < produto.EstoqueMinimo";
 
             var dr = cmd.ExecuteReader();
             while (dr.Read())
