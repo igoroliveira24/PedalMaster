@@ -1,3 +1,4 @@
+using SysPecNSLib;
 using System.ComponentModel;
 
 namespace PedalMasterDesk
@@ -61,14 +62,38 @@ namespace PedalMasterDesk
 
         private void toolStripDropDownButton2_Click(object sender, EventArgs e)
         {
-            
+
         }
 
         private void todosToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            FrmEstoqueTodos frmestoquetodos = new();
+            Program.frmpreguiça.Quantidade = 1;
+            FrmEstoque frmestoquetodos = new();
             frmestoquetodos.MdiParent = this;
             frmestoquetodos.Show();
+
+        }
+
+        private void emEstoqueToolStripMenuItem2_Click(object sender, EventArgs e)
+        {
+            Program.frmpreguiça.Quantidade = 2;
+            FrmEstoque frmestoquetodos = new();
+            frmestoquetodos.MdiParent = this;
+            frmestoquetodos.Show();
+
+        }
+
+        private void emFaltaToolStripMenuItem1_Click(object sender, EventArgs e)
+        {
+            Program.frmpreguiça.Quantidade = 3;
+            FrmEstoque frmestoquetodos = new();
+            frmestoquetodos.MdiParent = this;
+            frmestoquetodos.Show();
+        }
+
+        private void novoToolStripMenuItem1_Click(object sender, EventArgs e)
+        {
+
         }
     }
 }
