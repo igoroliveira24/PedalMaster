@@ -59,5 +59,15 @@ namespace PedalMasterDesk.Properties {
                 resourceCulture = value;
             }
         }
+        
+        /// <summary>
+        ///   Consulta um recurso localizado do tipo System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap botao_de_menos {
+            get {
+                object obj = ResourceManager.GetObject("botao-de-menos", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
     }
 }

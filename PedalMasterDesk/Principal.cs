@@ -92,8 +92,10 @@ namespace PedalMasterDesk
         }
 
         private void novoToolStripMenuItem1_Click(object sender, EventArgs e)
-        {
-
+        { 
+            FrmPedidoNovo frmpedidonovo = new();
+            frmpedidonovo.MdiParent = this;
+            frmpedidonovo.Show();
         }
     }
 }
