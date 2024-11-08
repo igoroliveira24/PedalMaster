@@ -1,3 +1,4 @@
+using PedalMasterLib;
 using SysPecNSLib;
 using System.ComponentModel;
 
@@ -24,7 +25,28 @@ namespace PedalMasterDesk
 
         private void Principal_Load(object sender, EventArgs e)
         {
-
+            FrmLogin frmLogin = new();
+            frmLogin.ShowDialog();
+            Text += $" ({Program.EmailUsuarioLogado.Emails})";
+            if (Program.UsuarioLogado.Id > 0)
+            {
+                toolStripStatusLabel1.Text = $" {Program.UsuarioLogado.Nome} - {Program.UsuarioLogado.IdFuncionarios.Cargo}";
+                if (Program.UsuarioLogado.IdFuncionarios.Id == 3)
+                {
+                    clientestsmi.Enabled = false;
+                    funcionariostsmi.Enabled = false;
+                    tsddbCaixa.Enabled = false;
+                }
+                if (Program.UsuarioLogado.IdFuncionarios.Id == 4)
+                {
+                    funcionariostsmi.Enabled = false;
+                    produtostsmi.Enabled = false;
+                    tsddbCaixaEstoque.Enabled = false;
+                }
+            }
+            else{
+                Close();
+            }
         }
 
         private void cadastrarToolStripMenuItem_Click(object sender, EventArgs e)
@@ -92,10 +114,15 @@ namespace PedalMasterDesk
         }
 
         private void novoToolStripMenuItem1_Click(object sender, EventArgs e)
-        { 
+        {
             FrmPedidoNovo frmpedidonovo = new();
             frmpedidonovo.MdiParent = this;
             frmpedidonovo.Show();
+        }
+
+        private void toolStripStatusLabel2_Click(object sender, EventArgs e)
+        {
+
         }
     }
 }

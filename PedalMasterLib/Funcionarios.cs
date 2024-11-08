@@ -7,6 +7,7 @@ using System.Linq;
 using System.Security.Cryptography;
 using System.Text;
 using System.Threading.Tasks;
+using static Mysqlx.Notice.Warning.Types;
 
 namespace PedalMasterLib
 {
@@ -25,6 +26,11 @@ namespace PedalMasterLib
         public Email Emails2 { get; set; }
         public List<Endereco> Enderecos { get; set; }
         public List<Telefone> Telefones { get; set; }
+
+        //loginFuncionarios
+        public int IdLogin { get; set; }
+        public int IdEmail { get; set; }
+        public string Senha { get; set; }
 
         public Funcionarios()
         {
@@ -73,6 +79,15 @@ namespace PedalMasterLib
             Emails = email;
             Enderecos = endereco;
             Telefones = telefone;
+        }
+
+
+        public Funcionarios(int idLogin, int id, int idEmail, string senha)
+        {
+            IdLogin = idLogin;
+            Id = id;
+            IdEmail = idEmail;
+            Senha = senha;
         }
 
         public static Funcionarios ObrterPorID(int id)
@@ -213,6 +228,26 @@ namespace PedalMasterLib
             cmd.ExecuteNonQuery();
             cmd.Connection.Close();
 
+        }
+      
+        public static Funcionarios EfetuarLogin(int email, string senha)
+        {
+            Funcionarios funcionarios = new();
+            var cmd = Banco.Abrir();
+            cmd.CommandType = CommandType.Text;
+            cmd.CommandText = $"select * from loginFuncionarios where fk_idEmail = {email} and  senha = '{senha}'"; // md5 gera um hash de 32 caracteres/criptografia simples
+            var dr = cmd.ExecuteReader();
+            if (dr.Read())
+            {
+                funcionarios = new(
+                    dr.GetInt32(0),
+                    dr.GetInt32(1),
+                    dr.GetInt32(2),
+                    dr.GetString(3)
+                    );
+            }
+            cmd.Connection.Close();
+            return funcionarios;
         }
     }
 

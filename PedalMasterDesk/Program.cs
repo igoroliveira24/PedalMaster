@@ -9,6 +9,8 @@ namespace PedalMasterDesk
         public static Cliente frmDgvCliente = new();
         public static Estoque frmdgvEstoque = new();
         public static Estoque frmpreguiça = new();
+        public static Funcionarios UsuarioLogado = new();
+        public static Email EmailUsuarioLogado = new();
         /// <summary>
         ///  The main entry point for the application.
         /// </summary>

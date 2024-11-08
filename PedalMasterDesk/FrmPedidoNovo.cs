@@ -15,6 +15,7 @@ namespace PedalMasterDesk
 {
     public partial class FrmPedidoNovo : Form
     {
+        public int idPedido { get; set; }
         public FrmPedidoNovo()
         {
             InitializeComponent();
@@ -94,31 +95,71 @@ namespace PedalMasterDesk
 
         private void dataGridView1_CellPainting(object sender, DataGridViewCellPaintingEventArgs e)
         {
-
-
-
-
-            if (e.ColumnIndex == 3)
+            if (this.dataGridView1.Columns["buttonmenos"].Index ==
+                e.ColumnIndex && e.RowIndex >= 0)
             {
 
-                // Você pode usar e.RowIndex para decidir qual a imagem usada por cada linha
 
-                e.Paint(e.CellBounds, DataGridViewPaintParts.All);
+                e.Paint(e.CellBounds, DataGridViewPaintParts.Background);
 
-                var w = Properties.Resources.botao_de_menos.Width;
-                var h = Properties.Resources.botao_de_menos.Height;
-                var x = e.CellBounds.Left + (e.CellBounds.Width - w) / 5;
+                var w = Properties.Resources.botao_de_menos.Width / 25;
+                var h = (Properties.Resources.botao_de_menos.Height / 25);
+                var x = e.CellBounds.Left + (e.CellBounds.Width - w) / 2;
                 var y = e.CellBounds.Top + (e.CellBounds.Height - h) / 2;
 
                 e.Graphics.DrawImage(Properties.Resources.botao_de_menos, new Rectangle(x, y, w, h));
                 e.Handled = true;
+
             }
+
+            if (this.dataGridView1.Columns["buttonmais"].Index ==
+                e.ColumnIndex && e.RowIndex >= 0)
+            {
+
+
+                e.Paint(e.CellBounds, DataGridViewPaintParts.Background);
+
+                var w = Properties.Resources.botao_mais.Width / 15;
+                var h = (Properties.Resources.botao_mais.Height / 15);
+                var x = e.CellBounds.Left + (e.CellBounds.Width - w) / 2;
+                var y = e.CellBounds.Top + (e.CellBounds.Height - h) / 2;
+
+                e.Graphics.DrawImage(Properties.Resources.botao_mais, new Rectangle(x, y, w, h));
+                e.Handled = true;
+
+            }
+
+            if (this.dataGridView1.Columns["Remover"].Index ==
+               e.ColumnIndex && e.RowIndex >= 0)
+            {
+
+
+                e.Paint(e.CellBounds, DataGridViewPaintParts.Background);
+
+                var w = Properties.Resources.lixeira.Width / 25;
+                var h = (Properties.Resources.lixeira.Height / 25);
+                var x = e.CellBounds.Left + (e.CellBounds.Width - w) / 2;
+                var y = e.CellBounds.Top + (e.CellBounds.Height - h) / 2;
+
+                e.Graphics.DrawImage(Properties.Resources.lixeira, new Rectangle(x, y, w, h));
+                e.Handled = true;
+
+            }
+
 
         }
 
-            
+
+
+
+
 
         private void dataGridView1_CellClick(object sender, DataGridViewCellEventArgs e)
+        {
+
+        }
+
+        private void btnInserir_Click(object sender, EventArgs e)
         {
             
         }
