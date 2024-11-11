@@ -27,7 +27,7 @@ namespace PedalMasterLib
             Quantidade = quantidade;
         }
 
-        public ItemPedido(Pedidos idPedido, Produto produto, double valorUnit, int quantidade, double desconto)
+        public ItemPedido(Pedidos idPedido, Produto produto, double desconto, double valorUnit, int quantidade)
         {
 
             IdPedido = idPedido;
@@ -36,7 +36,7 @@ namespace PedalMasterLib
             Quantidade = quantidade;
             Desconto = desconto;
         }
-        public ItemPedido(int id, int quantidade, double valorUnit,   double desconto, Pedidos idPedido, Produto produto)
+        public ItemPedido(int id, int quantidade, double desconto , double valorUnit, Pedidos idPedido, Produto produto)
         {
             Id = id;
             Quantidade = quantidade;

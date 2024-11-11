@@ -37,6 +37,13 @@ namespace PedalMasterLib
             IdCliente = idCliente;
         }
 
+        public Pedidos(double desconto, Funcionarios idFuncionarios, Cliente idCliente)
+        {
+            Desconto = desconto;
+            IdFuncionarios = idFuncionarios;
+            IdCliente = idCliente;
+        }
+
         public static Pedidos ObterPorId(int id)
         {
             Pedidos pedidos = new();
@@ -155,8 +162,8 @@ namespace PedalMasterLib
             cmd.CommandType = System.Data.CommandType.StoredProcedure;
             cmd.CommandText = "sp_Insert_Pedidos";
             cmd.Parameters.AddWithValue("spdesconto",Desconto);
-            cmd.Parameters.AddWithValue("spfkFuncionarios",IdFuncionarios);
-            cmd.Parameters.AddWithValue("spfkClientes",IdCliente);
+            cmd.Parameters.AddWithValue("spfkFuncionarios",IdFuncionarios.Id);
+            cmd.Parameters.AddWithValue("spfkClientes",IdCliente.Id);
             var dr = cmd.ExecuteReader();
             while (dr.Read())
             {

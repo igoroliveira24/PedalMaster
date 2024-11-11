@@ -72,15 +72,28 @@ namespace PedalMasterLib
             return cliente;
         }
 
-        public static List<Cliente> ObterLista()
+        public static List<Cliente> ObterLista(string? nome = "")
         {
-            List<Cliente> clientes = new();
-            var cmd = Banco.Abrir();
-            cmd.CommandText = "select * from clientes where ativo = 1";
-            var dr = cmd.ExecuteReader();
-            while (dr.Read())
-            {
-                clientes.Add(new(
+
+                List<Cliente> clientes = new();
+                var cmd = Banco.Abrir();
+                cmd.CommandType = CommandType.Text;
+                if (nome == "")
+                {
+                    cmd.CommandText = "select * from clientes " +
+                        "order by nome";
+                }
+                else
+                {
+                    cmd.CommandText = $"select * from clientes where Nome like '%{nome}%' order by nome limit 10;";
+
+
+                }
+
+                var dr = cmd.ExecuteReader();
+                while (dr.Read())
+                {
+                    clientes.Add(new(
                     dr.GetInt32(0),
                     dr.GetString(1),
                     dr.GetString(2),
@@ -89,9 +102,10 @@ namespace PedalMasterLib
                     dr.GetBoolean(5)
                     )
                 );
-            }
-            cmd.Connection.Close();
-            return clientes;
+                }
+                cmd.Connection.Close();
+                return clientes;
+            
         }
 
         public void Inserir()
