@@ -220,6 +220,7 @@
             mskCEPFuncionarios.Name = "mskCEPFuncionarios";
             mskCEPFuncionarios.Size = new Size(62, 23);
             mskCEPFuncionarios.TabIndex = 61;
+            mskCEPFuncionarios.MaskInputRejected += mskCEPFuncionarios_MaskInputRejected;
             mskCEPFuncionarios.KeyPress += mskCEPFuncionarios_KeyPress;
             // 
             // dtpDatNascFuncionarios

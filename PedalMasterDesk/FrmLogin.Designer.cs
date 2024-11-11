@@ -63,6 +63,7 @@
             txtSenha.Name = "txtSenha";
             txtSenha.Size = new Size(185, 23);
             txtSenha.TabIndex = 2;
+            txtSenha.Text = "1234";
             // 
             // txtEmail
             // 
@@ -70,6 +71,7 @@
             txtEmail.Name = "txtEmail";
             txtEmail.Size = new Size(185, 23);
             txtEmail.TabIndex = 3;
+            txtEmail.Text = "asdasd";
             // 
             // label1
             // 

@@ -16,6 +16,7 @@ namespace PedalMasterDesk
     public partial class FrmPedidoNovo : Form
     {
         public int idPedido { get; set; }
+        public string CodBar { get; set; }
         public FrmPedidoNovo()
         {
             InitializeComponent();
@@ -52,30 +53,38 @@ namespace PedalMasterDesk
                         quantidade
                         );
                     itempedido.Atualizar();
+
                     CarregaGrid();
+
+
                 }
             }
         }
 
         public void CarregaGrid()
         {
-            var lista = ItemPedido.ObterListaPorPedido(3);
+
+            var lista = ItemPedido.ObterListaPorPedido(int.Parse(txtIdPedido.Text));
 
             dataGridView1.Rows.Clear();
             int cont = 0;
 
 
-            foreach (var estoque in lista)// para cada usuario na lista
+            foreach (var itempedido in lista)// para cada usuario na lista
             {
                 dataGridView1.Rows.Add();//linhas do datagrid usuarios adiciona
-                dataGridView1.Rows[cont].Cells[0].Value = estoque.Id;
-                dataGridView1.Rows[cont].Cells[1].Value = estoque.Produto.CodBar;
-                dataGridView1.Rows[cont].Cells[3].Value = estoque.Quantidade;
+                dataGridView1.Rows[cont].Cells[0].Value = cont + 1;
+                dataGridView1.Rows[cont].Cells[1].Value = itempedido.Produto.CodBar;
+                dataGridView1.Rows[cont].Cells[3].Value = itempedido.Quantidade;
+                dataGridView1.Rows[cont].Cells[5].Value = itempedido.ValorUnit;
+                dataGridView1.Rows[cont].Cells[6].Value = itempedido.Desconto;
+                dataGridView1.Rows[cont].Cells[7].Value = (itempedido.ValorUnit * (1 - itempedido.Desconto)) * itempedido.Quantidade;
 
                 cont++;//{cont esta em loop para listar os usuarios}
 
 
             }
+
         }
 
         private void textBox1_TextChanged(object sender, EventArgs e)
@@ -85,7 +94,12 @@ namespace PedalMasterDesk
 
         private void FrmPedidoNovo_Load(object sender, EventArgs e)
         {
-            CarregaGrid();
+            txtDescontoPedido.MaxLength = 2;
+            txtFuncionarioPedido.Text = Program.UsuarioLogado.Id.ToString() + " - " + Program.UsuarioLogado.Nome;
+            if (txtIdPedido.Text != string.Empty)
+            {
+                CarregaGrid();
+            }
         }
 
         private void button1_Click(object sender, EventArgs e)
@@ -161,7 +175,114 @@ namespace PedalMasterDesk
 
         private void btnInserir_Click(object sender, EventArgs e)
         {
-            
+
+        }
+
+        private void txtDescontoPedido_TextChanged(object sender, EventArgs e)
+        {
+
+        }
+
+        private void txtDescontoPedido_KeyPress(object sender, KeyPressEventArgs e)
+        {
+            if (!char.IsDigit(e.KeyChar) && !char.IsControl(e.KeyChar))
+            {
+                //Atribui True no Handled para cancelar o evento
+                e.Handled = true;
+            }
+        }
+
+        private void txtCodBarPedido_TextChanged(object sender, EventArgs e)
+        {
+
+        }
+
+        private void txtCodBarPedido_KeyPress(object sender, KeyPressEventArgs e)
+        {
+            if (e.KeyChar == (char)13)
+            {
+                Produto produto = new();
+                produto.ObterPorIdPorCodBar(txtCodBarPedido.Text);
+                if (produto.Id > 0)
+                {
+                    CodBar = produto.CodBar;
+                    txtValorUnitPedido.Text = produto.Preco.ToString();
+                    txtValorTotPedido.Text = produto.Preco.ToString();
+                }
+            }
+        }
+
+        private void textBox1_TextChanged_1(object sender, EventArgs e)
+        {
+
+        }
+
+        private void txtClientePedido_TextChanged(object sender, EventArgs e)
+        {
+
+        }
+
+        private void button1_Click_1(object sender, EventArgs e)
+        {
+            FrmGdvBuscarCliente frmGdvBuscarCliente = new();
+            frmGdvBuscarCliente.ShowDialog();
+            txtIdCliente.Text = $" {Program.frmGdvBuscarCliente.Id}";
+            txtCpfCliente.Text = $" {Program.frmGdvBuscarCliente.Cpf}";
+            txtNomeClientes.Text = $" {Program.frmGdvBuscarCliente.Nome}";
+        }
+
+        private void button2_Click(object sender, EventArgs e)
+        {
+            Pedidos pedidos = new(
+                0,
+                Funcionarios.ObrterPorID(Program.UsuarioLogado.Id),
+                Cliente.ObterId(int.Parse(txtIdCliente.Text))
+                );
+            pedidos.Inserir();
+            if (pedidos.Id > 0)
+            {
+                txtIdPedido.Text = pedidos.Id.ToString();
+
+                txtCodBarPedido.Enabled = true;
+                btnBuscarCodbar.Enabled = true;
+                txtValorUnitPedido.Enabled = true;
+                txtValorTotPedido.Enabled = true;
+                txtDescontoPedido.Enabled = true;
+                btnInserir.Enabled = true;
+                nudQuantidadePedido.Enabled = true;
+                btnBuscarCliente.Enabled = false;
+                btnAdicionaPedido.Enabled = false;
+
+                CarregaGrid();
+
+            }
+            else
+            {
+                MessageBox.Show("Houve um erro na criação do pedido");
+            }
+
+
+
+
+
+
+        }
+
+        private void txtIdCliente_TextChanged(object sender, EventArgs e)
+        {
+            if (int.Parse(txtIdCliente.Text) > 0)
+            {
+                btnAdicionaPedido.Enabled = true;
+            }
+        }
+
+        private void btnBuscarCodbar_Click(object sender, EventArgs e)
+        {
+            FrmBuscarCodBar frmBuscarCodBar = new();
+            frmBuscarCodBar.ShowDialog();
+            txtIdCliente.Text = $" {Program.frmGdvBuscarCliente.Id}";
+            txtCpfCliente.Text = $" {Program.frmGdvBuscarCliente.Cpf}";
+            txtNomeClientes.Text = $" {Program.frmGdvBuscarCliente.Nome}";
         }
     }
 }

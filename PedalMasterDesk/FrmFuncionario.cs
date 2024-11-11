@@ -17,7 +17,7 @@ namespace PedalMasterDesk
     public partial class FrmFuncionario : Form
     {
 
-       
+
         public FrmFuncionario()
         {
             InitializeComponent();
@@ -365,6 +365,11 @@ namespace PedalMasterDesk
                 txtLogradouroFuncionarios.Text = webcep.Lagradouro;
                 txtUFFuncionarios.Text = webcep.UF;
             }
+        }
+
+        private void mskCEPFuncionarios_MaskInputRejected(object sender, MaskInputRejectedEventArgs e)
+        {
+
         }
     }
 

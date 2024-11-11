@@ -35,8 +35,9 @@
             Column4 = new DataGridViewTextBoxColumn();
             buttonmais = new DataGridViewButtonColumn();
             ValorUnit = new DataGridViewTextBoxColumn();
+            DescontoitemProduto = new DataGridViewTextBoxColumn();
             precoTot = new DataGridViewTextBoxColumn();
-            Remover = new DataGridViewTextBoxColumn();
+            Remover = new DataGridViewButtonColumn();
             btnInserir = new Button();
             txtCodBarPedido = new TextBox();
             txtValorUnitPedido = new TextBox();
@@ -49,6 +50,16 @@
             label4 = new Label();
             label5 = new Label();
             btnBuscarCodbar = new Button();
+            txtFuncionarioPedido = new TextBox();
+            txtNomeClientes = new TextBox();
+            label6 = new Label();
+            label7 = new Label();
+            btnBuscarCliente = new Button();
+            txtIdCliente = new TextBox();
+            txtCpfCliente = new TextBox();
+            btnAdicionaPedido = new Button();
+            txtIdPedido = new TextBox();
+            label8 = new Label();
             ((System.ComponentModel.ISupportInitialize)dataGridView1).BeginInit();
             ((System.ComponentModel.ISupportInitialize)nudQuantidadePedido).BeginInit();
             SuspendLayout();
@@ -57,11 +68,11 @@
             // 
             dataGridView1.AllowUserToAddRows = false;
             dataGridView1.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            dataGridView1.Columns.AddRange(new DataGridViewColumn[] { Column1, Column2, buttonmenos, Column4, buttonmais, ValorUnit, precoTot, Remover });
-            dataGridView1.Location = new Point(12, 119);
+            dataGridView1.Columns.AddRange(new DataGridViewColumn[] { Column1, Column2, buttonmenos, Column4, buttonmais, ValorUnit, DescontoitemProduto, precoTot, Remover });
+            dataGridView1.Location = new Point(12, 331);
             dataGridView1.Name = "dataGridView1";
             dataGridView1.RowHeadersVisible = false;
-            dataGridView1.Size = new Size(779, 808);
+            dataGridView1.Size = new Size(878, 606);
             dataGridView1.TabIndex = 0;
             dataGridView1.CellClick += dataGridView1_CellClick;
             dataGridView1.CellContentClick += dataGridView1_CellContentClick;
@@ -104,6 +115,11 @@
             ValorUnit.Name = "ValorUnit";
             ValorUnit.Width = 150;
             // 
+            // DescontoitemProduto
+            // 
+            DescontoitemProduto.HeaderText = "Desconto(%)";
+            DescontoitemProduto.Name = "DescontoitemProduto";
+            // 
             // precoTot
             // 
             precoTot.HeaderText = "ValorTotal";
@@ -114,12 +130,15 @@
             // 
             Remover.HeaderText = "Remover";
             Remover.Name = "Remover";
+            Remover.Resizable = DataGridViewTriState.True;
+            Remover.SortMode = DataGridViewColumnSortMode.Automatic;
             Remover.Width = 75;
             // 
             // btnInserir
             // 
             btnInserir.BackgroundImageLayout = ImageLayout.None;
-            btnInserir.Location = new Point(716, 61);
+            btnInserir.Enabled = false;
+            btnInserir.Location = new Point(712, 291);
             btnInserir.Name = "btnInserir";
             btnInserir.Size = new Size(75, 23);
             btnInserir.TabIndex = 3;
@@ -129,14 +148,18 @@
             // 
             // txtCodBarPedido
             // 
-            txtCodBarPedido.Location = new Point(11, 62);
+            txtCodBarPedido.Enabled = false;
+            txtCodBarPedido.Location = new Point(12, 291);
             txtCodBarPedido.Name = "txtCodBarPedido";
             txtCodBarPedido.Size = new Size(153, 23);
             txtCodBarPedido.TabIndex = 4;
+            txtCodBarPedido.TextChanged += txtCodBarPedido_TextChanged;
+            txtCodBarPedido.KeyPress += txtCodBarPedido_KeyPress;
             // 
             // txtValorUnitPedido
             // 
-            txtValorUnitPedido.Location = new Point(250, 61);
+            txtValorUnitPedido.Enabled = false;
+            txtValorUnitPedido.Location = new Point(251, 290);
             txtValorUnitPedido.Name = "txtValorUnitPedido";
             txtValorUnitPedido.ReadOnly = true;
             txtValorUnitPedido.Size = new Size(100, 23);
@@ -144,7 +167,8 @@
             // 
             // txtValorTotPedido
             // 
-            txtValorTotPedido.Location = new Point(371, 61);
+            txtValorTotPedido.Enabled = false;
+            txtValorTotPedido.Location = new Point(372, 290);
             txtValorTotPedido.Name = "txtValorTotPedido";
             txtValorTotPedido.ReadOnly = true;
             txtValorTotPedido.Size = new Size(100, 23);
@@ -152,22 +176,26 @@
             // 
             // nudQuantidadePedido
             // 
-            nudQuantidadePedido.Location = new Point(498, 62);
+            nudQuantidadePedido.Enabled = false;
+            nudQuantidadePedido.Location = new Point(499, 291);
             nudQuantidadePedido.Name = "nudQuantidadePedido";
             nudQuantidadePedido.Size = new Size(78, 23);
             nudQuantidadePedido.TabIndex = 7;
             // 
             // txtDescontoPedido
             // 
-            txtDescontoPedido.Location = new Point(594, 61);
+            txtDescontoPedido.Enabled = false;
+            txtDescontoPedido.Location = new Point(595, 290);
             txtDescontoPedido.Name = "txtDescontoPedido";
             txtDescontoPedido.Size = new Size(100, 23);
             txtDescontoPedido.TabIndex = 8;
+            txtDescontoPedido.TextChanged += txtDescontoPedido_TextChanged;
+            txtDescontoPedido.KeyPress += txtDescontoPedido_KeyPress;
             // 
             // label1
             // 
             label1.AutoSize = true;
-            label1.Location = new Point(12, 34);
+            label1.Location = new Point(13, 263);
             label1.Name = "label1";
             label1.Size = new Size(92, 15);
             label1.TabIndex = 9;
@@ -176,7 +204,7 @@
             // label2
             // 
             label2.AutoSize = true;
-            label2.Location = new Point(250, 33);
+            label2.Location = new Point(251, 262);
             label2.Name = "label2";
             label2.Size = new Size(78, 15);
             label2.TabIndex = 10;
@@ -185,7 +213,7 @@
             // label3
             // 
             label3.AutoSize = true;
-            label3.Location = new Point(371, 33);
+            label3.Location = new Point(372, 262);
             label3.Name = "label3";
             label3.Size = new Size(61, 15);
             label3.TabIndex = 11;
@@ -194,7 +222,7 @@
             // label4
             // 
             label4.AutoSize = true;
-            label4.Location = new Point(498, 33);
+            label4.Location = new Point(499, 262);
             label4.Name = "label4";
             label4.Size = new Size(69, 15);
             label4.TabIndex = 12;
@@ -203,7 +231,7 @@
             // label5
             // 
             label5.AutoSize = true;
-            label5.Location = new Point(594, 33);
+            label5.Location = new Point(595, 262);
             label5.Name = "label5";
             label5.Size = new Size(57, 15);
             label5.TabIndex = 13;
@@ -211,18 +239,132 @@
             // 
             // btnBuscarCodbar
             // 
-            btnBuscarCodbar.Location = new Point(160, 62);
+            btnBuscarCodbar.Enabled = false;
+            btnBuscarCodbar.Location = new Point(161, 291);
             btnBuscarCodbar.Name = "btnBuscarCodbar";
             btnBuscarCodbar.Size = new Size(74, 23);
             btnBuscarCodbar.TabIndex = 14;
             btnBuscarCodbar.Text = "Buscar";
             btnBuscarCodbar.UseVisualStyleBackColor = true;
+            btnBuscarCodbar.Click += btnBuscarCodbar_Click;
+            // 
+            // txtFuncionarioPedido
+            // 
+            txtFuncionarioPedido.Font = new Font("Segoe UI", 12F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            txtFuncionarioPedido.Location = new Point(13, 65);
+            txtFuncionarioPedido.Name = "txtFuncionarioPedido";
+            txtFuncionarioPedido.ReadOnly = true;
+            txtFuncionarioPedido.Size = new Size(263, 29);
+            txtFuncionarioPedido.TabIndex = 15;
+            txtFuncionarioPedido.TextChanged += textBox1_TextChanged_1;
+            // 
+            // txtNomeClientes
+            // 
+            txtNomeClientes.Font = new Font("Segoe UI", 12F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            txtNomeClientes.Location = new Point(236, 152);
+            txtNomeClientes.Name = "txtNomeClientes";
+            txtNomeClientes.ReadOnly = true;
+            txtNomeClientes.Size = new Size(263, 29);
+            txtNomeClientes.TabIndex = 16;
+            txtNomeClientes.TextChanged += txtClientePedido_TextChanged;
+            // 
+            // label6
+            // 
+            label6.AutoSize = true;
+            label6.Location = new Point(12, 47);
+            label6.Name = "label6";
+            label6.Size = new Size(70, 15);
+            label6.TabIndex = 17;
+            label6.Text = "Funcionario";
+            // 
+            // label7
+            // 
+            label7.AutoSize = true;
+            label7.Location = new Point(13, 134);
+            label7.Name = "label7";
+            label7.Size = new Size(44, 15);
+            label7.TabIndex = 18;
+            label7.Text = "Cliente";
+            // 
+            // btnBuscarCliente
+            // 
+            btnBuscarCliente.Location = new Point(505, 152);
+            btnBuscarCliente.Name = "btnBuscarCliente";
+            btnBuscarCliente.Size = new Size(74, 29);
+            btnBuscarCliente.TabIndex = 19;
+            btnBuscarCliente.Text = "Buscar";
+            btnBuscarCliente.UseVisualStyleBackColor = true;
+            btnBuscarCliente.Click += button1_Click_1;
+            // 
+            // txtIdCliente
+            // 
+            txtIdCliente.Font = new Font("Segoe UI", 12F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            txtIdCliente.Location = new Point(13, 152);
+            txtIdCliente.Name = "txtIdCliente";
+            txtIdCliente.ReadOnly = true;
+            txtIdCliente.Size = new Size(52, 29);
+            txtIdCliente.TabIndex = 20;
+            txtIdCliente.TextChanged += txtIdCliente_TextChanged;
+            // 
+            // txtCpfCliente
+            // 
+            txtCpfCliente.Font = new Font("Segoe UI", 12F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            txtCpfCliente.Location = new Point(71, 152);
+            txtCpfCliente.Name = "txtCpfCliente";
+            txtCpfCliente.ReadOnly = true;
+            txtCpfCliente.Size = new Size(159, 29);
+            txtCpfCliente.TabIndex = 21;
+            // 
+            // btnAdicionaPedido
+            // 
+            btnAdicionaPedido.BackColor = Color.Red;
+            btnAdicionaPedido.Enabled = false;
+            btnAdicionaPedido.Font = new Font("Segoe UI", 12F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            btnAdicionaPedido.ForeColor = SystemColors.ControlLightLight;
+            btnAdicionaPedido.Location = new Point(12, 201);
+            btnAdicionaPedido.Name = "btnAdicionaPedido";
+            btnAdicionaPedido.Size = new Size(153, 40);
+            btnAdicionaPedido.TabIndex = 22;
+            btnAdicionaPedido.Text = "Adicionar Pedido";
+            btnAdicionaPedido.UseVisualStyleBackColor = false;
+            btnAdicionaPedido.Click += button2_Click;
+            // 
+            // txtIdPedido
+            // 
+            txtIdPedido.Font = new Font("Segoe UI", 24F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            txtIdPedido.ForeColor = Color.Red;
+            txtIdPedido.Location = new Point(1702, 44);
+            txtIdPedido.Name = "txtIdPedido";
+            txtIdPedido.ReadOnly = true;
+            txtIdPedido.Size = new Size(83, 50);
+            txtIdPedido.TabIndex = 24;
+            txtIdPedido.TextAlign = HorizontalAlignment.Center;
+            // 
+            // label8
+            // 
+            label8.AutoSize = true;
+            label8.Font = new Font("Segoe UI", 14.25F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            label8.Location = new Point(1700, 9);
+            label8.Name = "label8";
+            label8.Size = new Size(93, 25);
+            label8.TabIndex = 25;
+            label8.Text = "ID Pedido";
             // 
             // FrmPedidoNovo
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
-            ClientSize = new Size(1222, 949);
+            ClientSize = new Size(1805, 949);
+            Controls.Add(label8);
+            Controls.Add(txtIdPedido);
+            Controls.Add(btnAdicionaPedido);
+            Controls.Add(txtCpfCliente);
+            Controls.Add(txtIdCliente);
+            Controls.Add(btnBuscarCliente);
+            Controls.Add(label7);
+            Controls.Add(label6);
+            Controls.Add(txtNomeClientes);
+            Controls.Add(txtFuncionarioPedido);
             Controls.Add(btnBuscarCodbar);
             Controls.Add(label5);
             Controls.Add(label4);
@@ -250,14 +392,6 @@
 
         private DataGridView dataGridView1;
         private Button btnInserir;
-        private DataGridViewTextBoxColumn Column1;
-        private DataGridViewTextBoxColumn Column2;
-        private DataGridViewButtonColumn buttonmenos;
-        private DataGridViewTextBoxColumn Column4;
-        private DataGridViewButtonColumn buttonmais;
-        private DataGridViewTextBoxColumn ValorUnit;
-        private DataGridViewTextBoxColumn precoTot;
-        private DataGridViewTextBoxColumn Remover;
         private TextBox txtCodBarPedido;
         private TextBox txtValorUnitPedido;
         private TextBox txtValorTotPedido;
@@ -269,5 +403,24 @@
         private Label label4;
         private Label label5;
         private Button btnBuscarCodbar;
+        private DataGridViewTextBoxColumn Column1;
+        private DataGridViewTextBoxColumn Column2;
+        private DataGridViewButtonColumn buttonmenos;
+        private DataGridViewTextBoxColumn Column4;
+        private DataGridViewButtonColumn buttonmais;
+        private DataGridViewTextBoxColumn ValorUnit;
+        private DataGridViewTextBoxColumn DescontoitemProduto;
+        private DataGridViewTextBoxColumn precoTot;
+        private DataGridViewButtonColumn Remover;
+        private TextBox txtFuncionarioPedido;
+        private TextBox txtNomeClientes;
+        private Label label6;
+        private Label label7;
+        private Button btnBuscarCliente;
+        private TextBox txtIdCliente;
+        private TextBox txtCpfCliente;
+        private Button btnAdicionaPedido;
+        private TextBox txtIdPedido;
+        private Label label8;
     }
 }
