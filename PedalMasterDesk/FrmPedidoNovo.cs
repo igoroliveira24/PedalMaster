@@ -36,19 +36,27 @@ namespace PedalMasterDesk
                     {
                         quantidade -= 1;
                         ItemPedido itempedido = new(
-                            Convert.ToInt32(dataGridView1.Rows[PosicaoLinha].Cells[0].Value),
+                            Convert.ToInt32(dataGridView1.Rows[PosicaoLinha].Cells[9].Value),
                             quantidade
                             );
                         itempedido.Atualizar();
+
                         CarregaGrid();
+
+                        if (Convert.ToInt32(dataGridView1.Rows[PosicaoLinha].Cells[3].Value) < 10)
+                        {
+                            itempedido.AtualizarDescontoAtacado(Convert.ToInt32(dataGridView1.Rows[PosicaoLinha].Cells[6].Value), Convert.ToInt32(dataGridView1.Rows[PosicaoLinha].Cells[9].Value));
+                        }
+                       
                     }
 
                 }
                 if (e.ColumnIndex == dataGridView1.Columns["buttonmais"].Index)
                 {
                     quantidade += 1;
+
                     ItemPedido itempedido = new(
-                        Convert.ToInt32(dataGridView1.Rows[PosicaoLinha].Cells[0].Value),
+                        Convert.ToInt32(dataGridView1.Rows[PosicaoLinha].Cells[9].Value),
                         quantidade
                         );
                     itempedido.Atualizar();
@@ -69,6 +77,8 @@ namespace PedalMasterDesk
             int cont = 0;
 
 
+            
+
             foreach (var itempedido in lista)// para cada usuario na lista
             {
                 dataGridView1.Rows.Add();//linhas do datagrid usuarios adiciona
@@ -77,12 +87,17 @@ namespace PedalMasterDesk
                 dataGridView1.Rows[cont].Cells[3].Value = itempedido.Quantidade;
                 dataGridView1.Rows[cont].Cells[5].Value = itempedido.ValorUnit;
                 dataGridView1.Rows[cont].Cells[6].Value = itempedido.Desconto;
-                dataGridView1.Rows[cont].Cells[7].Value = (itempedido.ValorUnit * (1 - itempedido.Desconto)) * itempedido.Quantidade;
+                dataGridView1.Rows[cont].Cells[7].Value = (itempedido.ValorUnit * (1 -(itempedido.Desconto/100) )) * itempedido.Quantidade;
+                dataGridView1.Rows[cont].Cells[9].Value = itempedido.Id;
 
                 cont++;//{cont esta em loop para listar os usuarios}
 
 
             }
+
+            
+
+            
 
         }
 
@@ -181,26 +196,39 @@ namespace PedalMasterDesk
             }
             else
             {
-                if (nudQuantidadePedido.Value > 0)
+                if (lblDescontoVarejo.Text != "")
                 {
-                    Produto idProduto = new();
-                    idProduto.ObterPorIdPorCodBar(txtCodBarPedido.Text);
-                    if (idProduto.Id > 0)
+                    if (int.Parse(txtDescontoPedido.Text) < 10)
                     {
-                        ItemPedido itemPedido = new(
-                                        Pedidos.ObterPorId(int.Parse(txtIdPedido.Text)),
-                                        Produto.ObterPorId(idProduto.Id),
-                                        (int)nudQuantidadePedido.Value,
-                                        double.Parse(txtDescontoPedido.Text)
-                                        );
-                        itemPedido.Inserir();
-                        CarregaGrid();
+                        MessageBox.Show("A Regra de Negocio de desconto por atacado não esta sendo seguida");
+                        txtDescontoPedido.Text = "10";
                     }
+                    
                 }
-                else
-                {
-                    MessageBox.Show("A quantidade do produto deve ser superior a 0!!!");
-                }
+
+
+                    if (nudQuantidadePedido.Value > 0)
+                    {
+                        Produto idProduto = new();
+                        idProduto.ObterPorIdPorCodBar(txtCodBarPedido.Text);
+                        if (idProduto.Id > 0)
+                        {
+                            ItemPedido itemPedido = new(
+                                            Pedidos.ObterPorId(int.Parse(txtIdPedido.Text)),
+                                            Produto.ObterPorId(idProduto.Id),
+                                            (int)nudQuantidadePedido.Value,
+                                            double.Parse(txtDescontoPedido.Text)
+                                            );
+                            itemPedido.Inserir();
+                            CarregaGrid();
+                        }
+                    }
+                    else
+                    {
+                        MessageBox.Show("A quantidade do produto deve ser superior a 0!!!");
+                    }
+                
+
             }
 
 
@@ -214,10 +242,14 @@ namespace PedalMasterDesk
                 {
                     txtDescontoPedido.Text = "10";
                 }
-                txtDescontoPedido.Text = "0";
+                else
+                {
+                    txtDescontoPedido.Text = "0";
+                }
+                
             }
 
-            double labeldesconto = 0;
+                double labeldesconto = 0;
 
             if (lblDescontoVarejo.Text != "")
             {

@@ -61,9 +61,9 @@ namespace PedalMasterLib
         {
             var cmd = Banco.Abrir();
             cmd.CommandType = System.Data.CommandType.StoredProcedure;
-            cmd.CommandText = "sp_itempedido_insert";
-            cmd.Parameters.AddWithValue("sppedido_id", IdPedido.Id);
-            cmd.Parameters.AddWithValue("spproduto_id", Produto.Id);
+            cmd.CommandText = "sp_Insert_ItensPedidos";
+            cmd.Parameters.AddWithValue("spfkPedidos", IdPedido.Id);
+            cmd.Parameters.AddWithValue("spfkProdutos", Produto.Id);
             cmd.Parameters.AddWithValue("spquantidade", Quantidade);
             cmd.Parameters.AddWithValue("spdesconto", Desconto);
             Id = Convert.ToInt32(cmd.ExecuteScalar());
@@ -125,6 +125,15 @@ namespace PedalMasterLib
             cmd.CommandText = "sp_Update_ItensPedido";
             cmd.Parameters.AddWithValue("spid", Id);
             cmd.Parameters.AddWithValue("spquantidade", Quantidade);
+            cmd.ExecuteNonQuery();
+            cmd.Connection.Close();
+
+        }
+
+        public void AtualizarDescontoAtacado( int desconto, int id)
+        {
+            var cmd = Banco.Abrir();
+            cmd.CommandText = $"update itenspedidos set Desconto = {desconto - 10} where pk_idItensPedidos = {id};";
             cmd.ExecuteNonQuery();
             cmd.Connection.Close();
 

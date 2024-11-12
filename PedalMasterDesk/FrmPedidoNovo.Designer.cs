@@ -29,15 +29,6 @@
         private void InitializeComponent()
         {
             dataGridView1 = new DataGridView();
-            Column1 = new DataGridViewTextBoxColumn();
-            Column2 = new DataGridViewTextBoxColumn();
-            buttonmenos = new DataGridViewButtonColumn();
-            Column4 = new DataGridViewTextBoxColumn();
-            buttonmais = new DataGridViewButtonColumn();
-            ValorUnit = new DataGridViewTextBoxColumn();
-            DescontoitemProduto = new DataGridViewTextBoxColumn();
-            precoTot = new DataGridViewTextBoxColumn();
-            Remover = new DataGridViewButtonColumn();
             btnInserir = new Button();
             txtCodBarPedido = new TextBox();
             txtValorUnitPedido = new TextBox();
@@ -63,6 +54,16 @@
             txtDescontoTotal = new TextBox();
             label10 = new Label();
             lblDescontoVarejo = new Label();
+            Column1 = new DataGridViewTextBoxColumn();
+            Column2 = new DataGridViewTextBoxColumn();
+            buttonmenos = new DataGridViewButtonColumn();
+            Column4 = new DataGridViewTextBoxColumn();
+            buttonmais = new DataGridViewButtonColumn();
+            ValorUnit = new DataGridViewTextBoxColumn();
+            DescontoitemProduto = new DataGridViewTextBoxColumn();
+            precoTot = new DataGridViewTextBoxColumn();
+            Remover = new DataGridViewButtonColumn();
+            idItempedido = new DataGridViewTextBoxColumn();
             ((System.ComponentModel.ISupportInitialize)dataGridView1).BeginInit();
             ((System.ComponentModel.ISupportInitialize)nudQuantidadePedido).BeginInit();
             SuspendLayout();
@@ -71,7 +72,7 @@
             // 
             dataGridView1.AllowUserToAddRows = false;
             dataGridView1.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            dataGridView1.Columns.AddRange(new DataGridViewColumn[] { Column1, Column2, buttonmenos, Column4, buttonmais, ValorUnit, DescontoitemProduto, precoTot, Remover });
+            dataGridView1.Columns.AddRange(new DataGridViewColumn[] { Column1, Column2, buttonmenos, Column4, buttonmais, ValorUnit, DescontoitemProduto, precoTot, Remover, idItempedido });
             dataGridView1.Location = new Point(12, 331);
             dataGridView1.Name = "dataGridView1";
             dataGridView1.RowHeadersVisible = false;
@@ -80,62 +81,6 @@
             dataGridView1.CellClick += dataGridView1_CellClick;
             dataGridView1.CellContentClick += dataGridView1_CellContentClick;
             dataGridView1.CellPainting += dataGridView1_CellPainting;
-            // 
-            // Column1
-            // 
-            Column1.HeaderText = "Nº";
-            Column1.Name = "Column1";
-            Column1.Width = 50;
-            // 
-            // Column2
-            // 
-            Column2.HeaderText = "Codigo de Barras";
-            Column2.Name = "Column2";
-            Column2.Width = 150;
-            // 
-            // buttonmenos
-            // 
-            buttonmenos.HeaderText = "Menos";
-            buttonmenos.Name = "buttonmenos";
-            buttonmenos.Text = "";
-            buttonmenos.UseColumnTextForButtonValue = true;
-            buttonmenos.Width = 50;
-            // 
-            // Column4
-            // 
-            Column4.HeaderText = "Quantidade";
-            Column4.Name = "Column4";
-            // 
-            // buttonmais
-            // 
-            buttonmais.HeaderText = "Mais";
-            buttonmais.Name = "buttonmais";
-            buttonmais.Width = 50;
-            // 
-            // ValorUnit
-            // 
-            ValorUnit.HeaderText = "Valor Unitario";
-            ValorUnit.Name = "ValorUnit";
-            ValorUnit.Width = 150;
-            // 
-            // DescontoitemProduto
-            // 
-            DescontoitemProduto.HeaderText = "Desconto(%)";
-            DescontoitemProduto.Name = "DescontoitemProduto";
-            // 
-            // precoTot
-            // 
-            precoTot.HeaderText = "ValorTotal";
-            precoTot.Name = "precoTot";
-            precoTot.Width = 150;
-            // 
-            // Remover
-            // 
-            Remover.HeaderText = "Remover";
-            Remover.Name = "Remover";
-            Remover.Resizable = DataGridViewTriState.True;
-            Remover.SortMode = DataGridViewColumnSortMode.Automatic;
-            Remover.Width = 75;
             // 
             // btnInserir
             // 
@@ -380,6 +325,68 @@
             lblDescontoVarejo.Size = new Size(0, 15);
             lblDescontoVarejo.TabIndex = 30;
             // 
+            // Column1
+            // 
+            Column1.HeaderText = "Nº";
+            Column1.Name = "Column1";
+            Column1.Width = 50;
+            // 
+            // Column2
+            // 
+            Column2.HeaderText = "Codigo de Barras";
+            Column2.Name = "Column2";
+            Column2.Width = 150;
+            // 
+            // buttonmenos
+            // 
+            buttonmenos.HeaderText = "Menos";
+            buttonmenos.Name = "buttonmenos";
+            buttonmenos.Text = "";
+            buttonmenos.UseColumnTextForButtonValue = true;
+            buttonmenos.Width = 50;
+            // 
+            // Column4
+            // 
+            Column4.HeaderText = "Quantidade";
+            Column4.Name = "Column4";
+            // 
+            // buttonmais
+            // 
+            buttonmais.HeaderText = "Mais";
+            buttonmais.Name = "buttonmais";
+            buttonmais.Width = 50;
+            // 
+            // ValorUnit
+            // 
+            ValorUnit.HeaderText = "Valor Unitario";
+            ValorUnit.Name = "ValorUnit";
+            ValorUnit.Width = 150;
+            // 
+            // DescontoitemProduto
+            // 
+            DescontoitemProduto.HeaderText = "Desconto(%)";
+            DescontoitemProduto.Name = "DescontoitemProduto";
+            // 
+            // precoTot
+            // 
+            precoTot.HeaderText = "ValorTotal";
+            precoTot.Name = "precoTot";
+            precoTot.Width = 150;
+            // 
+            // Remover
+            // 
+            Remover.HeaderText = "Remover";
+            Remover.Name = "Remover";
+            Remover.Resizable = DataGridViewTriState.True;
+            Remover.SortMode = DataGridViewColumnSortMode.Automatic;
+            Remover.Width = 75;
+            // 
+            // idItempedido
+            // 
+            idItempedido.HeaderText = "idItemPedido";
+            idItempedido.Name = "idItempedido";
+            idItempedido.Visible = false;
+            // 
             // FrmPedidoNovo
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
@@ -458,5 +465,6 @@
         private TextBox txtDescontoTotal;
         private Label label10;
         private Label lblDescontoVarejo;
+        private DataGridViewTextBoxColumn idItempedido;
     }
 }
