@@ -9,7 +9,6 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
-using static System.Windows.Forms.VisualStyles.VisualStyleElement;
 
 namespace PedalMasterDesk
 {
@@ -175,11 +174,41 @@ namespace PedalMasterDesk
 
         private void btnInserir_Click(object sender, EventArgs e)
         {
+            if (textBoxVazias())
+            {
+                MessageBox.Show("Preencha todos os campos");
+
+            }
+            else
+            {
+                if (nudQuantidadePedido.Value > 0)
+                {
+                    Produto idProduto = new();
+                    idProduto.ObterPorIdPorCodBar(txtCodBarPedido.Text);
+                    if (idProduto.Id > 0)
+                    {
+                        ItemPedido itemPedido = new(
+                                        Pedidos.ObterPorId(int.Parse(txtIdPedido.Text)),
+                                        Produto.ObterPorId(idProduto.Id),
+                                        (int)nudQuantidadePedido.Value,
+                                        double.Parse(txtDescontoPedido.Text)
+                                        );
+                        itemPedido.Inserir();
+                        CarregaGrid();
+                    }
+                }
+                else
+                {
+                    MessageBox.Show("A quantidade do produto deve ser superior a 0!!!");
+                }
+            }
+
 
         }
 
         private void txtDescontoPedido_TextChanged(object sender, EventArgs e)
         {
+           
 
         }
 
@@ -203,11 +232,13 @@ namespace PedalMasterDesk
             {
                 Produto produto = new();
                 produto.ObterPorIdPorCodBar(txtCodBarPedido.Text);
+                produto = Produto.ObterPorId(produto.Id);
                 if (produto.Id > 0)
                 {
                     CodBar = produto.CodBar;
                     txtValorUnitPedido.Text = produto.Preco.ToString();
                     txtValorTotPedido.Text = produto.Preco.ToString();
+                    txtDescontoTotal.Text = produto.Desconto.ToString();
                 }
             }
         }
@@ -283,6 +314,55 @@ namespace PedalMasterDesk
             txtIdCliente.Text = $" {Program.frmGdvBuscarCliente.Id}";
             txtCpfCliente.Text = $" {Program.frmGdvBuscarCliente.Cpf}";
             txtNomeClientes.Text = $" {Program.frmGdvBuscarCliente.Nome}";
+        }
+
+        private bool textBoxVazias()
+        {
+            foreach (Control c in this.Controls)
+                if (c is TextBox)
+                {
+                    TextBox textBox = c as TextBox;
+                    if (string.IsNullOrWhiteSpace(textBox.Text))
+                        return true;
+                }
+            return false;
+        }
+
+        private void nudQuantidadePedido_ValueChanged(object sender, EventArgs e)
+        {
+            if (nudQuantidadePedido.Value <= 0)
+            {
+                nudQuantidadePedido.Value = 1;
+            }
+
+            var valortotal = decimal.Parse(txtValorUnitPedido.Text);
+
+            
+                txtValorTotPedido.Text = (valortotal * nudQuantidadePedido.Value).ToString() ;
+
+            if (nudQuantidadePedido.Value >= 10)
+            {
+                txtDescontoPedido.Text = "0.1";
+                var descontototal = double.Parse(txtDescontoTotal.Text);
+                txtDescontoTotal.Text += "+" + descontototal.ToString();
+
+
+                if (double.Parse(txtDescontoPedido.Text) < 0.1)
+                {
+                    txtDescontoPedido.Text = "0.1";
+                }
+            }
+            else
+            {
+                Produto produto = new();
+                produto.ObterPorIdPorCodBar(txtCodBarPedido.Text);
+                produto = Produto.ObterPorId(produto.Id);
+                if (produto.Id > 0)
+                {
+                    txtDescontoTotal.Text = produto.Desconto.ToString();
+                }
+                txtDescontoPedido.Text = "0";
+            }
         }
     }
 }

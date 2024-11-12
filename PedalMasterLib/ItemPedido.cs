@@ -47,6 +47,14 @@ namespace PedalMasterLib
             
         }
 
+        public ItemPedido(Pedidos idPedido, Produto produto, int quantidade, double desconto)
+        {
+            Produto = produto;
+            IdPedido = idPedido;
+            Quantidade = quantidade;
+            Desconto = desconto;
+        }
+
         // sp_itempedido_insert`(sppedido_id int, spproduto_id int, spquantidade decimal (10,2), spdesconto decimal(10,2))
 
         public void Inserir()
@@ -54,7 +62,7 @@ namespace PedalMasterLib
             var cmd = Banco.Abrir();
             cmd.CommandType = System.Data.CommandType.StoredProcedure;
             cmd.CommandText = "sp_itempedido_insert";
-            cmd.Parameters.AddWithValue("sppedido_id", IdPedido);
+            cmd.Parameters.AddWithValue("sppedido_id", IdPedido.Id);
             cmd.Parameters.AddWithValue("spproduto_id", Produto.Id);
             cmd.Parameters.AddWithValue("spquantidade", Quantidade);
             cmd.Parameters.AddWithValue("spdesconto", Desconto);

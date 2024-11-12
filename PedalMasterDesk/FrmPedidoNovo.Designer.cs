@@ -60,6 +60,9 @@
             btnAdicionaPedido = new Button();
             txtIdPedido = new TextBox();
             label8 = new Label();
+            textBox1 = new TextBox();
+            txtDescontoTotal = new TextBox();
+            label10 = new Label();
             ((System.ComponentModel.ISupportInitialize)dataGridView1).BeginInit();
             ((System.ComponentModel.ISupportInitialize)nudQuantidadePedido).BeginInit();
             SuspendLayout();
@@ -181,6 +184,7 @@
             nudQuantidadePedido.Name = "nudQuantidadePedido";
             nudQuantidadePedido.Size = new Size(78, 23);
             nudQuantidadePedido.TabIndex = 7;
+            nudQuantidadePedido.ValueChanged += nudQuantidadePedido_ValueChanged;
             // 
             // txtDescontoPedido
             // 
@@ -231,7 +235,7 @@
             // label5
             // 
             label5.AutoSize = true;
-            label5.Location = new Point(595, 262);
+            label5.Location = new Point(595, 272);
             label5.Name = "label5";
             label5.Size = new Size(57, 15);
             label5.TabIndex = 13;
@@ -350,11 +354,38 @@
             label8.TabIndex = 25;
             label8.Text = "ID Pedido";
             // 
+            // textBox1
+            // 
+            textBox1.Location = new Point(48, 113);
+            textBox1.Name = "textBox1";
+            textBox1.Size = new Size(100, 23);
+            textBox1.TabIndex = 26;
+            // 
+            // txtDescontoTotal
+            // 
+            txtDescontoTotal.Location = new Point(595, 246);
+            txtDescontoTotal.Name = "txtDescontoTotal";
+            txtDescontoTotal.ReadOnly = true;
+            txtDescontoTotal.Size = new Size(100, 23);
+            txtDescontoTotal.TabIndex = 27;
+            // 
+            // label10
+            // 
+            label10.AutoSize = true;
+            label10.Location = new Point(595, 226);
+            label10.Name = "label10";
+            label10.Size = new Size(85, 15);
+            label10.TabIndex = 29;
+            label10.Text = "Desconto Total";
+            // 
             // FrmPedidoNovo
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
-            ClientSize = new Size(1805, 949);
+            ClientSize = new Size(1370, 749);
+            Controls.Add(label10);
+            Controls.Add(txtDescontoTotal);
+            Controls.Add(textBox1);
             Controls.Add(label8);
             Controls.Add(txtIdPedido);
             Controls.Add(btnAdicionaPedido);
@@ -422,5 +453,8 @@
         private Button btnAdicionaPedido;
         private TextBox txtIdPedido;
         private Label label8;
+        private TextBox textBox1;
+        private TextBox txtDescontoTotal;
+        private Label label10;
     }
 }
