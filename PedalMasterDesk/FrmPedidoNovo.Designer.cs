@@ -60,9 +60,9 @@
             btnAdicionaPedido = new Button();
             txtIdPedido = new TextBox();
             label8 = new Label();
-            textBox1 = new TextBox();
             txtDescontoTotal = new TextBox();
             label10 = new Label();
+            lblDescontoVarejo = new Label();
             ((System.ComponentModel.ISupportInitialize)dataGridView1).BeginInit();
             ((System.ComponentModel.ISupportInitialize)nudQuantidadePedido).BeginInit();
             SuspendLayout();
@@ -354,13 +354,6 @@
             label8.TabIndex = 25;
             label8.Text = "ID Pedido";
             // 
-            // textBox1
-            // 
-            textBox1.Location = new Point(48, 113);
-            textBox1.Name = "textBox1";
-            textBox1.Size = new Size(100, 23);
-            textBox1.TabIndex = 26;
-            // 
             // txtDescontoTotal
             // 
             txtDescontoTotal.Location = new Point(595, 246);
@@ -378,14 +371,23 @@
             label10.TabIndex = 29;
             label10.Text = "Desconto Total";
             // 
+            // lblDescontoVarejo
+            // 
+            lblDescontoVarejo.AutoSize = true;
+            lblDescontoVarejo.ForeColor = Color.Red;
+            lblDescontoVarejo.Location = new Point(701, 249);
+            lblDescontoVarejo.Name = "lblDescontoVarejo";
+            lblDescontoVarejo.Size = new Size(0, 15);
+            lblDescontoVarejo.TabIndex = 30;
+            // 
             // FrmPedidoNovo
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
             ClientSize = new Size(1370, 749);
+            Controls.Add(lblDescontoVarejo);
             Controls.Add(label10);
             Controls.Add(txtDescontoTotal);
-            Controls.Add(textBox1);
             Controls.Add(label8);
             Controls.Add(txtIdPedido);
             Controls.Add(btnAdicionaPedido);
@@ -453,8 +455,8 @@
         private Button btnAdicionaPedido;
         private TextBox txtIdPedido;
         private Label label8;
-        private TextBox textBox1;
         private TextBox txtDescontoTotal;
         private Label label10;
+        private Label lblDescontoVarejo;
     }
 }

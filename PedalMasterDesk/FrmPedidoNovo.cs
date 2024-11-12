@@ -208,7 +208,42 @@ namespace PedalMasterDesk
 
         private void txtDescontoPedido_TextChanged(object sender, EventArgs e)
         {
-           
+            if (txtDescontoPedido.Text == "")
+            {
+                if (lblDescontoVarejo.Text != "")
+                {
+                    txtDescontoPedido.Text = "10";
+                }
+                txtDescontoPedido.Text = "0";
+            }
+
+            double labeldesconto = 0;
+
+            if (lblDescontoVarejo.Text != "")
+            {
+                labeldesconto = 10;
+            }
+
+            if (double.Parse(txtDescontoPedido.Text) <= (double.Parse(txtDescontoTotal.Text) + labeldesconto))
+            {
+                if (double.Parse(txtDescontoPedido.Text) < 0)
+                {
+                    MessageBox.Show("O Valor do Desconto não pode ser menor que zero");
+                }
+            }
+            else
+            {
+                MessageBox.Show("O Valor do Desconto não pode ser maior do que o estipulado no produto");
+                if (lblDescontoVarejo.Text != "")
+                {
+                    txtDescontoPedido.Text = "10";
+                }
+                else
+                {
+                    txtDescontoPedido.Text = "0";
+                }
+                
+            }
 
         }
 
@@ -238,7 +273,7 @@ namespace PedalMasterDesk
                     CodBar = produto.CodBar;
                     txtValorUnitPedido.Text = produto.Preco.ToString();
                     txtValorTotPedido.Text = produto.Preco.ToString();
-                    txtDescontoTotal.Text = produto.Desconto.ToString();
+                    txtDescontoTotal.Text = (produto.Desconto * 100).ToString();
                 }
             }
         }
@@ -342,25 +377,18 @@ namespace PedalMasterDesk
 
             if (nudQuantidadePedido.Value >= 10)
             {
-                txtDescontoPedido.Text = "0.1";
-                var descontototal = double.Parse(txtDescontoTotal.Text);
-                txtDescontoTotal.Text += "+" + descontototal.ToString();
+                txtDescontoPedido.Text = "10";
+                lblDescontoVarejo.Text = "10% ou (0.1)";
 
 
-                if (double.Parse(txtDescontoPedido.Text) < 0.1)
+                if (double.Parse(txtDescontoPedido.Text) < 10)
                 {
-                    txtDescontoPedido.Text = "0.1";
+                    txtDescontoPedido.Text = "10";
                 }
             }
             else
             {
-                Produto produto = new();
-                produto.ObterPorIdPorCodBar(txtCodBarPedido.Text);
-                produto = Produto.ObterPorId(produto.Id);
-                if (produto.Id > 0)
-                {
-                    txtDescontoTotal.Text = produto.Desconto.ToString();
-                }
+                lblDescontoVarejo.Text = "";
                 txtDescontoPedido.Text = "0";
             }
         }
