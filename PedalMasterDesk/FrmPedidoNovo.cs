@@ -40,14 +40,13 @@ namespace PedalMasterDesk
                             quantidade
                             );
                         itempedido.Atualizar();
-<<<<<<< HEAD
-                        
-=======
+
 
                         CarregaGrid();
 
-                       
->>>>>>> e1392bad295b57c66d48c2d7238a8d150ff027b8
+
+                        
+
                     }
 
                 }
