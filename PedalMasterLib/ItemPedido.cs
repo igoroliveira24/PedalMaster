@@ -132,8 +132,10 @@ namespace PedalMasterLib
 
         public void AtualizarDescontoAtacado( int desconto, int id)
         {
+            desconto -= 10;
+
             var cmd = Banco.Abrir();
-            cmd.CommandText = $"update itenspedidos set Desconto = {desconto - 10} where pk_idItensPedidos = {id};";
+            cmd.CommandText = $"update itenspedidos set Desconto = {desconto} where pk_idItensPedidos = {id};";
             cmd.ExecuteNonQuery();
             cmd.Connection.Close();
 
