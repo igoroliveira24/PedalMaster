@@ -51,7 +51,7 @@ namespace PedalMasterDesk
 =======
                         if (Convert.ToInt32(dataGridView1.Rows[PosicaoLinha].Cells[3].Value) < 10)
                         {
-                            itempedido.AtualizarDescontoAtacado(Convert.ToInt32(dataGridView1.Rows[PosicaoLinha].Cells[6].Value), Convert.ToInt32(dataGridView1.Rows[PosicaoLinha].Cells[9].Value));
+                            itempedido.AtualizarDescontoAtacado(Convert.ToInt32(dataGridView1.Rows[PosicaoLinha].Cells[6].Value), Convert.ToInt32(dataGridView1.Rows[PosicaoLinha].Cells[9].Value));.
                         }
                        
 >>>>>>> e1392bad295b57c66d48c2d7238a8d150ff027b8
