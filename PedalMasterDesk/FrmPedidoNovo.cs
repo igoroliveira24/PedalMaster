@@ -1,4 +1,5 @@
-﻿using PedalMasterLib;
+﻿using Google.Protobuf.WellKnownTypes;
+using PedalMasterLib;
 using SysPecNSLib;
 using System;
 using System.Collections.Generic;
@@ -9,6 +10,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using static System.Runtime.InteropServices.JavaScript.JSType;
 
 namespace PedalMasterDesk
 {
@@ -16,6 +18,11 @@ namespace PedalMasterDesk
     {
         public int idPedido { get; set; }
         public string CodBar { get; set; }
+        public int removerdgv { get; set; }
+        public double valunit { get; set; }
+        public double desc { get; set; }
+        public int quant { get; set; }
+
         public FrmPedidoNovo()
         {
             InitializeComponent();
@@ -26,6 +33,7 @@ namespace PedalMasterDesk
             int PosicaoLinha = dataGridView1.CurrentRow.Index;
             var quantidade = Convert.ToInt32(dataGridView1.Rows[PosicaoLinha].Cells[3].Value);
             var senderGrid = (DataGridView)sender;
+            removerdgv = 0;
 
             if (senderGrid.Columns[e.ColumnIndex] is DataGridViewButtonColumn &&
                 e.RowIndex >= 0)
@@ -34,47 +42,82 @@ namespace PedalMasterDesk
                 {
                     if (quantidade > 1)
                     {
-                        quantidade -= 1;
+                        quantidade = quantidade - 1;
+                        var desconto = Convert.ToInt32(dataGridView1.Rows[PosicaoLinha].Cells[6].Value);
+                        if (quantidade < 10)
+                        {
+                            desconto = Convert.ToInt32(dataGridView1.Rows[PosicaoLinha].Cells[6].Value) - 10;
+                        }
                         ItemPedido itempedido = new(
-                            Convert.ToInt32(dataGridView1.Rows[PosicaoLinha].Cells[0].Value),
-                            quantidade
+                            Convert.ToInt32(dataGridView1.Rows[PosicaoLinha].Cells[9].Value),
+                            quantidade,
+                            desconto
                             );
                         itempedido.Atualizar();
 
 
-                        CarregaGrid();
 
 
-<<<<<<< HEAD
 
 
-=======
-                        if (Convert.ToInt32(dataGridView1.Rows[PosicaoLinha].Cells[3].Value) < 10)
+
+
+                        /*if (Convert.ToInt32(dataGridView1.Rows[PosicaoLinha].Cells[3].Value) < 10)
                         {
-                            itempedido.AtualizarDescontoAtacado(Convert.ToInt32(dataGridView1.Rows[PosicaoLinha].Cells[6].Value), Convert.ToInt32(dataGridView1.Rows[PosicaoLinha].Cells[9].Value));.
-                        }
-                       
->>>>>>> e1392bad295b57c66d48c2d7238a8d150ff027b8
+                            itempedido.AtualizarDescontoAtacado(Convert.ToInt32(dataGridView1.Rows[PosicaoLinha].Cells[6].Value), Convert.ToInt32(dataGridView1.Rows[PosicaoLinha].Cells[9].Value));
+                        }*/
+
+
                     }
 
                 }
                 if (e.ColumnIndex == dataGridView1.Columns["buttonmais"].Index)
                 {
                     quantidade += 1;
+                    var desconto = Convert.ToInt32(dataGridView1.Rows[PosicaoLinha].Cells[6].Value);
+                    if (quantidade == 10)
+                    {
+                        desconto = Convert.ToInt32(dataGridView1.Rows[PosicaoLinha].Cells[6].Value) + 10;
+                    }
                     ItemPedido itempedido = new(
-                        Convert.ToInt32(dataGridView1.Rows[PosicaoLinha].Cells[0].Value),
-                        quantidade
+                        Convert.ToInt32(dataGridView1.Rows[PosicaoLinha].Cells[9].Value),
+                        quantidade,
+                        desconto
                         );
                     itempedido.Atualizar();
 
-                    
 
-                    
 
-                    
+
+
+
+                }
+                if (e.ColumnIndex == dataGridView1.Columns["Remover"].Index)
+                {
+
+                    var id = Convert.ToInt32(dataGridView1.Rows[PosicaoLinha].Cells[9].Value);
+                    var codbar = dataGridView1.Rows[PosicaoLinha].Cells[1].Value.ToString();
+
+                    valunit = Convert.ToDouble(dataGridView1.Rows[PosicaoLinha].Cells[5].Value);
+                    quant = Convert.ToInt32(dataGridView1.Rows[PosicaoLinha].Cells[3].Value);
+                    desc = Convert.ToDouble(dataGridView1.Rows[PosicaoLinha].Cells[6].Value);
+
+                    ItemPedido itempedido = new();
+                    Produto idProduto = new();
+                    idProduto.ObterPorIdPorCodBar(codbar);
+                    itempedido.Deletar(id);
+
+
+
+                    Estoque estoque = new();
+                    estoque = Estoque.ObterQuantidadePorProdutoId(idProduto.Id);
+                    var quantidadeEstoque = estoque.Quantidade + 1;
+                    estoque.Alterar(quantidadeEstoque, idProduto.Id, "");
+
+                    removerdgv = 1;
                 }
 
-                
+
             }
 
             CarregaGrid();
@@ -87,7 +130,12 @@ namespace PedalMasterDesk
 
             dataGridView1.Rows.Clear();
             int cont = 0;
+            double desconto = 0;
+            double total = 0;
+            double subtotal = 0;
 
+            //int PosicaoLinha = dataGridView1.CurrentRow.Index;
+            //var quantidade = Convert.ToInt32(dataGridView1.Rows[PosicaoLinha].Cells[3].Value);
 
             foreach (var itempedido in lista)// para cada usuario na lista
             {
@@ -97,12 +145,50 @@ namespace PedalMasterDesk
                 dataGridView1.Rows[cont].Cells[3].Value = itempedido.Quantidade;
                 dataGridView1.Rows[cont].Cells[5].Value = itempedido.ValorUnit;
                 dataGridView1.Rows[cont].Cells[6].Value = itempedido.Desconto;
-                dataGridView1.Rows[cont].Cells[7].Value = (itempedido.ValorUnit * (1 - itempedido.Desconto)) * itempedido.Quantidade;
+                dataGridView1.Rows[cont].Cells[7].Value = itempedido.ValorUnit * itempedido.Quantidade * (1 - (itempedido.Desconto / 100));
+                dataGridView1.Rows[cont].Cells[9].Value = itempedido.Id;
 
                 cont++;//{cont esta em loop para listar os usuarios}
 
+                if (removerdgv == 1)
+                {
+                    total -= valunit * quant * (1 - (desc / 100));
+                    subtotal -= valunit * quant;
+                    desconto += subtotal - total;
 
+                    total += double.Parse(txtValorTotalPedido.Text);
+                    subtotal += double.Parse(txtSubTotaPedido.Text);
+                    desconto += double.Parse(txtDescontoProdutos.Text);
+
+                    txtSubTotaPedido.Text = subtotal.ToString("#0.00");
+                    txtValorTotalPedido.Text = total.ToString("#0.00");
+                    txtDescontoProdutos.Text = desconto.ToString("#0.00");
+                }
+                else
+                {
+
+
+                    total += itempedido.ValorUnit * itempedido.Quantidade * (1 - (itempedido.Desconto / 100));
+                    subtotal += itempedido.ValorUnit * itempedido.Quantidade;
+                    desconto = subtotal - total;
+
+                    txtValorTotalPedido.Text = total.ToString("#0.00");
+                    txtDescontoProdutos.Text = desconto.ToString("#0.00");
+                    txtSubTotaPedido.Text = subtotal.ToString("#0.00");
+                }
             }
+            if (dataGridView1.RowCount == 0)
+            {
+                txtSubTotaPedido.Text = "0";
+                txtDescontoProdutos.Text = "0";
+                txtDescontoEscritoPedido.Text = "0";
+                txtValorTotalPedido.Text = "0";
+            }
+
+
+
+            dataGridView1.Columns[7].DefaultCellStyle.Format = "N2";
+            removerdgv = 0;
 
         }
 
@@ -113,6 +199,7 @@ namespace PedalMasterDesk
 
         private void FrmPedidoNovo_Load(object sender, EventArgs e)
         {
+            nudQuantidadePedido.Value = 1;
             txtDescontoPedido.MaxLength = 2;
             txtFuncionarioPedido.Text = Program.UsuarioLogado.Id.ToString() + " - " + Program.UsuarioLogado.Nome;
             if (txtIdPedido.Text != string.Empty)
@@ -205,16 +292,53 @@ namespace PedalMasterDesk
                 {
                     Produto idProduto = new();
                     idProduto.ObterPorIdPorCodBar(txtCodBarPedido.Text);
+                    double desconto = double.Parse(txtDescontoPedido.Text);
+                    if (nudQuantidadePedido.Value >= 10)
+                    {
+                        desconto = double.Parse(txtDescontoPedido.Text) + 10;
+                    }
+
                     if (idProduto.Id > 0)
                     {
-                        ItemPedido itemPedido = new(
+
+                        Estoque estoque = new();
+                        estoque = Estoque.ObterQuantidadePorProdutoId(idProduto.Id);
+
+                        if (estoque.Quantidade > 0)
+                        {
+                            if (nudQuantidadePedido.Value <= estoque.Quantidade)
+                            {
+                                ItemPedido itemPedido = new(
                                         Pedidos.ObterPorId(int.Parse(txtIdPedido.Text)),
                                         Produto.ObterPorId(idProduto.Id),
                                         (int)nudQuantidadePedido.Value,
-                                        double.Parse(txtDescontoPedido.Text)
+                                        desconto
                                         );
-                        itemPedido.Inserir();
-                        CarregaGrid();
+
+                                itemPedido.Inserir();
+                                CarregaGrid();
+
+                                txtCodBarPedido.Clear();
+                                txtValorUnitPedido.Clear();
+                                txtValorTotPedido.Clear();
+                                txtDescontoPedido.Clear();
+                                txtDescontoTotal.Clear();
+                                nudQuantidadePedido.Value = 1;
+                                lblDescontoAtacado.Text = "";
+                                lblDescontoVarejo.Text = "";
+
+                            }
+                            else
+                            {
+                                MessageBox.Show("Produto Indisponivel (Estoque Insuficiente)");
+                            }
+
+                        }
+                        else
+                        {
+                            MessageBox.Show("Produto Indisponivel (Estoque Insuficiente)");
+                        }
+
                     }
                 }
                 else
@@ -228,7 +352,17 @@ namespace PedalMasterDesk
 
         private void txtDescontoPedido_TextChanged(object sender, EventArgs e)
         {
-           
+            if (txtDescontoPedido.Text == string.Empty)
+            {
+                txtDescontoPedido.Text = "0";
+            }
+            
+                if (double.Parse(txtDescontoPedido.Text) > double.Parse(txtDescontoTotal.Text))
+                {
+                    txtDescontoPedido.Text = "0";
+                }
+            
+
 
         }
 
@@ -258,7 +392,7 @@ namespace PedalMasterDesk
                     CodBar = produto.CodBar;
                     txtValorUnitPedido.Text = produto.Preco.ToString();
                     txtValorTotPedido.Text = produto.Preco.ToString();
-                    txtDescontoTotal.Text = produto.Desconto.ToString();
+                    txtDescontoTotal.Text = (produto.Desconto * 100).ToString();
                 }
             }
         }
@@ -295,7 +429,6 @@ namespace PedalMasterDesk
                 txtIdPedido.Text = pedidos.Id.ToString();
 
                 txtCodBarPedido.Enabled = true;
-                btnBuscarCodbar.Enabled = true;
                 txtValorUnitPedido.Enabled = true;
                 txtValorTotPedido.Enabled = true;
                 txtDescontoPedido.Enabled = true;
@@ -303,6 +436,9 @@ namespace PedalMasterDesk
                 nudQuantidadePedido.Enabled = true;
                 btnBuscarCliente.Enabled = false;
                 btnAdicionaPedido.Enabled = false;
+                btnCancelarPed.Enabled = true;
+                btnManterAberto.Enabled = true;
+                btnFinalizarPedido.Enabled = true;
 
                 CarregaGrid();
 
@@ -327,14 +463,7 @@ namespace PedalMasterDesk
             }
         }
 
-        private void btnBuscarCodbar_Click(object sender, EventArgs e)
-        {
-            FrmBuscarCodBar frmBuscarCodBar = new();
-            frmBuscarCodBar.ShowDialog();
-            txtIdCliente.Text = $" {Program.frmGdvBuscarCliente.Id}";
-            txtCpfCliente.Text = $" {Program.frmGdvBuscarCliente.Cpf}";
-            txtNomeClientes.Text = $" {Program.frmGdvBuscarCliente.Nome}";
-        }
+
 
         private bool textBoxVazias()
         {
@@ -348,41 +477,169 @@ namespace PedalMasterDesk
             return false;
         }
 
+
+
         private void nudQuantidadePedido_ValueChanged(object sender, EventArgs e)
         {
             if (nudQuantidadePedido.Value <= 0)
             {
                 nudQuantidadePedido.Value = 1;
             }
+            if (txtValorUnitPedido.Text != string.Empty)
+            {
+                var valortotal = decimal.Parse(txtValorUnitPedido.Text);
 
-            var valortotal = decimal.Parse(txtValorUnitPedido.Text);
 
-            
-                txtValorTotPedido.Text = (valortotal * nudQuantidadePedido.Value).ToString() ;
+
+                txtValorTotPedido.Text = (valortotal * nudQuantidadePedido.Value).ToString();
+            }
+
 
             if (nudQuantidadePedido.Value >= 10)
             {
-                txtDescontoPedido.Text = "0.1";
-                var descontototal = double.Parse(txtDescontoTotal.Text);
-                txtDescontoTotal.Text += "+" + descontototal.ToString();
+                lblDescontoAtacado.Text = "10% desconto";
+            }
 
+        }
 
-                if (double.Parse(txtDescontoPedido.Text) < 0.1)
-                {
-                    txtDescontoPedido.Text = "0.1";
-                }
+        private void txtValorTotalPedido_TextChanged(object sender, EventArgs e)
+        {
+
+        }
+
+        private void textBox1_TextChanged_2(object sender, EventArgs e)
+        {
+
+            if (txtDescontoEscritoPedido.Text == string.Empty)
+            {
+                txtDescontoEscritoPedido.Text = "0";
             }
             else
             {
-                Produto produto = new();
-                produto.ObterPorIdPorCodBar(txtCodBarPedido.Text);
-                produto = Produto.ObterPorId(produto.Id);
-                if (produto.Id > 0)
+                var valortotal = double.Parse(txtSubTotaPedido.Text) - double.Parse(txtDescontoProdutos.Text);
+
+                valortotal -= double.Parse(txtDescontoEscritoPedido.Text);
+                if (valortotal > 0)
                 {
-                    txtDescontoTotal.Text = produto.Desconto.ToString();
+                    txtValorTotalPedido.Text = valortotal.ToString("#0.00");
                 }
-                txtDescontoPedido.Text = "0";
+                else
+                {
+                    MessageBox.Show("O desconto do pedido não pode ser maior que o preço total");
+
+                    txtDescontoEscritoPedido.Text = "0";
+                }
             }
+
+
+        }
+
+        private void btnCancelarPed_Click(object sender, EventArgs e)
+        {
+            var message = MessageBox.Show("Deseja Cancelar esse pedido?", "Cancelar Pedido", MessageBoxButtons.YesNo, MessageBoxIcon.Exclamation);
+            if (message == DialogResult.Yes)
+            {
+
+                var linhas = dataGridView1.RowCount;
+                var cont = 0;
+                if (linhas > 0)
+                {
+                    while (cont < linhas)
+                    {
+                        var id = Convert.ToInt32(dataGridView1.Rows[cont].Cells[9].Value);
+                        var codbar = dataGridView1.Rows[cont].Cells[1].Value.ToString();
+
+                        ItemPedido itempedido = new();
+                        Produto idProduto = new();
+                        idProduto.ObterPorIdPorCodBar(codbar);
+                        itempedido.Deletar(id);
+
+
+
+                        Estoque estoque = new();
+                        estoque = Estoque.ObterQuantidadePorProdutoId(idProduto.Id);
+                        var quantidadeEstoque = estoque.Quantidade + Convert.ToInt32(dataGridView1.Rows[cont].Cells[3].Value);
+                        estoque.Alterar(quantidadeEstoque, idProduto.Id, "");
+                        cont++;
+                    }
+
+                }
+
+                Pedidos pedido = new();
+
+                pedido.EstatusCancelado(int.Parse(txtIdPedido.Text));
+
+                VoltaraoNormal();
+            }
+
+        }
+
+        private void btnManterAberto_Click(object sender, EventArgs e)
+        {
+
+
+            Pedidos pedido = new(
+                int.Parse(txtIdPedido.Text),
+                "A",
+                double.Parse(txtDescontoEscritoPedido.Text)
+                );
+            pedido.Atualizar();
+            //pedido.EstatusAberto(int.Parse(txtIdPedido.Text));
+            VoltaraoNormal();
+            
+            
+        }
+
+        private void btnFinalizarPedido_Click(object sender, EventArgs e)
+        {
+            Program.VARFinalizarpedidoNovo.Id = int.Parse(txtIdPedido.Text);
+            FrmFinalizarPedido frmfinalizarpedido = new();
+            frmfinalizarpedido.ShowDialog();
+
+            Pagamentos pagamento = new();
+            pagamento = Pagamentos.ObterValorTotal(int.Parse(txtIdPedido.Text));
+            if (pagamento.Valor == double.Parse(txtValorTotalPedido.Text))
+            {
+                Pedidos pedido = new(
+                int.Parse(txtIdPedido.Text),
+                "F",
+                double.Parse(txtDescontoEscritoPedido.Text)
+                );
+                pedido.Atualizar();
+                VoltaraoNormal();
+            }
+            else
+            {
+                var message = MessageBox.Show("Houve algum erro na efetuação de pagamento");
+                Program.VARFinalizarpedidoNovo.Id = int.Parse(txtIdPedido.Text);
+                frmfinalizarpedido.ShowDialog();
+            }
+            
+
+        }
+        public void VoltaraoNormal()
+        {
+            txtDescontoEscritoPedido.Text = "0";
+            txtIdCliente.Text = "0";
+            txtCpfCliente.Clear();
+            txtNomeClientes.Clear();
+            btnBuscarCliente.Enabled = true;
+            btnAdicionaPedido.Enabled = false;
+            txtCodBarPedido.Clear();
+            txtCodBarPedido.Enabled = false;
+            nudQuantidadePedido.Enabled = false;
+            txtDescontoTotal.Text = "0";
+            txtDescontoPedido.Clear();
+            txtDescontoPedido.Enabled = false;
+            btnInserir.Enabled = false;
+            btnFinalizarPedido.Enabled = false;
+            btnManterAberto.Enabled = false;
+            btnCancelarPed.Enabled = false;
+            txtIdPedido.Text = "0";
+            CarregaGrid();
+
         }
     }
+
+    
 }

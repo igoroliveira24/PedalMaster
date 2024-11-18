@@ -29,6 +29,16 @@
         private void InitializeComponent()
         {
             dataGridView1 = new DataGridView();
+            Column1 = new DataGridViewTextBoxColumn();
+            Column2 = new DataGridViewTextBoxColumn();
+            buttonmenos = new DataGridViewButtonColumn();
+            Column4 = new DataGridViewTextBoxColumn();
+            buttonmais = new DataGridViewButtonColumn();
+            ValorUnit = new DataGridViewTextBoxColumn();
+            DescontoitemProduto = new DataGridViewTextBoxColumn();
+            precoTot = new DataGridViewTextBoxColumn();
+            Remover = new DataGridViewButtonColumn();
+            idItempedido = new DataGridViewTextBoxColumn();
             btnInserir = new Button();
             txtCodBarPedido = new TextBox();
             txtValorUnitPedido = new TextBox();
@@ -40,7 +50,6 @@
             label3 = new Label();
             label4 = new Label();
             label5 = new Label();
-            btnBuscarCodbar = new Button();
             txtFuncionarioPedido = new TextBox();
             txtNomeClientes = new TextBox();
             label6 = new Label();
@@ -54,16 +63,18 @@
             txtDescontoTotal = new TextBox();
             label10 = new Label();
             lblDescontoVarejo = new Label();
-            Column1 = new DataGridViewTextBoxColumn();
-            Column2 = new DataGridViewTextBoxColumn();
-            buttonmenos = new DataGridViewButtonColumn();
-            Column4 = new DataGridViewTextBoxColumn();
-            buttonmais = new DataGridViewButtonColumn();
-            ValorUnit = new DataGridViewTextBoxColumn();
-            DescontoitemProduto = new DataGridViewTextBoxColumn();
-            precoTot = new DataGridViewTextBoxColumn();
-            Remover = new DataGridViewButtonColumn();
-            idItempedido = new DataGridViewTextBoxColumn();
+            lblDescontoAtacado = new Label();
+            txtSubTotaPedido = new TextBox();
+            txtDescontoProdutos = new TextBox();
+            txtValorTotalPedido = new TextBox();
+            btnFinalizarPedido = new Button();
+            btnManterAberto = new Button();
+            btnCancelarPed = new Button();
+            label9 = new Label();
+            label11 = new Label();
+            label12 = new Label();
+            txtDescontoEscritoPedido = new TextBox();
+            label13 = new Label();
             ((System.ComponentModel.ISupportInitialize)dataGridView1).BeginInit();
             ((System.ComponentModel.ISupportInitialize)nudQuantidadePedido).BeginInit();
             SuspendLayout();
@@ -82,11 +93,73 @@
             dataGridView1.CellContentClick += dataGridView1_CellContentClick;
             dataGridView1.CellPainting += dataGridView1_CellPainting;
             // 
+            // Column1
+            // 
+            Column1.HeaderText = "Nº";
+            Column1.Name = "Column1";
+            Column1.Width = 50;
+            // 
+            // Column2
+            // 
+            Column2.HeaderText = "Codigo de Barras";
+            Column2.Name = "Column2";
+            Column2.Width = 150;
+            // 
+            // buttonmenos
+            // 
+            buttonmenos.HeaderText = "Menos";
+            buttonmenos.Name = "buttonmenos";
+            buttonmenos.Text = "";
+            buttonmenos.UseColumnTextForButtonValue = true;
+            buttonmenos.Width = 50;
+            // 
+            // Column4
+            // 
+            Column4.HeaderText = "Quantidade";
+            Column4.Name = "Column4";
+            // 
+            // buttonmais
+            // 
+            buttonmais.HeaderText = "Mais";
+            buttonmais.Name = "buttonmais";
+            buttonmais.Width = 50;
+            // 
+            // ValorUnit
+            // 
+            ValorUnit.HeaderText = "Valor Unitario";
+            ValorUnit.Name = "ValorUnit";
+            ValorUnit.Width = 150;
+            // 
+            // DescontoitemProduto
+            // 
+            DescontoitemProduto.HeaderText = "Desconto(%)";
+            DescontoitemProduto.Name = "DescontoitemProduto";
+            // 
+            // precoTot
+            // 
+            precoTot.HeaderText = "ValorTotal";
+            precoTot.Name = "precoTot";
+            precoTot.Width = 150;
+            // 
+            // Remover
+            // 
+            Remover.HeaderText = "Remover";
+            Remover.Name = "Remover";
+            Remover.Resizable = DataGridViewTriState.True;
+            Remover.SortMode = DataGridViewColumnSortMode.Automatic;
+            Remover.Width = 75;
+            // 
+            // idItempedido
+            // 
+            idItempedido.HeaderText = "idItemPedido";
+            idItempedido.Name = "idItempedido";
+            idItempedido.Visible = false;
+            // 
             // btnInserir
             // 
             btnInserir.BackgroundImageLayout = ImageLayout.None;
             btnInserir.Enabled = false;
-            btnInserir.Location = new Point(712, 291);
+            btnInserir.Location = new Point(643, 290);
             btnInserir.Name = "btnInserir";
             btnInserir.Size = new Size(75, 23);
             btnInserir.TabIndex = 3;
@@ -107,7 +180,7 @@
             // txtValorUnitPedido
             // 
             txtValorUnitPedido.Enabled = false;
-            txtValorUnitPedido.Location = new Point(251, 290);
+            txtValorUnitPedido.Location = new Point(182, 289);
             txtValorUnitPedido.Name = "txtValorUnitPedido";
             txtValorUnitPedido.ReadOnly = true;
             txtValorUnitPedido.Size = new Size(100, 23);
@@ -116,7 +189,7 @@
             // txtValorTotPedido
             // 
             txtValorTotPedido.Enabled = false;
-            txtValorTotPedido.Location = new Point(372, 290);
+            txtValorTotPedido.Location = new Point(303, 289);
             txtValorTotPedido.Name = "txtValorTotPedido";
             txtValorTotPedido.ReadOnly = true;
             txtValorTotPedido.Size = new Size(100, 23);
@@ -125,7 +198,7 @@
             // nudQuantidadePedido
             // 
             nudQuantidadePedido.Enabled = false;
-            nudQuantidadePedido.Location = new Point(499, 291);
+            nudQuantidadePedido.Location = new Point(430, 290);
             nudQuantidadePedido.Name = "nudQuantidadePedido";
             nudQuantidadePedido.Size = new Size(78, 23);
             nudQuantidadePedido.TabIndex = 7;
@@ -134,10 +207,11 @@
             // txtDescontoPedido
             // 
             txtDescontoPedido.Enabled = false;
-            txtDescontoPedido.Location = new Point(595, 290);
+            txtDescontoPedido.Location = new Point(526, 289);
             txtDescontoPedido.Name = "txtDescontoPedido";
             txtDescontoPedido.Size = new Size(100, 23);
             txtDescontoPedido.TabIndex = 8;
+            txtDescontoPedido.Text = "0";
             txtDescontoPedido.TextChanged += txtDescontoPedido_TextChanged;
             txtDescontoPedido.KeyPress += txtDescontoPedido_KeyPress;
             // 
@@ -153,7 +227,7 @@
             // label2
             // 
             label2.AutoSize = true;
-            label2.Location = new Point(251, 262);
+            label2.Location = new Point(182, 261);
             label2.Name = "label2";
             label2.Size = new Size(78, 15);
             label2.TabIndex = 10;
@@ -162,7 +236,7 @@
             // label3
             // 
             label3.AutoSize = true;
-            label3.Location = new Point(372, 262);
+            label3.Location = new Point(303, 261);
             label3.Name = "label3";
             label3.Size = new Size(61, 15);
             label3.TabIndex = 11;
@@ -171,7 +245,7 @@
             // label4
             // 
             label4.AutoSize = true;
-            label4.Location = new Point(499, 262);
+            label4.Location = new Point(430, 261);
             label4.Name = "label4";
             label4.Size = new Size(69, 15);
             label4.TabIndex = 12;
@@ -180,22 +254,11 @@
             // label5
             // 
             label5.AutoSize = true;
-            label5.Location = new Point(595, 272);
+            label5.Location = new Point(526, 271);
             label5.Name = "label5";
             label5.Size = new Size(57, 15);
             label5.TabIndex = 13;
             label5.Text = "Desconto";
-            // 
-            // btnBuscarCodbar
-            // 
-            btnBuscarCodbar.Enabled = false;
-            btnBuscarCodbar.Location = new Point(161, 291);
-            btnBuscarCodbar.Name = "btnBuscarCodbar";
-            btnBuscarCodbar.Size = new Size(74, 23);
-            btnBuscarCodbar.TabIndex = 14;
-            btnBuscarCodbar.Text = "Buscar";
-            btnBuscarCodbar.UseVisualStyleBackColor = true;
-            btnBuscarCodbar.Click += btnBuscarCodbar_Click;
             // 
             // txtFuncionarioPedido
             // 
@@ -301,7 +364,7 @@
             // 
             // txtDescontoTotal
             // 
-            txtDescontoTotal.Location = new Point(595, 246);
+            txtDescontoTotal.Location = new Point(526, 245);
             txtDescontoTotal.Name = "txtDescontoTotal";
             txtDescontoTotal.ReadOnly = true;
             txtDescontoTotal.Size = new Size(100, 23);
@@ -310,7 +373,7 @@
             // label10
             // 
             label10.AutoSize = true;
-            label10.Location = new Point(595, 226);
+            label10.Location = new Point(526, 225);
             label10.Name = "label10";
             label10.Size = new Size(85, 15);
             label10.TabIndex = 29;
@@ -320,78 +383,159 @@
             // 
             lblDescontoVarejo.AutoSize = true;
             lblDescontoVarejo.ForeColor = Color.Red;
-            lblDescontoVarejo.Location = new Point(701, 249);
+            lblDescontoVarejo.Location = new Point(632, 248);
             lblDescontoVarejo.Name = "lblDescontoVarejo";
             lblDescontoVarejo.Size = new Size(0, 15);
             lblDescontoVarejo.TabIndex = 30;
             // 
-            // Column1
+            // lblDescontoAtacado
             // 
-            Column1.HeaderText = "Nº";
-            Column1.Name = "Column1";
-            Column1.Width = 50;
+            lblDescontoAtacado.AutoSize = true;
+            lblDescontoAtacado.ForeColor = Color.Red;
+            lblDescontoAtacado.Location = new Point(643, 248);
+            lblDescontoAtacado.Name = "lblDescontoAtacado";
+            lblDescontoAtacado.Size = new Size(0, 15);
+            lblDescontoAtacado.TabIndex = 31;
             // 
-            // Column2
+            // txtSubTotaPedido
             // 
-            Column2.HeaderText = "Codigo de Barras";
-            Column2.Name = "Column2";
-            Column2.Width = 150;
+            txtSubTotaPedido.Font = new Font("Segoe UI", 24F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            txtSubTotaPedido.Location = new Point(985, 29);
+            txtSubTotaPedido.Name = "txtSubTotaPedido";
+            txtSubTotaPedido.ReadOnly = true;
+            txtSubTotaPedido.Size = new Size(323, 50);
+            txtSubTotaPedido.TabIndex = 32;
+            txtSubTotaPedido.Text = "0";
             // 
-            // buttonmenos
+            // txtDescontoProdutos
             // 
-            buttonmenos.HeaderText = "Menos";
-            buttonmenos.Name = "buttonmenos";
-            buttonmenos.Text = "";
-            buttonmenos.UseColumnTextForButtonValue = true;
-            buttonmenos.Width = 50;
+            txtDescontoProdutos.Font = new Font("Segoe UI", 24F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            txtDescontoProdutos.Location = new Point(985, 130);
+            txtDescontoProdutos.Name = "txtDescontoProdutos";
+            txtDescontoProdutos.ReadOnly = true;
+            txtDescontoProdutos.Size = new Size(323, 50);
+            txtDescontoProdutos.TabIndex = 33;
+            txtDescontoProdutos.Text = "0";
             // 
-            // Column4
+            // txtValorTotalPedido
             // 
-            Column4.HeaderText = "Quantidade";
-            Column4.Name = "Column4";
+            txtValorTotalPedido.Font = new Font("Segoe UI", 24F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            txtValorTotalPedido.Location = new Point(985, 329);
+            txtValorTotalPedido.Name = "txtValorTotalPedido";
+            txtValorTotalPedido.ReadOnly = true;
+            txtValorTotalPedido.Size = new Size(323, 50);
+            txtValorTotalPedido.TabIndex = 34;
+            txtValorTotalPedido.Text = "0";
+            txtValorTotalPedido.TextChanged += txtValorTotalPedido_TextChanged;
             // 
-            // buttonmais
+            // btnFinalizarPedido
             // 
-            buttonmais.HeaderText = "Mais";
-            buttonmais.Name = "buttonmais";
-            buttonmais.Width = 50;
+            btnFinalizarPedido.BackColor = Color.GreenYellow;
+            btnFinalizarPedido.Enabled = false;
+            btnFinalizarPedido.Font = new Font("Segoe UI", 15.75F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            btnFinalizarPedido.Location = new Point(985, 403);
+            btnFinalizarPedido.Name = "btnFinalizarPedido";
+            btnFinalizarPedido.Size = new Size(323, 50);
+            btnFinalizarPedido.TabIndex = 35;
+            btnFinalizarPedido.Text = "Finalizar Pedido";
+            btnFinalizarPedido.UseVisualStyleBackColor = false;
+            btnFinalizarPedido.Click += btnFinalizarPedido_Click;
             // 
-            // ValorUnit
+            // btnManterAberto
             // 
-            ValorUnit.HeaderText = "Valor Unitario";
-            ValorUnit.Name = "ValorUnit";
-            ValorUnit.Width = 150;
+            btnManterAberto.BackColor = Color.OrangeRed;
+            btnManterAberto.Enabled = false;
+            btnManterAberto.Font = new Font("Segoe UI", 15.75F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            btnManterAberto.Location = new Point(985, 475);
+            btnManterAberto.Name = "btnManterAberto";
+            btnManterAberto.Size = new Size(323, 50);
+            btnManterAberto.TabIndex = 36;
+            btnManterAberto.Text = "Manter Pedido Aberto";
+            btnManterAberto.UseVisualStyleBackColor = false;
+            btnManterAberto.Click += btnManterAberto_Click;
             // 
-            // DescontoitemProduto
+            // btnCancelarPed
             // 
-            DescontoitemProduto.HeaderText = "Desconto(%)";
-            DescontoitemProduto.Name = "DescontoitemProduto";
+            btnCancelarPed.BackColor = Color.Red;
+            btnCancelarPed.Enabled = false;
+            btnCancelarPed.Font = new Font("Segoe UI", 15.75F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            btnCancelarPed.ForeColor = Color.White;
+            btnCancelarPed.Location = new Point(985, 549);
+            btnCancelarPed.Name = "btnCancelarPed";
+            btnCancelarPed.Size = new Size(323, 50);
+            btnCancelarPed.TabIndex = 37;
+            btnCancelarPed.Text = "Cancelar Pedido";
+            btnCancelarPed.UseVisualStyleBackColor = false;
+            btnCancelarPed.Click += btnCancelarPed_Click;
             // 
-            // precoTot
+            // label9
             // 
-            precoTot.HeaderText = "ValorTotal";
-            precoTot.Name = "precoTot";
-            precoTot.Width = 150;
+            label9.AutoSize = true;
+            label9.Font = new Font("Segoe UI", 15.75F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            label9.Location = new Point(985, 5);
+            label9.Name = "label9";
+            label9.Size = new Size(128, 30);
+            label9.TabIndex = 38;
+            label9.Text = "Valor Pedido";
             // 
-            // Remover
+            // label11
             // 
-            Remover.HeaderText = "Remover";
-            Remover.Name = "Remover";
-            Remover.Resizable = DataGridViewTriState.True;
-            Remover.SortMode = DataGridViewColumnSortMode.Automatic;
-            Remover.Width = 75;
+            label11.AutoSize = true;
+            label11.Font = new Font("Segoe UI", 15.75F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            label11.Location = new Point(985, 108);
+            label11.Name = "label11";
+            label11.Size = new Size(294, 30);
+            label11.TabIndex = 39;
+            label11.Text = "Desconto dos Produtos em R$";
             // 
-            // idItempedido
+            // label12
             // 
-            idItempedido.HeaderText = "idItemPedido";
-            idItempedido.Name = "idItempedido";
-            idItempedido.Visible = false;
+            label12.AutoSize = true;
+            label12.Font = new Font("Segoe UI", 15.75F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            label12.Location = new Point(985, 309);
+            label12.Name = "label12";
+            label12.Size = new Size(109, 30);
+            label12.TabIndex = 40;
+            label12.Text = "Valor Total";
+            // 
+            // txtDescontoEscritoPedido
+            // 
+            txtDescontoEscritoPedido.Font = new Font("Segoe UI", 24F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            txtDescontoEscritoPedido.Location = new Point(985, 224);
+            txtDescontoEscritoPedido.Name = "txtDescontoEscritoPedido";
+            txtDescontoEscritoPedido.Size = new Size(323, 50);
+            txtDescontoEscritoPedido.TabIndex = 41;
+            txtDescontoEscritoPedido.Text = "0";
+            txtDescontoEscritoPedido.TextChanged += textBox1_TextChanged_2;
+            // 
+            // label13
+            // 
+            label13.AutoSize = true;
+            label13.Font = new Font("Segoe UI", 15.75F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            label13.Location = new Point(985, 200);
+            label13.Name = "label13";
+            label13.Size = new Size(265, 30);
+            label13.TabIndex = 42;
+            label13.Text = "Desconto do Pedido em R$";
             // 
             // FrmPedidoNovo
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
             ClientSize = new Size(1370, 749);
+            ControlBox = false;
+            Controls.Add(label13);
+            Controls.Add(txtDescontoEscritoPedido);
+            Controls.Add(label12);
+            Controls.Add(label11);
+            Controls.Add(label9);
+            Controls.Add(btnCancelarPed);
+            Controls.Add(btnManterAberto);
+            Controls.Add(btnFinalizarPedido);
+            Controls.Add(txtValorTotalPedido);
+            Controls.Add(txtDescontoProdutos);
+            Controls.Add(txtSubTotaPedido);
+            Controls.Add(lblDescontoAtacado);
             Controls.Add(lblDescontoVarejo);
             Controls.Add(label10);
             Controls.Add(txtDescontoTotal);
@@ -405,7 +549,6 @@
             Controls.Add(label6);
             Controls.Add(txtNomeClientes);
             Controls.Add(txtFuncionarioPedido);
-            Controls.Add(btnBuscarCodbar);
             Controls.Add(label5);
             Controls.Add(label4);
             Controls.Add(label3);
@@ -442,7 +585,6 @@
         private Label label3;
         private Label label4;
         private Label label5;
-        private Button btnBuscarCodbar;
         private DataGridViewTextBoxColumn Column1;
         private DataGridViewTextBoxColumn Column2;
         private DataGridViewButtonColumn buttonmenos;
@@ -466,5 +608,17 @@
         private Label label10;
         private Label lblDescontoVarejo;
         private DataGridViewTextBoxColumn idItempedido;
+        private Label lblDescontoAtacado;
+        private TextBox txtSubTotaPedido;
+        private TextBox txtDescontoProdutos;
+        private TextBox txtValorTotalPedido;
+        private Button btnFinalizarPedido;
+        private Button btnManterAberto;
+        private Button btnCancelarPed;
+        private Label label9;
+        private Label label11;
+        private Label label12;
+        private TextBox txtDescontoEscritoPedido;
+        private Label label13;
     }
 }
