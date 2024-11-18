@@ -137,7 +137,7 @@ namespace PedalMasterLib
         public void Inserir()
         {
             var cmd = Banco.Abrir();
-            cmd.CommandText = $"INSERT INTO pagamentos(Valor,Parcelas,fk_idPagamnetos_Pedidos,tipoPagamento) VALUES({Valor}, '{Parcelas}', {IdPedidos}, '{Tipo}')";
+            cmd.CommandText = $"INSERT INTO pagamentos(Valor,Parcelas,fk_idPagamnetos_Pedidos,tipoPagamento) VALUES({Valor}, '{Parcelas}', {IdPedidos.Id}, '{Tipo}')";
             cmd.ExecuteNonQuery();
             cmd.Connection.Close();
         }
