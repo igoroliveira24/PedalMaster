@@ -44,6 +44,13 @@ namespace PedalMasterLib
             IdCliente = idCliente;
         }
 
+        public Pedidos(int id, string? estatus, double desconto)
+        {
+            Id = id;
+            Estatus = estatus;
+            Desconto = desconto;
+        }
+
         public static Pedidos ObterPorId(int id)
         {
             Pedidos pedidos = new();
@@ -184,7 +191,7 @@ namespace PedalMasterLib
             cmd.Connection.Close();
         }
 
-        public static void EstatusFechado(int id)
+        public void EstatusFechado(int id)
         {
             var cmd = Banco.Abrir();
             cmd.CommandType = CommandType.Text;
@@ -193,11 +200,20 @@ namespace PedalMasterLib
             cmd.Connection.Close();
         }
 
-        public static void EstatusAberto(int id)
+        public void EstatusAberto(int id)
         {
             var cmd = Banco.Abrir();
             cmd.CommandType = CommandType.Text;
             cmd.CommandText = $"update pedidos set Estatus = 'A' where pk_idPedidos = {id}";
+            cmd.ExecuteNonQuery();
+            cmd.Connection.Close();
+
+        }
+
+        public void EstatusCancelado(int id)
+        {
+            var cmd = Banco.Abrir();
+            cmd.CommandText = $"update pedidos set Estatus = 'C' where pk_idPedidos = {id}";
             cmd.ExecuteNonQuery();
             cmd.Connection.Close();
 

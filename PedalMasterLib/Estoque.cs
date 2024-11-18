@@ -242,7 +242,7 @@ namespace SysPecNSLib
         {
             Estoque quantidade = new();
             var cmd = Banco.Abrir();
-            cmd.CommandText = $"select quantidade from estoques where fk_Estoque_Produto = {id} ";
+            cmd.CommandText = $"select QuantidadeEstoque from estoque where fk_Estoque_Produto = {id} and Cor = ''";
             var dr = cmd.ExecuteReader();
             while (dr.Read())
             {

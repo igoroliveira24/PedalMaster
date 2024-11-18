@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Mysqlx.Crud;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -12,6 +13,7 @@ namespace PedalMasterLib
 
         public int Id { get; set; }
         public double Valor { get; set; }
+        public string Parcelas { get; set; }
         public Pedidos IdPedidos { get; set; }
         public string? Tipo { get; set; }
 
@@ -35,6 +37,29 @@ namespace PedalMasterLib
             Tipo = tipo;
         }
 
+        public Pagamentos(double valor)
+        {
+            Valor = valor;
+        }
+
+        public Pagamentos(double valor, string parcelas, Pedidos idPedidos, string? tipo)
+        {
+
+            Valor = valor;
+            Parcelas = parcelas;
+            IdPedidos = idPedidos;
+            Tipo = tipo;
+        }
+
+        public Pagamentos(int id, double valor, string parcelas, Pedidos idPedidos, string? tipo)
+        {
+            Id = id;
+            Valor = valor;
+            Parcelas = parcelas;
+            IdPedidos = idPedidos;
+            Tipo = tipo;
+        }
+
         public static Pagamentos ObterPorId(int id)
         {
             Pagamentos pagamentos = new();
@@ -48,6 +73,22 @@ namespace PedalMasterLib
                     dr.GetDouble(1),
                     Pedidos.ObterPorId(dr.GetInt32(2)),
                     dr.GetString(3)
+                    );
+            }
+
+            return pagamentos;
+        }
+
+        public static Pagamentos ObterValorTotal(int id)
+        {
+            Pagamentos pagamentos = new();
+            var cmd = Banco.Abrir();
+            cmd.CommandText = $"select SUM(Valor) from pagamentos where pk_idPagamentos = {id}";
+            var dr = cmd.ExecuteReader();
+            while (dr.Read())
+            {
+                pagamentos = new(
+                    dr.GetDouble(0)
                     );
             }
 
@@ -73,19 +114,31 @@ namespace PedalMasterLib
             return pagamentos;
         }
 
-        public void Inserir()
+        public static List<Pagamentos> ObterListaPagamentosPorPedido(int id)
         {
+            List<Pagamentos> pagamentos = new();
             var cmd = Banco.Abrir();
-            cmd.CommandText = "INSERT INTO pagamentos(Valor,fk_idPagamnetos_Pedidos,tipoPagamento) " +
-                "VALUES(" +
-                $"(SELECT SUM((Valor - Desconto) * Quantidade - (select Desconto from pedidos where pk_idItensPedidos = {IdPedidos})) as Soma FROM itenspedidos WHERE fk_idItensPedidos_Pedidos = {IdPedidos});," +
-                $"{IdPedidos}," +
-                $"'{Tipo}')";
+            cmd.CommandText = $"select * from pagamentos where fk_idPagamnetos_Pedidos = {id}";
             var dr = cmd.ExecuteReader();
             while (dr.Read())
             {
-                Id = dr.GetInt32(0);
+                pagamentos.Add(new(
+                    dr.GetInt32(0),
+                    dr.GetDouble(1),
+                    dr.GetString(2),
+                    Pedidos.ObterPorId(dr.GetInt32(3)),
+                    dr.GetString(4)
+                    ));
             }
+
+            return pagamentos;
+        }
+
+        public void Inserir()
+        {
+            var cmd = Banco.Abrir();
+            cmd.CommandText = $"INSERT INTO pagamentos(Valor,Parcelas,fk_idPagamnetos_Pedidos,tipoPagamento) VALUES({Valor}, '{Parcelas}', {IdPedidos}, '{Tipo}')";
+            cmd.ExecuteNonQuery();
             cmd.Connection.Close();
         }
 

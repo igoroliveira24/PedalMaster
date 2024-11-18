@@ -21,10 +21,11 @@ namespace PedalMasterLib
 
         }
 
-        public ItemPedido(int id, int quantidade)
+        public ItemPedido(int id, int quantidade, double desconto)
         {
             Id = id;
             Quantidade = quantidade;
+            Desconto = desconto;
         }
 
         public ItemPedido(Pedidos idPedido, Produto produto, double desconto, double valorUnit, int quantidade)
@@ -53,6 +54,11 @@ namespace PedalMasterLib
             IdPedido = idPedido;
             Quantidade = quantidade;
             Desconto = desconto;
+        }
+
+        public ItemPedido(double valorUnit)
+        {
+            ValorUnit = valorUnit;
         }
 
         // sp_itempedido_insert`(sppedido_id int, spproduto_id int, spquantidade decimal (10,2), spdesconto decimal(10,2))
@@ -94,6 +100,24 @@ namespace PedalMasterLib
 
         }
 
+        public static ItemPedido ObterValorTotal(int id)
+        {
+            ItemPedido itens = new();
+            var cmd = Banco.Abrir();
+            cmd.CommandText = $"select SUM((Valor * Quantidade) * (1 - Desconto / 100)) from itenspedidos where fk_idItensPedidos_Pedidos = {id}";
+            var dr = cmd.ExecuteReader();
+            while (dr.Read())
+            {
+                itens =
+                    new(
+                        dr.GetDouble(0)
+                    );
+            }
+            cmd.Connection.Close();
+            return itens;
+
+        }
+
         public static List<ItemPedido> ObterListaPorPedido(int id)
         {
             List<ItemPedido> itens = new();
@@ -125,6 +149,7 @@ namespace PedalMasterLib
             cmd.CommandText = "sp_Update_ItensPedido";
             cmd.Parameters.AddWithValue("spid", Id);
             cmd.Parameters.AddWithValue("spquantidade", Quantidade);
+            cmd.Parameters.AddWithValue("spdesconto", Desconto);
             cmd.ExecuteNonQuery();
             cmd.Connection.Close();
 
@@ -136,6 +161,15 @@ namespace PedalMasterLib
 
             var cmd = Banco.Abrir();
             cmd.CommandText = $"update itenspedidos set Desconto = {desconto} where pk_idItensPedidos = {id};";
+            cmd.ExecuteNonQuery();
+            cmd.Connection.Close();
+
+        }
+
+        public void Deletar(int id)
+        {
+            var cmd = Banco.Abrir();
+            cmd.CommandText = $"delete from itenspedidos where pk_idItensPedidos = {id}";
             cmd.ExecuteNonQuery();
             cmd.Connection.Close();
 
