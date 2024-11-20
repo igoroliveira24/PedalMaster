@@ -24,7 +24,7 @@ namespace PedalMasterLib
         /// <returns>Entrega um objeto de comandos SQL, que serão executados na conexão informada</returns>
         public static MySqlCommand Abrir()
         {
-            string strconn = @"server=localhost;database=pedalteste;user=root;password=;convert zero datetime=true;";
+            string strconn = @"server=localhost;database=pedalmaster;user=root;password=;convert zero datetime=true;";
             MySqlConnection cn = new MySqlConnection(strconn);
             MySqlCommand cmd = new MySqlCommand();
             try

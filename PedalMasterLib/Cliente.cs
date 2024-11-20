@@ -156,5 +156,21 @@ namespace PedalMasterLib
 
         }
 
+        public void ObrterPorCPF(string Cpf)
+        {
+            Cliente cliente = new();
+            var cmd = Banco.Abrir();
+            cmd.CommandText = $"select * from clientes where CPF = {Cpf}";
+            var dr = cmd.ExecuteReader();
+            while (dr.Read())
+            {
+
+                Id = dr.GetInt32(0);
+
+            }
+            cmd.Connection.Close();
+
+        }
+
     }
 }

@@ -2,7 +2,9 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Runtime.ConstrainedExecution;
 using System.Text;
+using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 
 namespace PedalMasterLib
@@ -83,7 +85,7 @@ namespace PedalMasterLib
         {
             Pagamentos pagamentos = new();
             var cmd = Banco.Abrir();
-            cmd.CommandText = $"select SUM(Valor) from pagamentos where pk_idPagamentos = {id}";
+            cmd.CommandText = $"select SUM(valor) from pagamentos where fk_idPagamnetos_Pedidos = {id}";
             var dr = cmd.ExecuteReader();
             while (dr.Read())
             {
@@ -137,8 +139,17 @@ namespace PedalMasterLib
         public void Inserir()
         {
             var cmd = Banco.Abrir();
-            cmd.CommandText = $"INSERT INTO pagamentos(Valor,Parcelas,fk_idPagamnetos_Pedidos,tipoPagamento) VALUES({Valor}, '{Parcelas}', {IdPedidos.Id}, '{Tipo}')";
-            cmd.ExecuteNonQuery();
+            cmd.CommandType = System.Data.CommandType.StoredProcedure;
+            cmd.CommandText = "spInsert_Pagamentos";
+            cmd.Parameters.AddWithValue("spvalor", Valor);
+            cmd.Parameters.AddWithValue("spParcelas", Parcelas);
+            cmd.Parameters.AddWithValue("spfk_idPagamnetos_Pedidos", IdPedidos.Id);
+            cmd.Parameters.AddWithValue("tipoPagamento", Tipo);
+            var dr = cmd.ExecuteReader();
+            while (dr.Read())
+            {
+                Id = dr.GetInt32(0);
+            }
             cmd.Connection.Close();
         }
 

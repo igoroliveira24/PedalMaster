@@ -1,4 +1,5 @@
-﻿using System.Data;
+﻿using SysPecNSLib;
+using System.Data;
 
 namespace PedalMasterLib
 {
@@ -77,6 +78,67 @@ namespace PedalMasterLib
             List<Pedidos> pedidos = new();
             var cmd = Banco.Abrir();
             cmd.CommandText = "select * from pedidos";
+            var dr = cmd.ExecuteReader();
+            while (dr.Read())
+            {
+                pedidos.Add(new(
+                    dr.GetInt32(0),
+                    dr.GetString(1),
+                    dr.GetDouble(2),
+                    dr.GetDateTime(3),
+                    Funcionarios.ObrterPorID(dr.GetInt32(4)),
+                    Cliente.ObterId(dr.GetInt32(5))
+                    ));
+            }
+            cmd.Connection.Close();
+            return pedidos;
+        }
+
+        public static List<Pedidos> ObterListaEmAberto()
+        {
+            List<Pedidos> pedidos = new();
+            var cmd = Banco.Abrir();
+            cmd.CommandText = "select * from pedidos where Estatus = 'A'";
+            var dr = cmd.ExecuteReader();
+            while (dr.Read())
+            {
+                pedidos.Add(new(
+                    dr.GetInt32(0),
+                    dr.GetString(1),
+                    dr.GetDouble(2),
+                    dr.GetDateTime(3),
+                    Funcionarios.ObrterPorID(dr.GetInt32(4)),
+                    Cliente.ObterId(dr.GetInt32(5))
+                    ));
+            }
+            cmd.Connection.Close();
+            return pedidos;
+        }
+        public static List<Pedidos> ObterListaFechado()
+        {
+            List<Pedidos> pedidos = new();
+            var cmd = Banco.Abrir();
+            cmd.CommandText = "select * from pedidos where Estatus = 'F'";
+            var dr = cmd.ExecuteReader();
+            while (dr.Read())
+            {
+                pedidos.Add(new(
+                    dr.GetInt32(0),
+                    dr.GetString(1),
+                    dr.GetDouble(2),
+                    dr.GetDateTime(3),
+                    Funcionarios.ObrterPorID(dr.GetInt32(4)),
+                    Cliente.ObterId(dr.GetInt32(5))
+                    ));
+            }
+            cmd.Connection.Close();
+            return pedidos;
+        }
+        public static List<Pedidos> ObterListaCancelado()
+        {
+            List<Pedidos> pedidos = new();
+            var cmd = Banco.Abrir();
+            cmd.CommandText = "select * from pedidos where Estatus = 'C'";
             var dr = cmd.ExecuteReader();
             while (dr.Read())
             {
@@ -218,5 +280,7 @@ namespace PedalMasterLib
             cmd.Connection.Close();
 
         }
+
+        
     }
 }
