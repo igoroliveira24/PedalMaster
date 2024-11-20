@@ -78,35 +78,67 @@ namespace PedalMasterDesk
                         }
                         else
                         {
-                            cliente.Inserir();
+                            if (VerificacaoEmails(txtEmailCliente.Text))
+                            {
+                                if (VerificacaoCPF(mskCPFCliente.Text))
+                                {
+
+                                    if (ValidaCpf.Validar(mskCPFCliente.Text))
+                                    {
+                                        cliente.Inserir();
 
 
 
-                            Telefone telefone = new(
-                                mskTelefoneCliente.Text,
-                                "Celular",
-                                Cliente.ObterId(Convert.ToInt32(cliente.Id))
-                                );
+                                        Telefone telefone = new(
+                                            mskTelefoneCliente.Text,
+                                            "Celular",
+                                            Cliente.ObterId(Convert.ToInt32(cliente.Id))
+                                            );
 
-                            Email email = new(
-                                txtEmailCliente.Text,
-                                Cliente.ObterId(Convert.ToInt32(cliente.Id))
-                                );
+                                        Email email = new(
+                                            txtEmailCliente.Text,
+                                            Cliente.ObterId(Convert.ToInt32(cliente.Id))
+                                            );
 
-                            Endereco endereco = new(
-                                txtLogradouroClientes.Text,
-                                txtNumeroClientes.Text,
-                                txtBairroClientes.Text,
-                                txtCidadeClientes.Text,
-                                txtUFClientes.Text,
-                                txtComplementoClientes.Text,
-                                mskCEPCliente.Text,
-                                Cliente.ObterId(cliente.Id)
-                                );
+                                        Endereco endereco = new(
+                                            txtLogradouroClientes.Text,
+                                            txtNumeroClientes.Text,
+                                            txtBairroClientes.Text,
+                                            txtCidadeClientes.Text,
+                                            txtUFClientes.Text,
+                                            txtComplementoClientes.Text,
+                                            mskCEPCliente.Text,
+                                            Cliente.ObterId(cliente.Id)
+                                            );
 
-                            email.InserirEmailClientes();
-                            telefone.InserirTelefoneClientes();
-                            endereco.InserirEnderecosEmClientes();
+                                        email.InserirEmailClientes();
+                                        telefone.InserirTelefoneClientes();
+                                        endereco.InserirEnderecosEmClientes();
+
+                                        MessageBox.Show("Cliente Cadastrado com SUCESSO!!!");
+                                        Apagatudo();
+
+                                    }
+                                    else
+                                    {
+                                        MessageBox.Show("O Cpf digitado é invalido ou inexistente");
+                                        mskCPFCliente.Clear();
+                                        mskCPFCliente.Focus();
+                                    }
+                                }
+                                else
+                                {
+                                    MessageBox.Show("O Cpf ja está sendo utilizado por outro cliente");
+                                    mskCPFCliente.Clear();
+                                    mskCPFCliente.Focus();
+                                }
+                            }
+                            else
+                            {
+                                MessageBox.Show("O Email ja está sendo utilizado por outro cliente");
+                                txtEmailCliente.Clear();
+                                txtEmailCliente.Focus();
+                            }
                         }
                     }
                     else
@@ -117,35 +149,66 @@ namespace PedalMasterDesk
                         }
                         else
                         {
-                            cliente.Inserir();
+                            if (VerificacaoEmails(txtEmailCliente.Text))
+                            {
+                                if (VerificacaoCPF(mskCPFCliente.Text))
+                                {
 
-                            var id = cliente.Id;
+                                    if (ValidaCpf.Validar(mskCPFCliente.Text))
+                                    {
+                                        cliente.Inserir();
 
-                            Telefone telefone = new(
-                                mskTelefoneCliente.Text,
-                                "Celular",
-                                Cliente.ObterId(id)
-                                );
+                                        var id = cliente.Id;
 
-                            Email email = new(
-                                txtEmailCliente.Text,
-                                Cliente.ObterId(id)
-                                );
+                                        Telefone telefone = new(
+                                            mskTelefoneCliente.Text,
+                                            "Celular",
+                                            Cliente.ObterId(id)
+                                            );
 
-                            Endereco endereco = new(
-                                txtLogradouroClientes.Text,
-                                txtNumeroClientes.Text,
-                                txtBairroClientes.Text,
-                                txtCidadeClientes.Text,
-                                txtUFClientes.Text,
-                                txtComplementoClientes.Text,
-                                mskCEPCliente.Text,
-                                Cliente.ObterId(id)
-                                );
+                                        Email email = new(
+                                            txtEmailCliente.Text,
+                                            Cliente.ObterId(id)
+                                            );
 
-                            email.InserirEmailClientes();
-                            telefone.InserirTelefoneClientes();
-                            endereco.InserirEnderecosEmClientes();
+                                        Endereco endereco = new(
+                                            txtLogradouroClientes.Text,
+                                            txtNumeroClientes.Text,
+                                            txtBairroClientes.Text,
+                                            txtCidadeClientes.Text,
+                                            txtUFClientes.Text,
+                                            txtComplementoClientes.Text,
+                                            mskCEPCliente.Text,
+                                            Cliente.ObterId(id)
+                                            );
+
+                                        email.InserirEmailClientes();
+                                        telefone.InserirTelefoneClientes();
+                                        endereco.InserirEnderecosEmClientes();
+
+                                        MessageBox.Show("Cliente Cadastrado com SUCESSO!!!");
+                                        Apagatudo();
+                                    }
+                                    else
+                                    {
+                                        MessageBox.Show("O Cpf digitado é invalido ou inexistente");
+                                        mskCPFCliente.Clear();
+                                        mskCPFCliente.Focus();
+                                    }
+                                }
+                                else
+                                {
+                                    MessageBox.Show("O Cpf ja está sendo utilizado por outro cliente");
+                                    mskCPFCliente.Clear();
+                                    mskCPFCliente.Focus();
+                                }
+                            }
+                            else
+                            {
+                                MessageBox.Show("O Email ja está sendo utilizado por outro cliente");
+                                txtEmailCliente.Clear();
+                                txtEmailCliente.Focus();
+                            }
                         }
                     }
                 }
@@ -206,6 +269,66 @@ namespace PedalMasterDesk
         private void dataGridView1_CellContentClick(object sender, DataGridViewCellEventArgs e)
         {
 
+        }
+
+        private void mskCEPCliente_KeyPress(object sender, KeyPressEventArgs e)
+        {
+            if (e.KeyChar == (char)13)
+            {
+                WebCEP webcep = new(mskCEPCliente.Text);
+                txtBairroClientes.Text = webcep.Bairro;
+                txtCidadeClientes.Text = webcep.Cidade;
+                txtLogradouroClientes.Text = webcep.Lagradouro;
+                txtUFClientes.Text = webcep.UF;
+            }
+        }
+
+        private bool VerificacaoEmails(string emailescrito)
+        {
+            Email email = new();
+            email.ObterPorEmail(emailescrito);
+
+            if (email.Id > 0)
+            {
+                return false;
+            }
+            return true;
+
+
+
+
+
+        }
+
+        private bool VerificacaoCPF(string CPF)
+        {
+            Cliente cliente = new();
+            cliente.ObrterPorCPF(CPF);
+            if (cliente.Id > 0)
+            {
+                return false;
+            }
+
+            return true;
+
+
+
+
+        }
+
+        public void Apagatudo()
+        {
+            txtBairroClientes.Clear();
+            txtCidadeClientes.Clear();
+            txtComplementoClientes.Clear();
+            txtEmailCliente.Clear();
+            txtLogradouroClientes.Clear();
+            txtNomeCliente.Clear();
+            txtNumeroClientes.Clear();
+            txtUFClientes.Clear();
+            mskCEPCliente.Clear();
+            mskCPFCliente.Clear();
+            mskTelefoneCliente.Clear();
         }
     }
 }

@@ -195,11 +195,13 @@
             mskCEPCliente.Name = "mskCEPCliente";
             mskCEPCliente.Size = new Size(62, 23);
             mskCEPCliente.TabIndex = 31;
+            mskCEPCliente.KeyPress += mskCEPCliente_KeyPress;
             // 
             // txtLogradouroClientes
             // 
             txtLogradouroClientes.Location = new Point(113, 236);
             txtLogradouroClientes.Name = "txtLogradouroClientes";
+            txtLogradouroClientes.ReadOnly = true;
             txtLogradouroClientes.Size = new Size(100, 23);
             txtLogradouroClientes.TabIndex = 32;
             // 
@@ -215,6 +217,7 @@
             // 
             txtBairroClientes.Location = new Point(359, 236);
             txtBairroClientes.Name = "txtBairroClientes";
+            txtBairroClientes.ReadOnly = true;
             txtBairroClientes.Size = new Size(100, 23);
             txtBairroClientes.TabIndex = 34;
             // 
@@ -229,6 +232,7 @@
             // 
             txtCidadeClientes.Location = new Point(24, 314);
             txtCidadeClientes.Name = "txtCidadeClientes";
+            txtCidadeClientes.ReadOnly = true;
             txtCidadeClientes.Size = new Size(100, 23);
             txtCidadeClientes.TabIndex = 36;
             // 
@@ -236,6 +240,7 @@
             // 
             txtUFClientes.Location = new Point(147, 314);
             txtUFClientes.Name = "txtUFClientes";
+            txtUFClientes.ReadOnly = true;
             txtUFClientes.Size = new Size(35, 23);
             txtUFClientes.TabIndex = 37;
             // 
