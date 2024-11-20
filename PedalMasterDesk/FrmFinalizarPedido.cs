@@ -59,9 +59,9 @@ namespace PedalMasterDesk
 
             if (txtRecebido.Text != string.Empty)
             {
-                if (double.Parse(txtRecebido.Text) > double.Parse(txtTotal.Text))
+                if (double.Parse(txtRecebido.Text) > double.Parse(txtAberto.Text))
                 {
-                    txtRecebido.Text = txtTotal.Text;
+                    txtRecebido.Text = txtAberto.Text;
                 }
             }
             else
@@ -75,20 +75,22 @@ namespace PedalMasterDesk
 
         private void btnProsseguir_Click(object sender, EventArgs e)
         {
-            /*if ()
+            var parcelas = "1X";
+            if (cmbFrmPag.SelectedItem == "C. CRÉDITO")
             {
-
-            }*/
+                parcelas = cmbparcelas.SelectedItem.ToString();
+            }
+            
 
             Pagamentos pagamentos = new(
                 double.Parse(txtRecebido.Text),
-                cmbparcelas.SelectedItem.ToString(),
+                parcelas,
                 Pedidos.ObterPorId(Program.VARFinalizarpedidoNovo.Id),
                 cmbFrmPag.SelectedItem.ToString()
                 );
             pagamentos.Inserir();
 
-            var valorrestante = double.Parse(txtTotal.Text) - double.Parse(txtRecebido.Text);
+            var valorrestante = double.Parse(txtAberto.Text) - double.Parse(txtRecebido.Text);
             if (valorrestante > 0)
             {
                 txtAberto.Text = valorrestante.ToString("#0.00");
@@ -114,6 +116,10 @@ namespace PedalMasterDesk
                 {
                     x++;
                     valorparaParcela += 50;
+                }
+                if(x > 12)
+                {
+                    x = 13;
                 }
                 while (y < x)
                 {

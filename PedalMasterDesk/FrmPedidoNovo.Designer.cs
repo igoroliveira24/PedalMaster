@@ -75,6 +75,7 @@
             label12 = new Label();
             txtDescontoEscritoPedido = new TextBox();
             label13 = new Label();
+            btnFecharCaixa = new Button();
             ((System.ComponentModel.ISupportInitialize)dataGridView1).BeginInit();
             ((System.ComponentModel.ISupportInitialize)nudQuantidadePedido).BeginInit();
             SuspendLayout();
@@ -518,12 +519,26 @@
             label13.TabIndex = 42;
             label13.Text = "Desconto do Pedido em R$";
             // 
+            // btnFecharCaixa
+            // 
+            btnFecharCaixa.BackColor = Color.Transparent;
+            btnFecharCaixa.Font = new Font("Segoe UI", 15.75F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            btnFecharCaixa.ForeColor = Color.Black;
+            btnFecharCaixa.Location = new Point(985, 625);
+            btnFecharCaixa.Name = "btnFecharCaixa";
+            btnFecharCaixa.Size = new Size(323, 50);
+            btnFecharCaixa.TabIndex = 43;
+            btnFecharCaixa.Text = "Fechar Caixa";
+            btnFecharCaixa.UseVisualStyleBackColor = false;
+            btnFecharCaixa.Click += btnFecharCaixa_Click;
+            // 
             // FrmPedidoNovo
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
             ClientSize = new Size(1370, 749);
             ControlBox = false;
+            Controls.Add(btnFecharCaixa);
             Controls.Add(label13);
             Controls.Add(txtDescontoEscritoPedido);
             Controls.Add(label12);
@@ -620,5 +635,6 @@
         private Label label12;
         private TextBox txtDescontoEscritoPedido;
         private Label label13;
+        private Button btnFecharCaixa;
     }
 }

@@ -199,6 +199,40 @@ namespace PedalMasterDesk
 
         private void FrmPedidoNovo_Load(object sender, EventArgs e)
         {
+            if (Program.PedidoemAberto.Id != 0)
+            {
+                var pedido = Pedidos.ObterPorId(Program.PedidoemAberto.Id);
+                txtIdPedido.Text = pedido.Id.ToString();
+
+                var cliente = Cliente.ObterId(pedido.IdCliente.Id);
+                txtIdCliente.Text = $" {cliente.Id}";
+                txtCpfCliente.Text = $" {cliente.Cpf}";
+                txtNomeClientes.Text = $" {cliente.Nome}";
+
+                if (pedido.Id > 0)
+                {
+                    txtIdPedido.Text = pedido.Id.ToString();
+
+                    txtCodBarPedido.Enabled = true;
+                    txtValorUnitPedido.Enabled = true;
+                    txtValorTotPedido.Enabled = true;
+                    txtDescontoPedido.Enabled = true;
+                    btnInserir.Enabled = true;
+                    nudQuantidadePedido.Enabled = true;
+                    btnBuscarCliente.Enabled = false;
+                    btnAdicionaPedido.Enabled = false;
+                    btnCancelarPed.Enabled = true;
+                    btnManterAberto.Enabled = true;
+                    btnFinalizarPedido.Enabled = true;
+
+                    CarregaGrid();
+
+
+
+                }
+            }
+
+
             nudQuantidadePedido.Value = 1;
             txtDescontoPedido.MaxLength = 2;
             txtFuncionarioPedido.Text = Program.UsuarioLogado.Id.ToString() + " - " + Program.UsuarioLogado.Nome;
@@ -206,6 +240,8 @@ namespace PedalMasterDesk
             {
                 CarregaGrid();
             }
+
+            Program.PedidoemAberto.Id = 0;
         }
 
         private void button1_Click(object sender, EventArgs e)
@@ -356,12 +392,12 @@ namespace PedalMasterDesk
             {
                 txtDescontoPedido.Text = "0";
             }
-            
-                if (double.Parse(txtDescontoPedido.Text) > double.Parse(txtDescontoTotal.Text))
-                {
-                    txtDescontoPedido.Text = "0";
-                }
-            
+
+            if (double.Parse(txtDescontoPedido.Text) > double.Parse(txtDescontoTotal.Text))
+            {
+                txtDescontoPedido.Text = "0";
+            }
+
 
 
         }
@@ -499,6 +535,10 @@ namespace PedalMasterDesk
             {
                 lblDescontoAtacado.Text = "10% desconto";
             }
+            else
+            {
+                lblDescontoAtacado.Text = "";
+            }
 
         }
 
@@ -586,8 +626,8 @@ namespace PedalMasterDesk
             pedido.Atualizar();
             //pedido.EstatusAberto(int.Parse(txtIdPedido.Text));
             VoltaraoNormal();
-            
-            
+
+
         }
 
         private void btnFinalizarPedido_Click(object sender, EventArgs e)
@@ -607,6 +647,8 @@ namespace PedalMasterDesk
                 );
                 pedido.Atualizar();
                 VoltaraoNormal();
+
+                MessageBox.Show("Pedido Finalizado com SUCESSO!!!!");
             }
             else
             {
@@ -614,7 +656,7 @@ namespace PedalMasterDesk
                 Program.VARFinalizarpedidoNovo.Id = int.Parse(txtIdPedido.Text);
                 frmfinalizarpedido.ShowDialog();
             }
-            
+
 
         }
         public void VoltaraoNormal()
@@ -639,7 +681,19 @@ namespace PedalMasterDesk
             CarregaGrid();
 
         }
+
+        private void btnFecharCaixa_Click(object sender, EventArgs e)
+        {
+            if (txtIdPedido.Text != string.Empty && txtIdPedido.Text != "0")
+            {
+                MessageBox.Show("Existe um pedido e andamento. Conclua-os antes de fechar o caixa");
+            }
+            else
+            {
+                Close();
+            }
+        }
     }
 
-    
+
 }
