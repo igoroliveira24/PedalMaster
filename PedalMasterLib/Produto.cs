@@ -23,6 +23,7 @@ namespace PedalMasterLib
         public string? Cor { get; set; }
         public double Desconto { get; set; }
         public string? Descricao { get; set; }
+        public string? Imagem { get; set; }
 
         public Produto()
         {
@@ -86,7 +87,7 @@ namespace PedalMasterLib
 
         public Produto(int id, string? codBar, string? nome, string? marca,
             TipoProduto tipo, string? tipoTamanho, double tamanho, double preco, int estoqueMin,
-            DateTime dataCad, string? cor, double desconto, string? descricao)
+            DateTime dataCad, string? cor, double desconto, string? descricao, string? imagem)
         {
             Id = id;
             CodBar = codBar;
@@ -101,6 +102,7 @@ namespace PedalMasterLib
             Cor = cor;
             Desconto = desconto;
             Descricao = descricao;
+            Imagem = imagem;
         }
 
         public Produto(int id)
@@ -135,7 +137,8 @@ namespace PedalMasterLib
                     dr.GetDateTime(9),
                     dr.GetString(10),
                     dr.GetDouble(11),
-                    dr.GetString(12)
+                    dr.GetString(12),
+                    dr.GetString(13)
 
                     );
             }
@@ -197,7 +200,8 @@ namespace PedalMasterLib
                     dr.GetDateTime(9),
                     dr.GetString(10),
                     dr.GetDouble(11),
-                    dr.GetString(12)
+                    dr.GetString(12),
+                    dr.GetString(13)
 
                     ));
             }
@@ -226,7 +230,8 @@ namespace PedalMasterLib
                     dr.GetDateTime(9),
                     dr.GetString(10),
                     dr.GetDouble(11),
-                    dr.GetString(12)
+                    dr.GetString(12),
+                    dr.GetString(13)
 
                     ));
             }
@@ -255,7 +260,8 @@ namespace PedalMasterLib
                     dr.GetDateTime(9),
                     dr.GetString(10),
                     dr.GetDouble(11),
-                    dr.GetString(12)
+                    dr.GetString(12),
+                    dr.GetString(13)
 
                     ));
             }
@@ -284,7 +290,8 @@ namespace PedalMasterLib
                     dr.GetDateTime(9),
                     dr.GetString(10),
                     dr.GetDouble(11),
-                    dr.GetString(12)
+                    dr.GetString(12),
+                    dr.GetString(13)
 
                     ));
             }
@@ -313,7 +320,8 @@ namespace PedalMasterLib
                     dr.GetDateTime(9),
                     dr.GetString(10),
                     dr.GetDouble(11),
-                    dr.GetString(12)
+                    dr.GetString(12),
+                    dr.GetString(13)
 
                     ));
             }
