@@ -13,6 +13,7 @@ namespace PedalMasterDesk
         public static Email EmailUsuarioLogado = new();
         public static Cliente frmGdvBuscarCliente = new();
         public static Pedidos VARFinalizarpedidoNovo = new();
+        public static Pedidos PedidoemAberto = new();
         /// <summary>
         ///  The main entry point for the application.
         /// </summary>

@@ -44,7 +44,8 @@ namespace PedalMasterDesk
                     tsddbCaixaEstoque.Enabled = false;
                 }
             }
-            else{
+            else
+            {
                 Close();
             }
         }
@@ -123,6 +124,38 @@ namespace PedalMasterDesk
         private void toolStripStatusLabel2_Click(object sender, EventArgs e)
         {
 
+        }
+
+        private void todosToolStripMenuItem1_Click(object sender, EventArgs e)
+        {
+            Program.frmpreguiça.Quantidade = 1;
+            FrmTodosPedidos frmTodosPedidos = new();
+            frmTodosPedidos.MdiParent = this;
+            frmTodosPedidos.Show();
+        }
+
+        private void finalizadosToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            Program.frmpreguiça.Quantidade = 2;
+            FrmTodosPedidos frmTodosPedidos = new();
+            frmTodosPedidos.MdiParent = this;
+            frmTodosPedidos.Show();
+        }
+
+        private void emAbertoToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            Program.frmpreguiça.Quantidade = 3;
+            FrmTodosPedidos frmTodosPedidos = new();
+            frmTodosPedidos.MdiParent = this;
+            frmTodosPedidos.Show();
+        }
+
+        private void canceladosToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            Program.frmpreguiça.Quantidade = 4;
+            FrmTodosPedidos frmTodosPedidos = new();
+            frmTodosPedidos.MdiParent = this;
+            frmTodosPedidos.Show();
         }
     }
 }
