@@ -71,7 +71,8 @@
             txtEmail.Name = "txtEmail";
             txtEmail.Size = new Size(185, 23);
             txtEmail.TabIndex = 3;
-            txtEmail.Text = "asdasd";
+            txtEmail.Text = "igordeoliveiramelo@gmail.com";
+            txtEmail.TextChanged += txtEmail_TextChanged;
             // 
             // label1
             // 

@@ -30,7 +30,7 @@ namespace PedalMasterDesk
             {
                 Application.Exit();
             }
-            
+
         }
 
         private void btnLogar_Click(object sender, EventArgs e)
@@ -59,9 +59,9 @@ namespace PedalMasterDesk
                         MessageBox.Show("Seu usuario está inativo. \nProcure a gerência.");
                         Application.Exit();
                     }
-                    
-                    
-                    
+
+
+
                 }
                 else
                 {
@@ -75,6 +75,11 @@ namespace PedalMasterDesk
                 MessageBox.Show("Você deve preencher email e senha.");
                 txtEmail.Focus();
             }
+        }
+
+        private void txtEmail_TextChanged(object sender, EventArgs e)
+        {
+
         }
     }
 }
