@@ -1,0 +1,1567 @@
+-- MariaDB dump 10.19  Distrib 10.4.25-MariaDB, for Win64 (AMD64)
+--
+-- Host: localhost    Database: pedalmaster
+-- ------------------------------------------------------
+-- Server version	10.4.25-MariaDB
+
+/*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
+/*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
+/*!40101 SET @OLD_COLLATION_CONNECTION=@@COLLATION_CONNECTION */;
+/*!40101 SET NAMES utf8mb4 */;
+/*!40103 SET @OLD_TIME_ZONE=@@TIME_ZONE */;
+/*!40103 SET TIME_ZONE='+00:00' */;
+/*!40014 SET @OLD_UNIQUE_CHECKS=@@UNIQUE_CHECKS, UNIQUE_CHECKS=0 */;
+/*!40014 SET @OLD_FOREIGN_KEY_CHECKS=@@FOREIGN_KEY_CHECKS, FOREIGN_KEY_CHECKS=0 */;
+/*!40101 SET @OLD_SQL_MODE=@@SQL_MODE, SQL_MODE='NO_AUTO_VALUE_ON_ZERO' */;
+/*!40111 SET @OLD_SQL_NOTES=@@SQL_NOTES, SQL_NOTES=0 */;
+
+--
+-- Table structure for table `caixa`
+--
+
+DROP TABLE IF EXISTS `caixa`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `caixa` (
+  `pk_idCaixa` int(11) NOT NULL AUTO_INCREMENT,
+  `fk_idCaixaFuncionario` int(11) NOT NULL,
+  `data_abertura` datetime NOT NULL,
+  `SaldoInicial` decimal(10,2) NOT NULL,
+  `Status` char(1) NOT NULL DEFAULT 'A',
+  PRIMARY KEY (`pk_idCaixa`),
+  KEY `fk_idCaixaFuncionario` (`fk_idCaixaFuncionario`),
+  CONSTRAINT `fk_idCaixaFuncionario` FOREIGN KEY (`fk_idCaixaFuncionario`) REFERENCES `funcionarios` (`pk_idFuncionarios`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `caixa`
+--
+
+LOCK TABLES `caixa` WRITE;
+/*!40000 ALTER TABLE `caixa` DISABLE KEYS */;
+/*!40000 ALTER TABLE `caixa` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `cargos`
+--
+
+DROP TABLE IF EXISTS `cargos`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `cargos` (
+  `pk_idCargos` int(11) NOT NULL AUTO_INCREMENT,
+  `Cargo` varchar(30) NOT NULL,
+  `Sigla` varchar(3) NOT NULL,
+  `Salario` decimal(8,2) NOT NULL,
+  PRIMARY KEY (`pk_idCargos`)
+) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=utf8mb4;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `cargos`
+--
+
+LOCK TABLES `cargos` WRITE;
+/*!40000 ALTER TABLE `cargos` DISABLE KEYS */;
+INSERT INTO `cargos` VALUES (1,'Gerente','GER',4500.00),(2,'Estoquista','EST',2500.00),(3,'Caixa','CAX',1500.00),(5,'Site','WEB',0.00);
+/*!40000 ALTER TABLE `cargos` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `carrinho`
+--
+
+DROP TABLE IF EXISTS `carrinho`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `carrinho` (
+  `pk_idCarrinho` int(11) NOT NULL AUTO_INCREMENT,
+  `fk_idCarrinho_Produto` int(11) NOT NULL,
+  `fk_idCliente` int(11) NOT NULL,
+  `Quantidade` int(11) NOT NULL DEFAULT 0,
+  `Valor_Total` decimal(8,2) NOT NULL,
+  PRIMARY KEY (`pk_idCarrinho`),
+  KEY `fk_idCarrinho_Produto` (`fk_idCarrinho_Produto`),
+  KEY `fk_carrinhoCliente` (`fk_idCliente`),
+  CONSTRAINT `fk_carrinhoCliente` FOREIGN KEY (`fk_idCliente`) REFERENCES `clientes` (`pk_idCliente`),
+  CONSTRAINT `fk_idCarrinho_Produto` FOREIGN KEY (`fk_idCarrinho_Produto`) REFERENCES `produto` (`pk_idProdutos`)
+) ENGINE=InnoDB AUTO_INCREMENT=20 DEFAULT CHARSET=utf8mb4;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `carrinho`
+--
+
+LOCK TABLES `carrinho` WRITE;
+/*!40000 ALTER TABLE `carrinho` DISABLE KEYS */;
+INSERT INTO `carrinho` VALUES (6,21,39,8,11192.00),(8,14,54,1,73134.00),(9,22,54,1,0.00),(10,23,54,1,0.00),(11,31,54,1,0.00),(12,33,54,1,0.00),(13,39,54,1,0.00),(14,14,38,1,73134.00),(15,22,38,1,0.00),(16,23,38,1,0.00),(17,31,38,1,0.00),(18,33,38,1,0.00),(19,39,38,1,0.00);
+/*!40000 ALTER TABLE `carrinho` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `cartoes`
+--
+
+DROP TABLE IF EXISTS `cartoes`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `cartoes` (
+  `pk_idCartoes` int(11) NOT NULL AUTO_INCREMENT,
+  `NomeCartao` varchar(20) NOT NULL,
+  `Bandeira` varchar(20) NOT NULL,
+  `Numerocartao` bigint(16) NOT NULL,
+  `validade` varchar(5) NOT NULL,
+  `tipo` varchar(10) NOT NULL,
+  `cvv` varchar(3) NOT NULL,
+  `Ativo` bit(1) NOT NULL DEFAULT b'1',
+  PRIMARY KEY (`pk_idCartoes`),
+  UNIQUE KEY `Numerocartao` (`Numerocartao`),
+  UNIQUE KEY `cvv` (`cvv`)
+) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=utf8mb4;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `cartoes`
+--
+
+LOCK TABLES `cartoes` WRITE;
+/*!40000 ALTER TABLE `cartoes` DISABLE KEYS */;
+INSERT INTO `cartoes` VALUES (3,'Zé das Couves','VISA',4000123456789010,'09/29','Crédito','171',''),(4,'Rodrigo R Rodrigues','MasterCard',5794683521677304,'11/29','Débito','666',''),(5,'Zé das Couves','VISA',4000987654321123,'05/30','Débito','777',''),(6,'Rodrigo XD','MarterCard',4000764358243756,'02/30','Débito','999','');
+/*!40000 ALTER TABLE `cartoes` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `cartoesclientes`
+--
+
+DROP TABLE IF EXISTS `cartoesclientes`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `cartoesclientes` (
+  `pk_idCartoesClientes` int(11) NOT NULL AUTO_INCREMENT,
+  `fk_idCartoesClientes_Clientes` int(11) NOT NULL,
+  `fk_idCartoesClientes_Cartoes` int(11) NOT NULL,
+  PRIMARY KEY (`pk_idCartoesClientes`),
+  KEY `fk_idCartoesClientes_Clientes` (`fk_idCartoesClientes_Clientes`),
+  KEY `fk_idCartoesClientes_Cartoes` (`fk_idCartoesClientes_Cartoes`),
+  CONSTRAINT `fk_idCartoesClientes_Cartoes` FOREIGN KEY (`fk_idCartoesClientes_Cartoes`) REFERENCES `cartoes` (`pk_idCartoes`),
+  CONSTRAINT `fk_idCartoesClientes_Clientes` FOREIGN KEY (`fk_idCartoesClientes_Clientes`) REFERENCES `clientes` (`pk_idCliente`)
+) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8mb4;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `cartoesclientes`
+--
+
+LOCK TABLES `cartoesclientes` WRITE;
+/*!40000 ALTER TABLE `cartoesclientes` DISABLE KEYS */;
+INSERT INTO `cartoesclientes` VALUES (1,38,3),(2,38,4),(3,39,5),(4,54,6);
+/*!40000 ALTER TABLE `cartoesclientes` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `clientes`
+--
+
+DROP TABLE IF EXISTS `clientes`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `clientes` (
+  `pk_idCliente` int(11) NOT NULL AUTO_INCREMENT,
+  `Nome` varchar(100) NOT NULL,
+  `Cpf` varchar(11) NOT NULL,
+  `Data_cadastro` timestamp NOT NULL DEFAULT current_timestamp(),
+  `DataNascimento` date NOT NULL,
+  `Ativo` bit(1) NOT NULL DEFAULT b'1',
+  PRIMARY KEY (`pk_idCliente`),
+  UNIQUE KEY `Cpf` (`Cpf`)
+) ENGINE=InnoDB AUTO_INCREMENT=55 DEFAULT CHARSET=utf8mb4;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `clientes`
+--
+
+LOCK TABLES `clientes` WRITE;
+/*!40000 ALTER TABLE `clientes` DISABLE KEYS */;
+INSERT INTO `clientes` VALUES (38,'Zé das Couves','98765432123','2024-11-19 11:17:48','2001-06-23',''),(39,'Rodrigo Santos Rodrigues','12345678911','2024-11-19 11:17:48','2000-01-01',''),(54,'Rodrigo XD','43865227990','2024-11-19 13:45:15','1988-12-13','');
+/*!40000 ALTER TABLE `clientes` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `clientesemails`
+--
+
+DROP TABLE IF EXISTS `clientesemails`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `clientesemails` (
+  `pk_idClientesEmails` int(11) NOT NULL AUTO_INCREMENT,
+  `fk_idClientesEmails_Clientes` int(11) NOT NULL,
+  `fk_idClientesEmails_Email` int(11) NOT NULL,
+  PRIMARY KEY (`pk_idClientesEmails`),
+  KEY `fk_idClientesEmails_Clientes` (`fk_idClientesEmails_Clientes`),
+  KEY `fk_idClientesEmails_Email` (`fk_idClientesEmails_Email`),
+  CONSTRAINT `fk_idClientesEmails_Clientes` FOREIGN KEY (`fk_idClientesEmails_Clientes`) REFERENCES `clientes` (`pk_idCliente`),
+  CONSTRAINT `fk_idClientesEmails_Email` FOREIGN KEY (`fk_idClientesEmails_Email`) REFERENCES `email` (`pk_idEmail`)
+) ENGINE=InnoDB AUTO_INCREMENT=28 DEFAULT CHARSET=utf8mb4;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `clientesemails`
+--
+
+LOCK TABLES `clientesemails` WRITE;
+/*!40000 ALTER TABLE `clientesemails` DISABLE KEYS */;
+INSERT INTO `clientesemails` VALUES (22,39,40),(23,38,41),(27,54,46);
+/*!40000 ALTER TABLE `clientesemails` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `clientesenderecos`
+--
+
+DROP TABLE IF EXISTS `clientesenderecos`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `clientesenderecos` (
+  `pk_idClientesEnderecos` int(11) NOT NULL AUTO_INCREMENT,
+  `fk_idClientesEnderecos_Clientes` int(11) NOT NULL,
+  `fk_idClientesEnderecos_Enderecos` int(11) NOT NULL,
+  PRIMARY KEY (`pk_idClientesEnderecos`),
+  KEY `fk_idClientesEnderecos_Clientes` (`fk_idClientesEnderecos_Clientes`),
+  KEY `fk_idClientesEnderecos_Enderecos` (`fk_idClientesEnderecos_Enderecos`),
+  CONSTRAINT `fk_idClientesEnderecos_Clientes` FOREIGN KEY (`fk_idClientesEnderecos_Clientes`) REFERENCES `clientes` (`pk_idCliente`),
+  CONSTRAINT `fk_idClientesEnderecos_Enderecos` FOREIGN KEY (`fk_idClientesEnderecos_Enderecos`) REFERENCES `enderecos` (`pk_idEnderecos`)
+) ENGINE=InnoDB AUTO_INCREMENT=17 DEFAULT CHARSET=utf8mb4;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `clientesenderecos`
+--
+
+LOCK TABLES `clientesenderecos` WRITE;
+/*!40000 ALTER TABLE `clientesenderecos` DISABLE KEYS */;
+INSERT INTO `clientesenderecos` VALUES (8,39,23),(9,38,22),(16,54,30);
+/*!40000 ALTER TABLE `clientesenderecos` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `clientestelefones`
+--
+
+DROP TABLE IF EXISTS `clientestelefones`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `clientestelefones` (
+  `pk_idClientesTelefones` int(11) NOT NULL AUTO_INCREMENT,
+  `fk_idClientesTelefones_Clientes` int(11) NOT NULL,
+  `fk_idClientesTelefones_Telefone` int(11) NOT NULL,
+  PRIMARY KEY (`pk_idClientesTelefones`),
+  KEY `fk_idClientesTelefones_Clientes` (`fk_idClientesTelefones_Clientes`),
+  KEY `fk_idClientesTelefones_Telefone` (`fk_idClientesTelefones_Telefone`),
+  CONSTRAINT `fk_idClientesTelefones_Clientes` FOREIGN KEY (`fk_idClientesTelefones_Clientes`) REFERENCES `clientes` (`pk_idCliente`),
+  CONSTRAINT `fk_idClientesTelefones_Telefone` FOREIGN KEY (`fk_idClientesTelefones_Telefone`) REFERENCES `telefone` (`pk_idTelefone`)
+) ENGINE=InnoDB AUTO_INCREMENT=21 DEFAULT CHARSET=utf8mb4;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `clientestelefones`
+--
+
+LOCK TABLES `clientestelefones` WRITE;
+/*!40000 ALTER TABLE `clientestelefones` DISABLE KEYS */;
+INSERT INTO `clientestelefones` VALUES (16,39,19),(17,38,20),(20,54,23);
+/*!40000 ALTER TABLE `clientestelefones` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `email`
+--
+
+DROP TABLE IF EXISTS `email`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `email` (
+  `pk_idEmail` int(11) NOT NULL AUTO_INCREMENT,
+  `Email` varchar(100) NOT NULL,
+  `Ativo` bit(1) DEFAULT b'1',
+  PRIMARY KEY (`pk_idEmail`),
+  UNIQUE KEY `Email` (`Email`)
+) ENGINE=InnoDB AUTO_INCREMENT=47 DEFAULT CHARSET=utf8mb4;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `email`
+--
+
+LOCK TABLES `email` WRITE;
+/*!40000 ALTER TABLE `email` DISABLE KEYS */;
+INSERT INTO `email` VALUES (40,'rodrigo.srodrigues@pedalmaster.com',''),(41,'zedascouves1989@pedalmaster.com',''),(46,'naoseiqualquercoisa1991@gmail.com','');
+/*!40000 ALTER TABLE `email` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `enderecos`
+--
+
+DROP TABLE IF EXISTS `enderecos`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `enderecos` (
+  `pk_idEnderecos` int(11) NOT NULL AUTO_INCREMENT,
+  `Logradouro` varchar(100) NOT NULL,
+  `Numero` varchar(5) NOT NULL,
+  `Bairro` varchar(20) NOT NULL,
+  `Cidade` varchar(20) NOT NULL,
+  `UF` varchar(2) NOT NULL,
+  `Complemento` varchar(60) NOT NULL,
+  `CEP` varchar(8) NOT NULL,
+  `Ativo` bit(1) NOT NULL DEFAULT b'1',
+  PRIMARY KEY (`pk_idEnderecos`)
+) ENGINE=InnoDB AUTO_INCREMENT=31 DEFAULT CHARSET=utf8mb4;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `enderecos`
+--
+
+LOCK TABLES `enderecos` WRITE;
+/*!40000 ALTER TABLE `enderecos` DISABLE KEYS */;
+INSERT INTO `enderecos` VALUES (22,'Rua Demóstenes B da Silva (Rua Dois)','347','Polivalente','Xique-Xique','BA','Barraco','47400000',''),(23,'Avenida Paulista','1765','Cerqueira César','São Paulo','SP','Apartamento','01418100',''),(30,'Baltazar da Silva','210','Jardim Nossa Senhora','S?o Paulo','SP','Não tem','08275410','');
+/*!40000 ALTER TABLE `enderecos` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `estoque`
+--
+
+DROP TABLE IF EXISTS `estoque`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `estoque` (
+  `pk_idEstoque` int(11) NOT NULL AUTO_INCREMENT,
+  `fk_Estoque_Produto` int(11) NOT NULL,
+  `QuantidadeEstoque` int(11) NOT NULL,
+  `dataUltimoMovimento` timestamp NOT NULL DEFAULT current_timestamp(),
+  `Cor` varchar(45) NOT NULL,
+  PRIMARY KEY (`pk_idEstoque`),
+  KEY `fk_Estoque_Produto` (`fk_Estoque_Produto`),
+  CONSTRAINT `fk_Estoque_Produto` FOREIGN KEY (`fk_Estoque_Produto`) REFERENCES `produto` (`pk_idProdutos`)
+) ENGINE=InnoDB AUTO_INCREMENT=36 DEFAULT CHARSET=utf8mb4;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `estoque`
+--
+
+LOCK TABLES `estoque` WRITE;
+/*!40000 ALTER TABLE `estoque` DISABLE KEYS */;
+INSERT INTO `estoque` VALUES (5,12,0,'2024-11-19 03:00:00',''),(6,13,0,'2024-11-19 03:00:00',''),(7,14,0,'2024-11-19 03:00:00',''),(8,15,0,'2024-11-19 03:00:00',''),(9,16,0,'2024-11-19 03:00:00',''),(10,17,0,'2024-11-19 03:00:00',''),(11,18,0,'2024-11-19 03:00:00',''),(12,19,0,'2024-11-19 03:00:00',''),(13,20,0,'2024-11-19 03:00:00',''),(14,21,0,'2024-11-19 03:00:00',''),(15,22,0,'2024-11-19 03:00:00',''),(16,23,0,'2024-11-19 03:00:00',''),(17,24,0,'2024-11-19 03:00:00',''),(18,25,0,'2024-11-19 03:00:00',''),(19,26,0,'2024-11-19 03:00:00',''),(20,27,0,'2024-11-19 03:00:00',''),(21,28,0,'2024-11-19 03:00:00',''),(22,29,0,'2024-11-19 03:00:00',''),(23,30,0,'2024-11-19 03:00:00',''),(24,31,0,'2024-11-19 03:00:00',''),(25,32,0,'2024-11-19 03:00:00',''),(26,33,0,'2024-11-19 03:00:00',''),(27,34,0,'2024-11-19 03:00:00',''),(28,35,0,'2024-11-19 03:00:00',''),(29,36,0,'2024-11-19 03:00:00',''),(30,37,0,'2024-11-19 03:00:00',''),(31,38,0,'2024-11-19 03:00:00',''),(32,39,0,'2024-11-19 03:00:00',''),(33,40,0,'2024-11-19 03:00:00',''),(34,41,0,'2024-11-19 03:00:00',''),(35,42,0,'2024-11-19 03:00:00','');
+/*!40000 ALTER TABLE `estoque` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `funcionarios`
+--
+
+DROP TABLE IF EXISTS `funcionarios`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `funcionarios` (
+  `pk_idFuncionarios` int(11) NOT NULL AUTO_INCREMENT,
+  `Nome` varchar(100) NOT NULL,
+  `CPF` varchar(11) NOT NULL,
+  `RG` varchar(9) NOT NULL,
+  `DataNascimento` date NOT NULL,
+  `fk_idFuncionarios_Cargo` int(11) NOT NULL,
+  `Ativo` bit(1) NOT NULL DEFAULT b'1',
+  PRIMARY KEY (`pk_idFuncionarios`),
+  UNIQUE KEY `CPF` (`CPF`),
+  KEY `fk_idFuncionarios_Cargo` (`fk_idFuncionarios_Cargo`),
+  CONSTRAINT `fk_idFuncionarios_Cargo` FOREIGN KEY (`fk_idFuncionarios_Cargo`) REFERENCES `cargos` (`pk_idCargos`)
+) ENGINE=InnoDB AUTO_INCREMENT=10 DEFAULT CHARSET=utf8mb4;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `funcionarios`
+--
+
+LOCK TABLES `funcionarios` WRITE;
+/*!40000 ALTER TABLE `funcionarios` DISABLE KEYS */;
+INSERT INTO `funcionarios` VALUES (9,'Site','00000000000','000000000','0000-00-00',5,'');
+/*!40000 ALTER TABLE `funcionarios` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `funcionariosemails`
+--
+
+DROP TABLE IF EXISTS `funcionariosemails`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `funcionariosemails` (
+  `pk_idFuncionariosEmails` int(11) NOT NULL AUTO_INCREMENT,
+  `fk_idFuncionariosEmails_Funcionarios` int(11) NOT NULL,
+  `fk_idFuncionariosEmails_Emails` int(11) NOT NULL,
+  PRIMARY KEY (`pk_idFuncionariosEmails`),
+  KEY `fk_idFuncionariosEmails_Funcionarios` (`fk_idFuncionariosEmails_Funcionarios`),
+  KEY `fk_idFuncionariosEmails_Emails` (`fk_idFuncionariosEmails_Emails`),
+  CONSTRAINT `fk_idFuncionariosEmails_Emails` FOREIGN KEY (`fk_idFuncionariosEmails_Emails`) REFERENCES `email` (`pk_idEmail`),
+  CONSTRAINT `fk_idFuncionariosEmails_Funcionarios` FOREIGN KEY (`fk_idFuncionariosEmails_Funcionarios`) REFERENCES `funcionarios` (`pk_idFuncionarios`)
+) ENGINE=InnoDB AUTO_INCREMENT=9 DEFAULT CHARSET=utf8mb4;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `funcionariosemails`
+--
+
+LOCK TABLES `funcionariosemails` WRITE;
+/*!40000 ALTER TABLE `funcionariosemails` DISABLE KEYS */;
+/*!40000 ALTER TABLE `funcionariosemails` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `funcionariosenderecos`
+--
+
+DROP TABLE IF EXISTS `funcionariosenderecos`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `funcionariosenderecos` (
+  `pk_idFuncionariosEnderecos` int(11) NOT NULL AUTO_INCREMENT,
+  `fk_idFuncionariosEnderecos_Funcionarios` int(11) NOT NULL,
+  `fk_idFuncionariosEnderecos_Enderecos` int(11) NOT NULL,
+  PRIMARY KEY (`pk_idFuncionariosEnderecos`),
+  KEY `fk_idFuncionariosEnderecos_Funcionarios` (`fk_idFuncionariosEnderecos_Funcionarios`),
+  KEY `fk_idFuncionariosEnderecos_Enderecos` (`fk_idFuncionariosEnderecos_Enderecos`),
+  CONSTRAINT `fk_idFuncionariosEnderecos_Enderecos` FOREIGN KEY (`fk_idFuncionariosEnderecos_Enderecos`) REFERENCES `enderecos` (`pk_idEnderecos`),
+  CONSTRAINT `fk_idFuncionariosEnderecos_Funcionarios` FOREIGN KEY (`fk_idFuncionariosEnderecos_Funcionarios`) REFERENCES `funcionarios` (`pk_idFuncionarios`)
+) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8mb4;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `funcionariosenderecos`
+--
+
+LOCK TABLES `funcionariosenderecos` WRITE;
+/*!40000 ALTER TABLE `funcionariosenderecos` DISABLE KEYS */;
+/*!40000 ALTER TABLE `funcionariosenderecos` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `funcionariostelefones`
+--
+
+DROP TABLE IF EXISTS `funcionariostelefones`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `funcionariostelefones` (
+  `pk_idFuncionariosTelefones` int(11) NOT NULL AUTO_INCREMENT,
+  `fk_idFuncionariosTelefones_Funcionarios` int(11) NOT NULL,
+  `fk_idFuncionariosTelefones_Telefones` int(11) NOT NULL,
+  PRIMARY KEY (`pk_idFuncionariosTelefones`),
+  KEY `fk_idFuncionariosTelefones_Funcionarios` (`fk_idFuncionariosTelefones_Funcionarios`),
+  KEY `fk_idFuncionariosTelefones_Telefones` (`fk_idFuncionariosTelefones_Telefones`),
+  CONSTRAINT `fk_idFuncionariosTelefones_Funcionarios` FOREIGN KEY (`fk_idFuncionariosTelefones_Funcionarios`) REFERENCES `funcionarios` (`pk_idFuncionarios`),
+  CONSTRAINT `fk_idFuncionariosTelefones_Telefones` FOREIGN KEY (`fk_idFuncionariosTelefones_Telefones`) REFERENCES `telefone` (`pk_idTelefone`)
+) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8mb4;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `funcionariostelefones`
+--
+
+LOCK TABLES `funcionariostelefones` WRITE;
+/*!40000 ALTER TABLE `funcionariostelefones` DISABLE KEYS */;
+/*!40000 ALTER TABLE `funcionariostelefones` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `itenspedidos`
+--
+
+DROP TABLE IF EXISTS `itenspedidos`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `itenspedidos` (
+  `pk_idItensPedidos` int(11) NOT NULL AUTO_INCREMENT,
+  `Quantidade` int(11) NOT NULL,
+  `Desconto` decimal(9,2) DEFAULT NULL,
+  `Valor` decimal(9,2) NOT NULL,
+  `fk_idItensPedidos_Pedidos` int(11) NOT NULL,
+  `fk_idItensPedidos_Produtos` int(11) NOT NULL,
+  PRIMARY KEY (`pk_idItensPedidos`),
+  KEY `fk_idItensPedidos_Pedidos` (`fk_idItensPedidos_Pedidos`),
+  KEY `fk_idItensPedidos_Produtos` (`fk_idItensPedidos_Produtos`),
+  CONSTRAINT `fk_idItensPedidos_Pedidos` FOREIGN KEY (`fk_idItensPedidos_Pedidos`) REFERENCES `pedidos` (`pk_idPedidos`),
+  CONSTRAINT `fk_idItensPedidos_Produtos` FOREIGN KEY (`fk_idItensPedidos_Produtos`) REFERENCES `produto` (`pk_idProdutos`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `itenspedidos`
+--
+
+LOCK TABLES `itenspedidos` WRITE;
+/*!40000 ALTER TABLE `itenspedidos` DISABLE KEYS */;
+/*!40000 ALTER TABLE `itenspedidos` ENABLE KEYS */;
+UNLOCK TABLES;
+/*!50003 SET @saved_cs_client      = @@character_set_client */ ;
+/*!50003 SET @saved_cs_results     = @@character_set_results */ ;
+/*!50003 SET @saved_col_connection = @@collation_connection */ ;
+/*!50003 SET character_set_client  = utf8mb4 */ ;
+/*!50003 SET character_set_results = utf8mb4 */ ;
+/*!50003 SET collation_connection  = utf8mb4_general_ci */ ;
+/*!50003 SET @saved_sql_mode       = @@sql_mode */ ;
+/*!50003 SET sql_mode              = 'NO_ZERO_IN_DATE,NO_ZERO_DATE,NO_ENGINE_SUBSTITUTION' */ ;
+DELIMITER ;;
+/*!50003 CREATE*/ /*!50017 DEFINER=`root`@`localhost`*/ /*!50003 TRIGGER trigger_baixa_estoque
+AFTER INSERT ON ItensPedidos
+FOR EACH ROW
+BEGIN
+update Estoque SET QuantidadeEstoque = QuantidadeEstoque - NEW.Quantidade, dataUltimoMovimento = current_date()
+where fk_Estoque_Produto = new.fk_idItensPedidos_Produtos 
+;
+END */;;
+DELIMITER ;
+/*!50003 SET sql_mode              = @saved_sql_mode */ ;
+/*!50003 SET character_set_client  = @saved_cs_client */ ;
+/*!50003 SET character_set_results = @saved_cs_results */ ;
+/*!50003 SET collation_connection  = @saved_col_connection */ ;
+
+--
+-- Table structure for table `login`
+--
+
+DROP TABLE IF EXISTS `login`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `login` (
+  `pk_IdLogin` int(11) NOT NULL AUTO_INCREMENT,
+  `fk_idCliente` int(11) NOT NULL,
+  `fk_idEmail` int(11) NOT NULL,
+  `senha` varchar(255) NOT NULL,
+  PRIMARY KEY (`pk_IdLogin`),
+  KEY `fk_idClientePraLogin` (`fk_idCliente`),
+  KEY `fk_idEmailPraLogin` (`fk_idEmail`),
+  CONSTRAINT `fk_idClientePraLogin` FOREIGN KEY (`fk_idCliente`) REFERENCES `clientes` (`pk_idCliente`),
+  CONSTRAINT `fk_idEmailPraLogin` FOREIGN KEY (`fk_idEmail`) REFERENCES `email` (`pk_idEmail`)
+) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=utf8mb4;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `login`
+--
+
+LOCK TABLES `login` WRITE;
+/*!40000 ALTER TABLE `login` DISABLE KEYS */;
+INSERT INTO `login` VALUES (1,38,41,'!@#123qweASD'),(2,39,40,'P@ssw0rd'),(5,54,46,'1234567890');
+/*!40000 ALTER TABLE `login` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `loginfuncionarios`
+--
+
+DROP TABLE IF EXISTS `loginfuncionarios`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `loginfuncionarios` (
+  `pk_IdLoginFuncionarios` int(11) NOT NULL AUTO_INCREMENT,
+  `fk_idFuncionarios` int(11) NOT NULL,
+  `fk_idEmail` int(11) NOT NULL,
+  `senha` varchar(255) NOT NULL,
+  PRIMARY KEY (`pk_IdLoginFuncionarios`),
+  KEY `fk_idFuncionariosparaLoginFuncionarios` (`fk_idFuncionarios`),
+  KEY `fk_idEmailPraLoginFuncionarios` (`fk_idEmail`),
+  CONSTRAINT `fk_idEmailPraLoginFuncionarios` FOREIGN KEY (`fk_idEmail`) REFERENCES `email` (`pk_idEmail`),
+  CONSTRAINT `fk_idFuncionariosparaLoginFuncionarios` FOREIGN KEY (`fk_idFuncionarios`) REFERENCES `funcionarios` (`pk_idFuncionarios`)
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8mb4;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `loginfuncionarios`
+--
+
+LOCK TABLES `loginfuncionarios` WRITE;
+/*!40000 ALTER TABLE `loginfuncionarios` DISABLE KEYS */;
+INSERT INTO `loginfuncionarios` VALUES (1,1,2,'1234');
+/*!40000 ALTER TABLE `loginfuncionarios` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `pagamentos`
+--
+
+DROP TABLE IF EXISTS `pagamentos`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `pagamentos` (
+  `pk_idPagamentos` int(11) NOT NULL AUTO_INCREMENT,
+  `valor` decimal(7,2) NOT NULL,
+  `Parcelas` varchar(3) NOT NULL,
+  `fk_idPagamnetos_Pedidos` int(11) NOT NULL,
+  `tipoPagamento` varchar(10) NOT NULL,
+  PRIMARY KEY (`pk_idPagamentos`),
+  KEY `fk_idPagamnetos_Pedidos` (`fk_idPagamnetos_Pedidos`),
+  CONSTRAINT `fk_idPagamnetos_Pedidos` FOREIGN KEY (`fk_idPagamnetos_Pedidos`) REFERENCES `pedidos` (`pk_idPedidos`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `pagamentos`
+--
+
+LOCK TABLES `pagamentos` WRITE;
+/*!40000 ALTER TABLE `pagamentos` DISABLE KEYS */;
+/*!40000 ALTER TABLE `pagamentos` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `pedidos`
+--
+
+DROP TABLE IF EXISTS `pedidos`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `pedidos` (
+  `pk_idPedidos` int(11) NOT NULL AUTO_INCREMENT,
+  `Estatus` char(1) NOT NULL DEFAULT 'A',
+  `Desconto` decimal(9,2) DEFAULT NULL,
+  `DataPedido` timestamp NOT NULL DEFAULT current_timestamp(),
+  `fk_idPedidos_Funcionarios` int(11) NOT NULL,
+  `fk_Pedidos_Clientes` int(11) NOT NULL,
+  PRIMARY KEY (`pk_idPedidos`),
+  KEY `fk_idPedidos_Funcionarios` (`fk_idPedidos_Funcionarios`),
+  KEY `fk_Pedidos_Clientes` (`fk_Pedidos_Clientes`),
+  CONSTRAINT `fk_Pedidos_Clientes` FOREIGN KEY (`fk_Pedidos_Clientes`) REFERENCES `clientes` (`pk_idCliente`),
+  CONSTRAINT `fk_idPedidos_Funcionarios` FOREIGN KEY (`fk_idPedidos_Funcionarios`) REFERENCES `funcionarios` (`pk_idFuncionarios`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `pedidos`
+--
+
+LOCK TABLES `pedidos` WRITE;
+/*!40000 ALTER TABLE `pedidos` DISABLE KEYS */;
+/*!40000 ALTER TABLE `pedidos` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `produto`
+--
+
+DROP TABLE IF EXISTS `produto`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `produto` (
+  `pk_idProdutos` int(11) NOT NULL AUTO_INCREMENT,
+  `CodigoDeBarras` varchar(20) NOT NULL,
+  `Nome` varchar(90) NOT NULL,
+  `Marca` varchar(20) NOT NULL,
+  `fk_idTipoProduto` int(11) NOT NULL,
+  `TipoTamanho` varchar(2) NOT NULL,
+  `Tamanho` int(11) NOT NULL,
+  `Preco` decimal(9,2) NOT NULL,
+  `EstoqueMinimo` int(11) NOT NULL DEFAULT 1,
+  `DataCadastro` timestamp NOT NULL DEFAULT current_timestamp(),
+  `Cor` varchar(100) NOT NULL,
+  `ClasseDesconto` decimal(9,2) DEFAULT NULL,
+  `Descricao` text NOT NULL,
+  `Imagem` varchar(45) DEFAULT NULL,
+  PRIMARY KEY (`pk_idProdutos`),
+  KEY `fk_idTipoProduto` (`fk_idTipoProduto`),
+  CONSTRAINT `fk_idTipoProduto` FOREIGN KEY (`fk_idTipoProduto`) REFERENCES `tipoproduto` (`pk_idTipoProduto`)
+) ENGINE=InnoDB AUTO_INCREMENT=43 DEFAULT CHARSET=utf8mb4;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `produto`
+--
+
+LOCK TABLES `produto` WRITE;
+/*!40000 ALTER TABLE `produto` DISABLE KEYS */;
+INSERT INTO `produto` VALUES (12,'7891234567890','Caloi Elite','Caloi',1,'M',140,23990.00,1,'2024-11-19 12:02:27','Azul',NULL,'A Elite foi projetada para ciclistas de alta performance que buscam um produto com tecnologia de ponta! Com transmissão Shimano de 12 velocidades da linha DEORE, trazendo o diferencial do range de 510% fica difícil achar um desafio que ela não possa transpor. Seu quadro exclusivo foi desenvolvido com foco na velocidade e que pudesse entregar uma experiência de pilotagem muito próxima dos produtos de fibra de carbono utilizado nas grandes provas de XC, traz ponteira com suporte para freios flat mount, thru-axle e boost, tecnologias que fazem a sua bicicleta mais ágil, leve e rígida do que nunca! As rodas trazem aros e pneus que aceitam o uso de tubeless, (tecnologia que dispensa o uso de câmeras de ar) e raios double-butted, ou seja, mesma rigidez com mais leveza e aerodinâmica aprimorada. Todo seu cockpit é da linha FSA com uma mesa de 20° negativos, permite que o ciclista esteja sempre focado e em posição de ataque. ','Caloi_Elite.png'),(13,'7891234567892','Caloi Supra','Caloi',1,'M',150,1799.00,1,'2024-11-19 12:29:29','Preto',NULL,'Para quem busca uma bike versátil para trabalhar ou para relaxar, a Supra HDS é a escolha certa! Vem com 24 marchas, suspensão de 80mm de curso com trava mecânica no ombro, câmbio traseiro e cubos Shimano, além de freios a disco hidráulico, mais seguros e precisos na frenagem, e que requerem menos manutenção. Na rua ou no parque, pedale com tranquilidade com a Supra HDS!','Caloi_Supra.png'),(14,'7891234567893','OGGI Cattura','Oggi',1,'M',150,29990.00,1,'2024-11-19 12:29:29','Preto',NULL,'A Oggi Cattura é uma bicicleta de mountain bike full suspension da marca Oggi. Ela é indicada para cross country e maratona, e é considerada uma boa opção para quem está começando a praticar o ciclismo em trilhas.','OGGI_Cattura.png'),(15,'7891234567894','OGGI Stimolla','OGGI',1,'M',150,8590.00,1,'2024-11-19 12:29:29','Preto',NULL,'Com um custo-benefício insuperável, a Stimolla Disc é uma bicicleta de estrada com freio a disco Shimano Hidraulico para quem quer começar no esporte com um equipamento mais avançado. Com um quadro de alumínio com tubos de tripla espessura e relação Shimano Tiagra 20 marchas Compacta, ela encara as subidas, as descidas e os planos com uma incrível desenvoltura. Quadro Oggi super leve de alumínio com tubos de tripla espessura e garfo de fibra de carbono.','OGGI_Stimolla.png'),(16,'7891234567895','Sense Fun Comp','Sense',1,'G',156,2690.00,1,'2024-11-19 12:29:29','Preto',NULL,'A MTB perfeita para a sua diversão! A nova Fun Comp nasce com um quadro em alumínio 6061 de dupla espessura, com tratamentoT4/T6 e com uma consagrada geometria esportiva em 4 opções de cores.','Fun_Comp.png'),(17,'7891234567896','Sense Univox GR Comp','Sense',1,'G',156,24990.00,1,'2024-11-19 12:29:29','Verde',NULL,'Explore novos horizontes com a Univox GR Comp. Ideal para ciclistas que buscam versatilidade e desempenho, a Univox GR Comp é a escolha perfeita para enfrentar diferentes terrenos com confiança. Combinando resistência e agilidade, oferece uma experiência equilibrada, seja no asfalto, em estradas de terra ou em paralelepípedos.','Univox.png'),(18,'7891234567181','Selim Shimano Pro Stealth Team','Shimano',2,'M',140,1749.00,1,'2024-11-19 12:59:47','Preto',NULL,'Foi projetado para performance, sendo altamente resistente e durável, é ideal para ciclistas que precisam pedalar longas distâncias. Modelo vazado, para diminuição da pressão sanguínea. Ideal para bicicletas do tipo speed ou mountain-bike. Possui largura de 140mm e comprimento de 250x152mm.','PRO_Stealth.png'),(19,'7891234567182','Selim Shimano Pro Turnix Gel','Shimano',2,'M',142,699.00,1,'2024-11-19 12:59:47','Preto',NULL,'O Selim Shimano Pro Turnix é projetado para ciclistas que estão entre uma baixa posição aero agressiva (corredores) e uma posição ligeiramente ereta para longos passeios. Se você se encaixa entre esses dois estilos, ou transita em ambos, então o Turnix é feito para você.','PRO_Turnix.png'),(20,'7891234567183','Selim Shimano PRO Stealth LTD','Shimano',2,'M',142,1199.00,1,'2024-11-19 12:59:47','Preto',NULL,'O Selim de Bicicleta Shimano PRO Stealth LTD 142mm é ideal para ciclistas que buscam maximizar seu desempenho. Com um design aerodinâmico e leve, ele permite que você mantenha uma postura agressiva na bicicleta, aumentando a eficiência da pedalada. A abertura central contribui para reduzir a pressão nas áreas sensíveis, promovendo conforto durante longos períodos de uso.','PRO_LTD.png'),(21,'7891234567184','Selim Shimano PRO Stealth Offroad','Shimano',2,'M',142,1399.00,1,'2024-11-19 12:59:47','Preto',NULL,'O Selim de Bicicleta Shimano Pro Stealth Offroad 142mm é projetado para ciclistas que enfrentam terrenos difíceis e desafiadores. Ideal para mountain bike e trilhas, este selim proporciona uma experiência de pedalada estável e confortável. Com a tecnologia avançada da Shimano, ele oferece suporte eficiente e minimiza a pressão em áreas sensíveis, garantindo um desempenho superior em qualquer condição.','PRO_Offroad.png'),(22,'7891234567185','Selim Italia Novus Boost Evo','Italia',2,'M',142,2799.00,1,'2024-11-19 12:59:47','Preto',NULL,'O Selim de Bicicleta Selle Italia Novus Boost Evo Kit Carbono SuperFlow é uma obra-prima da inovação em selins, projetado para ciclistas que buscam o máximo em conforto e tecnologia. Este selim não é apenas um assento, mas uma nova dimensão de conforto personalizado. Com zonas de amortecimento diferenciadas, ele oferece suporte progressivo em toda a superfície, adaptando-se perfeitamente ao ciclista para uma experiência de pedalada sem precedentes.','Novus_Boost.png'),(23,'7891234567283','Quadro Orbea Oiz','Orbea',4,'M',140,29999.00,1,'2024-11-19 13:01:03','Verde',NULL,'Independente do material que você escolher, você pode ter certeza de que seu Oiz é uma combinação dos materiais mais avançados, os melhores designs e os mais altos padrões de fabricação existentes','Orbea_Oiz.png'),(24,'7891234567284','Quadro MTB Absolute Wild','Absolute',4,'M',140,249.00,1,'2024-11-19 13:01:03','Preto',NULL,'O quadro Wild surpreendeu a todos com seu peso variando em torno de 1.93Kg, mais leve que muitos quadros. O quadro Absolute Wild tem como característica a pilotagem, com a geometria desenvolvida para deixar a pilotagem mais fácil até mesmo em terrenos mais acidentados e sem perder o conforto.','Absolute_Wild.png'),(25,'7891234567285','Quadro Cannondale F-SI Carbon Hi Mod','Cannondale',4,'M',140,12999.00,1,'2024-11-19 13:01:03','Preto',NULL,'O Quadro de Bicicleta Cannondale F-SI HM foi desenvolvido para ciclistas que buscam o mais alto nível de desempenho e precisão. Projetado com materiais de ponta e tecnologia avançada, este quadro é a escolha ideal para quem deseja superar os limites em competições ou em pedaladas intensas. Sua geometria foi meticulosamente ajustada para proporcionar maior estabilidade e controle, garantindo uma experiência de pilotagem ágil e responsiva, seja em terrenos acidentados ou em pistas rápidas.','Cannondale.png'),(26,'7891234567286','Quadro Orbea Orca Aero OMX','Orbea',4,'M',140,21998.00,1,'2024-11-19 13:01:03','Cinza',NULL,'O quadro de bicicleta Orbea Orca Aero OMX é uma obra-prima de engenharia aerodinâmica, projetado para maximizar a eficiência e reduzir a resistência ao vento. Sua construção elegante e linhas agressivas ajudam a cortar o ar com facilidade, proporcionando uma vantagem significativa em competições e treinos de alta velocidade. Este quadro é ideal para ciclistas que buscam desempenho superior e velocidade','Orbea_Orca.png'),(27,'7891234567287','Quadro MTB Absolute Hera','Absolute',4,'M',140,349.00,1,'2024-11-19 13:01:03','Branco',NULL,'O Quadro de Bicicleta Absolute Hera construído em alumínio 6061, combina equilíbrio entre resistência, leveza e qualidade. A geometria do quadro Absolute Hera MTB é projetada para lidar com diversos tipos de terrenos, desde trilhas técnicas até percursos mais suaves. Sua construção em alumínio proporciona a rigidez necessária para uma pedalada responsiva, transferindo eficientemente a energia do ciclista para a bicicleta. Especificamente, o quadro Absolute Hera é considerado para uso do sexo feminino. No âmbito geral, é uma escolha sólida para ciclistas que buscam um quadro de aro 29 durável e versátil, capaz de enfrentar diversos tipos de terrenos enquanto oferece conforto e desempenho confiável.','Absolute_Hera.png'),(28,'7891234567401','Câmbio Dianteiro Shimano Dura-Ace Di2 FD-R9150 2 vel','Shimano',6,'M',140,1498.00,1,'2024-11-19 13:02:22','Preto',NULL,'O Câmbio Dianteiro Shimano Dura-Ace Di2 FD-R9150 2 velocidades é sinônimo de precisão e rapidez. Com a avançada tecnologia Di2, você desfruta de mudanças de marcha eletrônicas extremamente suaves e rápidas, eliminando erros comuns em sistemas mecânicos. Essa tecnologia de ponta garante que cada pedalada seja eficiente, fazendo com que o desempenho da sua bicicleta atinja outro nível. Ideal para ciclistas exigentes que não renunciam a qualidade e performance.','Dianteiro_Durace.png'),(29,'7891234567402','Câmbio Dianteiro Shimano Ultegra Di2 FD-R8150 2 vel','Shimano',6,'M',140,2449.00,1,'2024-11-19 13:02:22','Preto',NULL,'O Câmbio Dianteiro Shimano Ultegra Di2 FD-R8150 é a escolha definitiva para ciclistas que buscam a combinação perfeita de tecnologia e desempenho. Equipado com o sistema eletrônico Di2, este câmbio oferece mudanças de marcha incrivelmente rápidas e precisas, eliminando o esforço manual e garantindo uma performance consistente em cada troca de marcha.','Dianteiro_Ultegra.png'),(30,'7891234567403','Câmbio Traseiro Shimano Deore XT RD-M786 10 vel','Shimano',6,'M',140,749.00,1,'2024-11-19 13:02:22','Preto',NULL,'Construído em alumínio e aço, o câmbio traseiro Deore XT RD-M786 apresenta excelente resistência e durabilidade, além de proporcionar as já conhecidas trocas de marchas rápidas e suaves da Shimano. O câmbio conta com a tecnologia Shadow Plus onde é possível ajustar a corrente para que ela trabalhe com mais ou menos tensão, além de reduzir a saliência lateral do câmbio, reduzindo assim também o risco de impacto durante o pedal. Por fim, o Deore XT RD-M786 possui 2 roldanas com rolamentos selados que apresentam uma excelente vida útil.','Deore_XT.png'),(31,'7891234567404','Câmbio Traseiro Shimano Dura-Ace Di2 RD-R9150 -SS 11 vel','Shimano',6,'M',140,6599.00,1,'2024-11-19 13:02:22','Preto',NULL,'O Câmbio Traseiro Shimano Dura-Ace Di2 RD-R9150-SS 11 velocidades é o ápice da tecnologia de transmissão eletrônica. Com a tecnologia Di2, você experimenta mudanças de marcha incrivelmente rápidas e precisas, eliminando qualquer margem de erro. A integração eletrônica permite ajustes automáticos e personalizados, garantindo que cada mudança seja suave e eficiente. Ideal para ciclistas profissionais e entusiastas que buscam o melhor desempenho em suas bicicletas de estrada.','Traseiro_Durace.png'),(32,'7891234567405','Câmbio Traseiro Shimano Claris RD-R2000 SS 8 vel','Shimano',6,'M',140,399.00,1,'2024-11-19 13:02:22','Preto',NULL,'O Câmbio Traseiro Shimano Claris Rd-2000 Ss 8v foi construído para deixar a sua bicicleta com trocas de marchas mais leves e precisas. É compatível com cassetes de até 8 velocidades com no mínimo 11 e no máximo 32 dentes. Ideal para quem quer entrar no mundo das bikes com k7, trazendo um ótimo custo-benefício sem deixar você desamparado, mesmo em pedais mais sinuosos.','Traseiro_Claris.png'),(33,'7891234565711','Coroa Shimano Dura-Ace FC-R9100 54','Shimano',5,'cm',54,2249.00,1,'2024-11-19 13:03:37','Preto',0.00,'A Coroa de Bicicleta Shimano Dura Ace FC-R9100 54 é um componente essencial para ciclistas que buscam o máximo de desempenho. Com a renomada tecnologia Hollowglide da Shimano, esta coroa oferece uma rigidez aprimorada e uma transferência de potência eficiente, tornando cada pedalada mais responsiva e potente, ideal para competições e treinos intensos, ela é projetada para proporcionar a melhor performance em todas as condições.','Shimano_Durace.png'),(34,'7891234565712','Coroa Shimano XTR SM-CRM94 11/12 vel 32','Shimano',5,'cm',54,999.00,1,'2024-11-19 13:03:37','Preto',0.00,'A Coroa de Bicicleta Shimano XTR SM-CRM95 11/12 vel 32 foi projetada para ciclistas que exigem o máximo desempenho em suas pedaladas. Com 32 dentes e fabricada em alumínio de alta qualidade, essa coroa combina leveza e durabilidade, permitindo um desempenho em trilhas técnicas. O design robusto garante que a coroa resista ao desgaste, mesmo nas condições mais extremas, proporcionando uma experiência de ciclismo superior.','Shimano_XTR.png'),(35,'7891234565713','Coroa Shimano XTR SM-CRM95 11/12 vel 34','Shimano',5,'cm',54,1249.00,1,'2024-11-19 13:03:37','Preto',0.00,'A Coroa de Bicicleta Shimano XTR SM-CRM95 11/12 vel 32 foi projetada para ciclistas que exigem o máximo desempenho em suas pedaladas. Com 32 dentes e fabricada em alumínio de alta qualidade, essa coroa combina leveza e durabilidade, permitindo um desempenho em trilhas técnicas. O design robusto garante que a coroa resista ao desgaste, mesmo nas condições mais extremas, proporcionando uma experiência de ciclismo superior.','Shimano_SM.png'),(36,'7891234565714','Coroa Ictus Aero Speed 110 BCD Indexada 50','Ictus',5,'cm',54,559.00,1,'2024-11-19 13:03:37','Preto',0.00,'A Ictus é uma marca do grupo 3L, foi lançada em 2007 iniciando suas vendas com adesivos 3D para carros. Hoje sua principal atividade é a Usinagem CNC de peças para bikes de alta performance, tendo como objetivo criar produtos de altíssima qualidade com um preço justo. Reconhecida por sua busca em entregar produtos confiáveis e de qualidade a Ictus lançou mais um produto de excelência, a coroa de speed Ictus Aero Speed 50 110 BCD Indexada.','Aero_Speed.png'),(37,'7891234565715','Coroa Shimano Deore XT SM-CRM85 34','Shimano',5,'cm',54,599.00,1,'2024-11-19 13:03:37','Preto',0.00,'A Coroa de Bicicleta Shimano Deore XT SM-CRM85 34 é projetada para ciclistas que exigem o máximo de desempenho e eficiência. Com tecnologia de ponta, como a Dynamic Chain Engagement, esta coroa proporciona retenção de corrente superior e pedalar suave mesmo nas trilhas mais desafiadoras. A construção em alumínio anodizado oferece uma combinação perfeita de leveza e durabilidade, garantindo que você tenha confiança em cada pedalada.','Shimano_Deore.png'),(38,'7891234567401','Guidão Pinarello Most Talon Ultra','Pinarello',3,'M',140,4999.00,1,'2024-11-19 13:04:25','Preto',NULL,'Nunca na história um guidão se tornou um componente de tanto sucesso. O novo Pinarello Most Talon Ultra Light Carbon representa o máximo em tecnologia e alta performance, oferecendo desempenho digno de Grand Tour. Com a tecnologia exclusiva TiCR o roteamento dos cabos se tornou totalmente interna melhorando a estética, sem cabos expostos no guidão. Mas o principal objetivo da utilização dessa tecnologia no desenvolvimento do guidão vai além de oferecer um design clean e futurista, mas também a preocupação dos engenheiros com os números, ou seja, o Talon Ultra Light é 8% mais rígido, 13% mais leve e oferece 5% menos arrasto aerodinâmico comparado com seu antecessor.','Pinarello_Most.png'),(39,'7891234567402','Guidão Orbea OC MP10 710mm','Pinarello',3,'M',710,1498.00,1,'2024-11-19 13:04:25','Preto',NULL,'O Guidão de Bicicleta Orbea OC MP10 760mm foi projetado para ciclistas que procuram um equilíbrio perfeito entre leveza e controle. Fabricado em fibra de carbono, oferece durabilidade e resistência incomparáveis, com um peso de apenas 193g. Sua largura de 760mm é ideal para uma condução precisa em trilhas e terrenos técnicos, proporcionando uma performance superior em qualquer tipo de percurso.','Orbea_OC.png'),(40,'7891234567403','Guidão Promax MTB 700mm Rise','MTB',3,'M',700,35.00,1,'2024-11-19 13:04:25','Preto',NULL,'O Guidão Promax MTB Rise foi desenvolvido para você que busca agregar mais conforto e leveza na sua mountain bike, os seus 700mm de largura lhe proporcionam uma pilotagem mais ereta e confortável.','Promax_MTB.png'),(41,'7891234567404','Guidão Orbea OC RA11 Carbon 400mm','MTB',3,'M',400,2998.00,1,'2024-11-19 13:04:25','Preto',NULL,'O Guidão de Bicicleta Orbea OC RA11 Carbon 400mm é a escolha ideal para ciclistas que desejam um componente leve e eficiente. Construído em fibra de carbono, ele oferece rigidez e leveza, pesando apenas 278g. A largura de 400mm permite um controle preciso, enquanto o cabeamento interno proporciona um visual limpo e melhora a aerodinâmica da bicicleta, ideal para ciclismo de estrada e competições.','Orbea_Carbon.png'),(42,'7891234567405','Guidão Shimano PRO PLT Compact 380mm','MTB',3,'M',380,1999.00,1,'2024-11-19 13:04:25','Preto',NULL,'O Guidão de Bicicleta Shimano PRO PLT Compact 380mm, fabricado em fibra de carbono UD T700, é projetado para oferecer um desempenho superior em todos os terrenos. Com um drop de 130mm e um reach de 80mm, este guidão foi cuidadosamente desenvolvido para proporcionar uma postura ergonômica que otimiza o controle e o conforto durante suas pedaladas. Ideal para ciclistas que buscam eficiência e uma posição de pilotagem confortável, o design compacto permite longas jornadas sem comprometer a performance, garantindo a estabilidade necessária para enfrentar qualquer desafio.','Shimano_PLT.png');
+/*!40000 ALTER TABLE `produto` ENABLE KEYS */;
+UNLOCK TABLES;
+/*!50003 SET @saved_cs_client      = @@character_set_client */ ;
+/*!50003 SET @saved_cs_results     = @@character_set_results */ ;
+/*!50003 SET @saved_col_connection = @@collation_connection */ ;
+/*!50003 SET character_set_client  = utf8mb4 */ ;
+/*!50003 SET character_set_results = utf8mb4 */ ;
+/*!50003 SET collation_connection  = utf8mb4_general_ci */ ;
+/*!50003 SET @saved_sql_mode       = @@sql_mode */ ;
+/*!50003 SET sql_mode              = 'NO_ZERO_IN_DATE,NO_ZERO_DATE,NO_ENGINE_SUBSTITUTION' */ ;
+DELIMITER ;;
+/*!50003 CREATE*/ /*!50017 DEFINER=`root`@`localhost`*/ /*!50003 TRIGGER trigger_gera_estoque
+AFTER INSERT ON Produto
+FOR EACH ROW
+BEGIN
+INSERT INTO Estoque values(0,new.pk_idProdutos, 0, current_date(),'');
+END */;;
+DELIMITER ;
+/*!50003 SET sql_mode              = @saved_sql_mode */ ;
+/*!50003 SET character_set_client  = @saved_cs_client */ ;
+/*!50003 SET character_set_results = @saved_cs_results */ ;
+/*!50003 SET collation_connection  = @saved_col_connection */ ;
+
+--
+-- Table structure for table `telefone`
+--
+
+DROP TABLE IF EXISTS `telefone`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `telefone` (
+  `pk_idTelefone` int(11) NOT NULL AUTO_INCREMENT,
+  `Telefone` varchar(11) NOT NULL,
+  `Tipo` varchar(8) NOT NULL,
+  `Ativo` bit(1) NOT NULL DEFAULT b'1',
+  PRIMARY KEY (`pk_idTelefone`)
+) ENGINE=InnoDB AUTO_INCREMENT=24 DEFAULT CHARSET=utf8mb4;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `telefone`
+--
+
+LOCK TABLES `telefone` WRITE;
+/*!40000 ALTER TABLE `telefone` DISABLE KEYS */;
+INSERT INTO `telefone` VALUES (19,'11922334455','Celular',''),(20,'7477889944','Telefone',''),(23,'1140028922','CELULAR','');
+/*!40000 ALTER TABLE `telefone` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `tipoproduto`
+--
+
+DROP TABLE IF EXISTS `tipoproduto`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `tipoproduto` (
+  `pk_idTipoProduto` int(11) NOT NULL AUTO_INCREMENT,
+  `tipo` varchar(75) NOT NULL,
+  PRIMARY KEY (`pk_idTipoProduto`)
+) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=utf8mb4;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `tipoproduto`
+--
+
+LOCK TABLES `tipoproduto` WRITE;
+/*!40000 ALTER TABLE `tipoproduto` DISABLE KEYS */;
+INSERT INTO `tipoproduto` VALUES (1,'Bicicleta'),(2,'Selim'),(3,'Guidão'),(4,'Quadro'),(5,'Coroa'),(6,'Cambio');
+/*!40000 ALTER TABLE `tipoproduto` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Dumping routines for database 'pedalmaster'
+--
+/*!50003 SET @saved_sql_mode       = @@sql_mode */ ;
+/*!50003 SET sql_mode              = 'NO_ZERO_IN_DATE,NO_ZERO_DATE,NO_ENGINE_SUBSTITUTION' */ ;
+/*!50003 DROP PROCEDURE IF EXISTS `spClientes_Insert_Email` */;
+/*!50003 SET @saved_cs_client      = @@character_set_client */ ;
+/*!50003 SET @saved_cs_results     = @@character_set_results */ ;
+/*!50003 SET @saved_col_connection = @@collation_connection */ ;
+/*!50003 SET character_set_client  = utf8mb4 */ ;
+/*!50003 SET character_set_results = utf8mb4 */ ;
+/*!50003 SET collation_connection  = utf8mb4_general_ci */ ;
+DELIMITER ;;
+CREATE DEFINER=`root`@`localhost` PROCEDURE `spClientes_Insert_Email`(
+Email varchar(100),
+sp_idCliente int
+)
+begin 
+insert into Email
+values(
+0,
+Email,
+default
+);
+insert into clientesEmails
+values(
+0,
+sp_idCliente,
+last_insert_id()
+);
+END ;;
+DELIMITER ;
+/*!50003 SET sql_mode              = @saved_sql_mode */ ;
+/*!50003 SET character_set_client  = @saved_cs_client */ ;
+/*!50003 SET character_set_results = @saved_cs_results */ ;
+/*!50003 SET collation_connection  = @saved_col_connection */ ;
+/*!50003 SET @saved_sql_mode       = @@sql_mode */ ;
+/*!50003 SET sql_mode              = 'NO_ZERO_IN_DATE,NO_ZERO_DATE,NO_ENGINE_SUBSTITUTION' */ ;
+/*!50003 DROP PROCEDURE IF EXISTS `spClientes_Insert_Enderecos` */;
+/*!50003 SET @saved_cs_client      = @@character_set_client */ ;
+/*!50003 SET @saved_cs_results     = @@character_set_results */ ;
+/*!50003 SET @saved_col_connection = @@collation_connection */ ;
+/*!50003 SET character_set_client  = utf8mb4 */ ;
+/*!50003 SET character_set_results = utf8mb4 */ ;
+/*!50003 SET collation_connection  = utf8mb4_general_ci */ ;
+DELIMITER ;;
+CREATE DEFINER=`root`@`localhost` PROCEDURE `spClientes_Insert_Enderecos`(
+
+splogradouro varchar(100), 
+spnumero varchar(5), 
+spbairro varchar(20), 
+spcidade varchar(20), 
+spuf varchar(2), 
+spcomplemento varchar(60), 
+spcep varchar(8),
+spid_Cliente int
+)
+begin 
+insert into Enderecos
+values(
+0,
+splogradouro,
+spnumero,
+spbairro,
+spcidade,
+spuf,
+spcomplemento,
+spcep,
+default);
+insert into clientesenderecos
+values(
+0,
+spid_Cliente,
+last_insert_id()
+);
+END ;;
+DELIMITER ;
+/*!50003 SET sql_mode              = @saved_sql_mode */ ;
+/*!50003 SET character_set_client  = @saved_cs_client */ ;
+/*!50003 SET character_set_results = @saved_cs_results */ ;
+/*!50003 SET collation_connection  = @saved_col_connection */ ;
+/*!50003 SET @saved_sql_mode       = @@sql_mode */ ;
+/*!50003 SET sql_mode              = 'NO_ZERO_IN_DATE,NO_ZERO_DATE,NO_ENGINE_SUBSTITUTION' */ ;
+/*!50003 DROP PROCEDURE IF EXISTS `spClientes_Insert_Telefone` */;
+/*!50003 SET @saved_cs_client      = @@character_set_client */ ;
+/*!50003 SET @saved_cs_results     = @@character_set_results */ ;
+/*!50003 SET @saved_col_connection = @@collation_connection */ ;
+/*!50003 SET character_set_client  = utf8mb4 */ ;
+/*!50003 SET character_set_results = utf8mb4 */ ;
+/*!50003 SET collation_connection  = utf8mb4_general_ci */ ;
+DELIMITER ;;
+CREATE DEFINER=`root`@`localhost` PROCEDURE `spClientes_Insert_Telefone`(
+sp_idCliente int,
+sptelefone varchar(11),
+sptipo varchar(8)
+)
+begin 
+insert into Telefone
+values(
+0,
+sptelefone,
+sptipo,
+default
+);
+insert into clientesTelefones
+values(
+0,
+sp_idCliente,
+last_insert_id()
+);
+END ;;
+DELIMITER ;
+/*!50003 SET sql_mode              = @saved_sql_mode */ ;
+/*!50003 SET character_set_client  = @saved_cs_client */ ;
+/*!50003 SET character_set_results = @saved_cs_results */ ;
+/*!50003 SET collation_connection  = @saved_col_connection */ ;
+/*!50003 SET @saved_sql_mode       = @@sql_mode */ ;
+/*!50003 SET sql_mode              = 'NO_ZERO_IN_DATE,NO_ZERO_DATE,NO_ENGINE_SUBSTITUTION' */ ;
+/*!50003 DROP PROCEDURE IF EXISTS `spFuncionarios_Insert_Emails` */;
+/*!50003 SET @saved_cs_client      = @@character_set_client */ ;
+/*!50003 SET @saved_cs_results     = @@character_set_results */ ;
+/*!50003 SET @saved_col_connection = @@collation_connection */ ;
+/*!50003 SET character_set_client  = utf8mb4 */ ;
+/*!50003 SET character_set_results = utf8mb4 */ ;
+/*!50003 SET collation_connection  = utf8mb4_general_ci */ ;
+DELIMITER ;;
+CREATE DEFINER=`root`@`localhost` PROCEDURE `spFuncionarios_Insert_Emails`(
+spid_Funcionarios int, 
+spemail varchar(100)
+)
+begin 
+insert into Email
+values(
+0,
+spemail,
+default
+);
+insert into FuncionariosEmails
+values(
+0,
+spid_Funcionarios,
+last_insert_id()
+);
+END ;;
+DELIMITER ;
+/*!50003 SET sql_mode              = @saved_sql_mode */ ;
+/*!50003 SET character_set_client  = @saved_cs_client */ ;
+/*!50003 SET character_set_results = @saved_cs_results */ ;
+/*!50003 SET collation_connection  = @saved_col_connection */ ;
+/*!50003 SET @saved_sql_mode       = @@sql_mode */ ;
+/*!50003 SET sql_mode              = 'NO_ZERO_IN_DATE,NO_ZERO_DATE,NO_ENGINE_SUBSTITUTION' */ ;
+/*!50003 DROP PROCEDURE IF EXISTS `spFuncionarios_Insert_Enderecos` */;
+/*!50003 SET @saved_cs_client      = @@character_set_client */ ;
+/*!50003 SET @saved_cs_results     = @@character_set_results */ ;
+/*!50003 SET @saved_col_connection = @@collation_connection */ ;
+/*!50003 SET character_set_client  = utf8mb4 */ ;
+/*!50003 SET character_set_results = utf8mb4 */ ;
+/*!50003 SET collation_connection  = utf8mb4_general_ci */ ;
+DELIMITER ;;
+CREATE DEFINER=`root`@`localhost` PROCEDURE `spFuncionarios_Insert_Enderecos`(
+sp_idFuncionarios int, 
+splogradouro varchar(100), 
+spnumero varchar(5), 
+spbairro varchar(20), 
+spcidade varchar(20), 
+spuf varchar(2), 
+spcomplemento varchar(60), 
+spcep varchar(8)
+)
+begin 
+insert into Enderecos
+values(
+0,
+splogradouro,
+spnumero,
+spbairro,
+spcidade,
+spuf,
+spcomplemento,
+spcep,
+default);
+insert into funcionariosEnderecos
+values(
+0,
+sp_idFuncionarios,
+last_insert_id()
+);
+END ;;
+DELIMITER ;
+/*!50003 SET sql_mode              = @saved_sql_mode */ ;
+/*!50003 SET character_set_client  = @saved_cs_client */ ;
+/*!50003 SET character_set_results = @saved_cs_results */ ;
+/*!50003 SET collation_connection  = @saved_col_connection */ ;
+/*!50003 SET @saved_sql_mode       = @@sql_mode */ ;
+/*!50003 SET sql_mode              = 'NO_ZERO_IN_DATE,NO_ZERO_DATE,NO_ENGINE_SUBSTITUTION' */ ;
+/*!50003 DROP PROCEDURE IF EXISTS `spFuncionarios_Insert_Telefone` */;
+/*!50003 SET @saved_cs_client      = @@character_set_client */ ;
+/*!50003 SET @saved_cs_results     = @@character_set_results */ ;
+/*!50003 SET @saved_col_connection = @@collation_connection */ ;
+/*!50003 SET character_set_client  = utf8mb4 */ ;
+/*!50003 SET character_set_results = utf8mb4 */ ;
+/*!50003 SET collation_connection  = utf8mb4_general_ci */ ;
+DELIMITER ;;
+CREATE DEFINER=`root`@`localhost` PROCEDURE `spFuncionarios_Insert_Telefone`(
+spid_Funcionarios int, 
+sptelefone varchar(11),
+sptipo varchar(8)
+)
+begin 
+insert into Telefone
+values(
+0,
+sptelefone ,
+sptipo,
+default
+);
+insert into FuncionariosTelefones
+values(
+0,
+spid_Funcionarios,
+last_insert_id()
+);
+END ;;
+DELIMITER ;
+/*!50003 SET sql_mode              = @saved_sql_mode */ ;
+/*!50003 SET character_set_client  = @saved_cs_client */ ;
+/*!50003 SET character_set_results = @saved_cs_results */ ;
+/*!50003 SET collation_connection  = @saved_col_connection */ ;
+/*!50003 SET @saved_sql_mode       = @@sql_mode */ ;
+/*!50003 SET sql_mode              = 'NO_ZERO_IN_DATE,NO_ZERO_DATE,NO_ENGINE_SUBSTITUTION' */ ;
+/*!50003 DROP PROCEDURE IF EXISTS `spInsertClientes` */;
+/*!50003 SET @saved_cs_client      = @@character_set_client */ ;
+/*!50003 SET @saved_cs_results     = @@character_set_results */ ;
+/*!50003 SET @saved_col_connection = @@collation_connection */ ;
+/*!50003 SET character_set_client  = utf8mb4 */ ;
+/*!50003 SET character_set_results = utf8mb4 */ ;
+/*!50003 SET collation_connection  = utf8mb4_general_ci */ ;
+DELIMITER ;;
+CREATE DEFINER=`root`@`localhost` PROCEDURE `spInsertClientes`(
+spnome varchar(100) ,
+spcpf varchar(11) ,
+spdatanascimento  date
+)
+begin
+insert into Clientes
+value(
+0,
+spnome,
+spcpf,
+default,
+spdatanascimento,
+default
+);
+select last_insert_id();
+END ;;
+DELIMITER ;
+/*!50003 SET sql_mode              = @saved_sql_mode */ ;
+/*!50003 SET character_set_client  = @saved_cs_client */ ;
+/*!50003 SET character_set_results = @saved_cs_results */ ;
+/*!50003 SET collation_connection  = @saved_col_connection */ ;
+/*!50003 SET @saved_sql_mode       = @@sql_mode */ ;
+/*!50003 SET sql_mode              = 'NO_ZERO_IN_DATE,NO_ZERO_DATE,NO_ENGINE_SUBSTITUTION' */ ;
+/*!50003 DROP PROCEDURE IF EXISTS `spInsert_Cargos` */;
+/*!50003 SET @saved_cs_client      = @@character_set_client */ ;
+/*!50003 SET @saved_cs_results     = @@character_set_results */ ;
+/*!50003 SET @saved_col_connection = @@collation_connection */ ;
+/*!50003 SET character_set_client  = utf8mb4 */ ;
+/*!50003 SET character_set_results = utf8mb4 */ ;
+/*!50003 SET collation_connection  = utf8mb4_general_ci */ ;
+DELIMITER ;;
+CREATE DEFINER=`root`@`localhost` PROCEDURE `spInsert_Cargos`(
+spcargo varchar(30),
+spsigla varchar(3),
+spsalario decimal(8,2)
+)
+begin
+insert into Cargos
+values(
+0,
+spcargo,
+spsigla,
+spsalario
+);
+end ;;
+DELIMITER ;
+/*!50003 SET sql_mode              = @saved_sql_mode */ ;
+/*!50003 SET character_set_client  = @saved_cs_client */ ;
+/*!50003 SET character_set_results = @saved_cs_results */ ;
+/*!50003 SET collation_connection  = @saved_col_connection */ ;
+/*!50003 SET @saved_sql_mode       = @@sql_mode */ ;
+/*!50003 SET sql_mode              = 'NO_ZERO_IN_DATE,NO_ZERO_DATE,NO_ENGINE_SUBSTITUTION' */ ;
+/*!50003 DROP PROCEDURE IF EXISTS `spInsert_cartoes` */;
+/*!50003 SET @saved_cs_client      = @@character_set_client */ ;
+/*!50003 SET @saved_cs_results     = @@character_set_results */ ;
+/*!50003 SET @saved_col_connection = @@collation_connection */ ;
+/*!50003 SET character_set_client  = utf8mb4 */ ;
+/*!50003 SET character_set_results = utf8mb4 */ ;
+/*!50003 SET collation_connection  = utf8mb4_general_ci */ ;
+DELIMITER ;;
+CREATE DEFINER=`root`@`localhost` PROCEDURE `spInsert_cartoes`(
+sp_idClientes int,
+spnome varchar(20),
+spbandeira varchar(20),
+spnumero int,
+spvalidade date,
+sptipo varchar(10),
+spcvv varchar(3)
+)
+begin
+insert into Cartoes
+values(
+0,
+spnome,
+spbandeira,
+spnumero,
+spvalidade,
+sptipo,
+spcvv,
+default
+);
+insert into CartoesClientes
+values(
+0,
+sp_idClientes,
+last_insert_id()
+);
+end ;;
+DELIMITER ;
+/*!50003 SET sql_mode              = @saved_sql_mode */ ;
+/*!50003 SET character_set_client  = @saved_cs_client */ ;
+/*!50003 SET character_set_results = @saved_cs_results */ ;
+/*!50003 SET collation_connection  = @saved_col_connection */ ;
+/*!50003 SET @saved_sql_mode       = @@sql_mode */ ;
+/*!50003 SET sql_mode              = 'NO_ZERO_IN_DATE,NO_ZERO_DATE,NO_ENGINE_SUBSTITUTION' */ ;
+/*!50003 DROP PROCEDURE IF EXISTS `spInsert_Funcionarios` */;
+/*!50003 SET @saved_cs_client      = @@character_set_client */ ;
+/*!50003 SET @saved_cs_results     = @@character_set_results */ ;
+/*!50003 SET @saved_col_connection = @@collation_connection */ ;
+/*!50003 SET character_set_client  = utf8mb4 */ ;
+/*!50003 SET character_set_results = utf8mb4 */ ;
+/*!50003 SET collation_connection  = utf8mb4_general_ci */ ;
+DELIMITER ;;
+CREATE DEFINER=`root`@`localhost` PROCEDURE `spInsert_Funcionarios`(
+spnome varchar(100),
+spcpf varchar(11),
+sprg varchar(9),
+spdatnasc date,
+spid_cargos int
+)
+begin
+insert into Funcionarios
+values(
+0,
+spnome,
+spcpf,
+sprg,
+spdatnasc,
+spid_cargos,
+default
+); 
+select last_insert_id();
+end ;;
+DELIMITER ;
+/*!50003 SET sql_mode              = @saved_sql_mode */ ;
+/*!50003 SET character_set_client  = @saved_cs_client */ ;
+/*!50003 SET character_set_results = @saved_cs_results */ ;
+/*!50003 SET collation_connection  = @saved_col_connection */ ;
+/*!50003 SET @saved_sql_mode       = @@sql_mode */ ;
+/*!50003 SET sql_mode              = 'NO_ZERO_IN_DATE,NO_ZERO_DATE,NO_ENGINE_SUBSTITUTION' */ ;
+/*!50003 DROP PROCEDURE IF EXISTS `spInsert_Produto` */;
+/*!50003 SET @saved_cs_client      = @@character_set_client */ ;
+/*!50003 SET @saved_cs_results     = @@character_set_results */ ;
+/*!50003 SET @saved_col_connection = @@collation_connection */ ;
+/*!50003 SET character_set_client  = utf8mb4 */ ;
+/*!50003 SET character_set_results = utf8mb4 */ ;
+/*!50003 SET collation_connection  = utf8mb4_general_ci */ ;
+DELIMITER ;;
+CREATE DEFINER=`root`@`localhost` PROCEDURE `spInsert_Produto`(
+spCodigoDeBarras varchar(20) ,
+spNome varchar(90) ,
+spMarca varchar(20) ,
+sp_fkTipoProduto int(11) ,
+spTipoTamanho varchar(2), 
+spTamanho int(11) ,
+spPreco decimal(12,2) ,
+spEstoqueMinimo int,
+spClasseDesconto decimal(9,2) ,
+spCor varchar(100) ,
+spDescricao varchar(150) 
+)
+begin 
+insert into Produto
+values(
+0,
+spCodigoDeBarras,
+spNome,
+spMarca,
+sp_fkTipoProduto,
+spTipoTamanho,
+spTamanho,
+spPreco,
+spEstoqueMinimo,
+Default,
+spCor ,
+spClasseDesconto,
+spDescricao
+);
+select last_insert_id();
+end ;;
+DELIMITER ;
+/*!50003 SET sql_mode              = @saved_sql_mode */ ;
+/*!50003 SET character_set_client  = @saved_cs_client */ ;
+/*!50003 SET character_set_results = @saved_cs_results */ ;
+/*!50003 SET collation_connection  = @saved_col_connection */ ;
+/*!50003 SET @saved_sql_mode       = @@sql_mode */ ;
+/*!50003 SET sql_mode              = 'NO_ZERO_IN_DATE,NO_ZERO_DATE,NO_ENGINE_SUBSTITUTION' */ ;
+/*!50003 DROP PROCEDURE IF EXISTS `spUpdate_Cargos` */;
+/*!50003 SET @saved_cs_client      = @@character_set_client */ ;
+/*!50003 SET @saved_cs_results     = @@character_set_results */ ;
+/*!50003 SET @saved_col_connection = @@collation_connection */ ;
+/*!50003 SET character_set_client  = utf8mb4 */ ;
+/*!50003 SET character_set_results = utf8mb4 */ ;
+/*!50003 SET collation_connection  = utf8mb4_general_ci */ ;
+DELIMITER ;;
+CREATE DEFINER=`root`@`localhost` PROCEDURE `spUpdate_Cargos`(
+spid int,
+spcargo varchar(30),
+spsigla varchar(3),
+spsalario decimal(8,2)
+)
+begin
+update Cargos
+set
+Cargo = spcargo,
+Sigla = spsigla,
+Salario = spsalario
+where 
+pk_idCargos = spid
+;
+end ;;
+DELIMITER ;
+/*!50003 SET sql_mode              = @saved_sql_mode */ ;
+/*!50003 SET character_set_client  = @saved_cs_client */ ;
+/*!50003 SET character_set_results = @saved_cs_results */ ;
+/*!50003 SET collation_connection  = @saved_col_connection */ ;
+/*!50003 SET @saved_sql_mode       = @@sql_mode */ ;
+/*!50003 SET sql_mode              = 'NO_ZERO_IN_DATE,NO_ZERO_DATE,NO_ENGINE_SUBSTITUTION' */ ;
+/*!50003 DROP PROCEDURE IF EXISTS `spUpdate_Cartoes` */;
+/*!50003 SET @saved_cs_client      = @@character_set_client */ ;
+/*!50003 SET @saved_cs_results     = @@character_set_results */ ;
+/*!50003 SET @saved_col_connection = @@collation_connection */ ;
+/*!50003 SET character_set_client  = utf8mb4 */ ;
+/*!50003 SET character_set_results = utf8mb4 */ ;
+/*!50003 SET collation_connection  = utf8mb4_general_ci */ ;
+DELIMITER ;;
+CREATE DEFINER=`root`@`localhost` PROCEDURE `spUpdate_Cartoes`(
+spid int,
+spnome varchar(20),
+spbandeira varchar(20),
+spnumero int,
+spvalidade date,
+sptipo varchar(10),
+spcvv varchar(3),
+spativo bit(1)
+)
+begin 
+update Cartoes
+set
+spnome = Nomecartao,
+spbandeira = Bandeira,
+spnumero = Numerocartao,
+spvalidade = validade,
+sptipo = tipo,
+spcvv = cvv,
+spativo = Ativo
+where
+spid = pk_idCartoes
+;
+end ;;
+DELIMITER ;
+/*!50003 SET sql_mode              = @saved_sql_mode */ ;
+/*!50003 SET character_set_client  = @saved_cs_client */ ;
+/*!50003 SET character_set_results = @saved_cs_results */ ;
+/*!50003 SET collation_connection  = @saved_col_connection */ ;
+/*!50003 SET @saved_sql_mode       = @@sql_mode */ ;
+/*!50003 SET sql_mode              = 'NO_ZERO_IN_DATE,NO_ZERO_DATE,NO_ENGINE_SUBSTITUTION' */ ;
+/*!50003 DROP PROCEDURE IF EXISTS `spUpdate_Funcionarios` */;
+/*!50003 SET @saved_cs_client      = @@character_set_client */ ;
+/*!50003 SET @saved_cs_results     = @@character_set_results */ ;
+/*!50003 SET @saved_col_connection = @@collation_connection */ ;
+/*!50003 SET character_set_client  = utf8mb4 */ ;
+/*!50003 SET character_set_results = utf8mb4 */ ;
+/*!50003 SET collation_connection  = utf8mb4_general_ci */ ;
+DELIMITER ;;
+CREATE DEFINER=`root`@`localhost` PROCEDURE `spUpdate_Funcionarios`(
+spid int,
+spnome varchar(100),
+spcpf varchar(11),
+sprg varchar(9),
+spdatnasc date,
+spid_cargos int,
+spativo bit(1)
+)
+begin
+update Funcionarios 
+set
+Nome = spnome,
+CPF = spcpf,
+RG = sprg,
+DataNascimento = spdatanasc,
+fk_idFuncionarios_Cargo = spid_cargos,
+Ativo = spativo
+where 
+pk_idFuncionarios = spid
+;
+end ;;
+DELIMITER ;
+/*!50003 SET sql_mode              = @saved_sql_mode */ ;
+/*!50003 SET character_set_client  = @saved_cs_client */ ;
+/*!50003 SET character_set_results = @saved_cs_results */ ;
+/*!50003 SET collation_connection  = @saved_col_connection */ ;
+/*!50003 SET @saved_sql_mode       = @@sql_mode */ ;
+/*!50003 SET sql_mode              = 'NO_ZERO_IN_DATE,NO_ZERO_DATE,NO_ENGINE_SUBSTITUTION' */ ;
+/*!50003 DROP PROCEDURE IF EXISTS `spUpdate_Produto` */;
+/*!50003 SET @saved_cs_client      = @@character_set_client */ ;
+/*!50003 SET @saved_cs_results     = @@character_set_results */ ;
+/*!50003 SET @saved_col_connection = @@collation_connection */ ;
+/*!50003 SET character_set_client  = utf8mb4 */ ;
+/*!50003 SET character_set_results = utf8mb4 */ ;
+/*!50003 SET collation_connection  = utf8mb4_general_ci */ ;
+DELIMITER ;;
+CREATE DEFINER=`root`@`localhost` PROCEDURE `spUpdate_Produto`(
+spid int ,
+spCodigoDeBarras varchar(20) ,
+spNome varchar(90) ,
+spMarca varchar(20) ,
+spTipoProduto varchar(20) ,
+spTamanho varchar(20) ,
+spPreco decimal(12,2) ,
+spEstoqueMinimo int ,
+spClasseDesconto varchar(30) ,
+spCor varchar(20) ,
+spDescricao varchar(150) 
+)
+begin 
+update Produtos
+set spNome = Nome,
+spMarca = Marca,
+spTipoProduto = TipoProduto,
+spTamanho = Tamanho,
+spPreco = Preco,
+spEstoqueMinimo = EstoqueMinimo,
+spClasseDesconto = ClasseDesconto,
+spCor = Cor,
+spDescricao = Descricao
+where spid = pk_idProdutos;
+end ;;
+DELIMITER ;
+/*!50003 SET sql_mode              = @saved_sql_mode */ ;
+/*!50003 SET character_set_client  = @saved_cs_client */ ;
+/*!50003 SET character_set_results = @saved_cs_results */ ;
+/*!50003 SET collation_connection  = @saved_col_connection */ ;
+/*!50003 SET @saved_sql_mode       = @@sql_mode */ ;
+/*!50003 SET sql_mode              = 'NO_ZERO_IN_DATE,NO_ZERO_DATE,NO_ENGINE_SUBSTITUTION' */ ;
+/*!50003 DROP PROCEDURE IF EXISTS `sp_Insert_ItensPedidos` */;
+/*!50003 SET @saved_cs_client      = @@character_set_client */ ;
+/*!50003 SET @saved_cs_results     = @@character_set_results */ ;
+/*!50003 SET @saved_col_connection = @@collation_connection */ ;
+/*!50003 SET character_set_client  = utf8mb4 */ ;
+/*!50003 SET character_set_results = utf8mb4 */ ;
+/*!50003 SET collation_connection  = utf8mb4_general_ci */ ;
+DELIMITER ;;
+CREATE DEFINER=`root`@`localhost` PROCEDURE `sp_Insert_ItensPedidos`(
+spquantidade int ,
+spdesconto decimal(7,2),
+spfkPedidos int ,
+spfkProdutos int 
+)
+begin 
+insert into ItensPedidos
+values(
+0,
+spquantidade,
+spdesconto,
+(select Preco from Produto where pk_idProdutos = spfkProdutos),
+spfkPedidos,
+spfkProdutos
+);
+end ;;
+DELIMITER ;
+/*!50003 SET sql_mode              = @saved_sql_mode */ ;
+/*!50003 SET character_set_client  = @saved_cs_client */ ;
+/*!50003 SET character_set_results = @saved_cs_results */ ;
+/*!50003 SET collation_connection  = @saved_col_connection */ ;
+/*!50003 SET @saved_sql_mode       = @@sql_mode */ ;
+/*!50003 SET sql_mode              = 'NO_ZERO_IN_DATE,NO_ZERO_DATE,NO_ENGINE_SUBSTITUTION' */ ;
+/*!50003 DROP PROCEDURE IF EXISTS `sp_Insert_Pedidos` */;
+/*!50003 SET @saved_cs_client      = @@character_set_client */ ;
+/*!50003 SET @saved_cs_results     = @@character_set_results */ ;
+/*!50003 SET @saved_col_connection = @@collation_connection */ ;
+/*!50003 SET character_set_client  = utf8mb4 */ ;
+/*!50003 SET character_set_results = utf8mb4 */ ;
+/*!50003 SET collation_connection  = utf8mb4_general_ci */ ;
+DELIMITER ;;
+CREATE DEFINER=`root`@`localhost` PROCEDURE `sp_Insert_Pedidos`(
+spdesconto decimal(7,2),
+spfkFuncionarios int ,
+spfkClientes int
+)
+begin
+insert into Pedidos
+values(
+0,
+default,
+spdesconto,
+default,
+spfkFuncionarios,
+spfkClientes);
+select last_insert_id();
+end ;;
+DELIMITER ;
+/*!50003 SET sql_mode              = @saved_sql_mode */ ;
+/*!50003 SET character_set_client  = @saved_cs_client */ ;
+/*!50003 SET character_set_results = @saved_cs_results */ ;
+/*!50003 SET collation_connection  = @saved_col_connection */ ;
+/*!50003 SET @saved_sql_mode       = @@sql_mode */ ;
+/*!50003 SET sql_mode              = 'NO_ZERO_IN_DATE,NO_ZERO_DATE,NO_ENGINE_SUBSTITUTION' */ ;
+/*!50003 DROP PROCEDURE IF EXISTS `sp_Update_Clientes` */;
+/*!50003 SET @saved_cs_client      = @@character_set_client */ ;
+/*!50003 SET @saved_cs_results     = @@character_set_results */ ;
+/*!50003 SET @saved_col_connection = @@collation_connection */ ;
+/*!50003 SET character_set_client  = utf8mb4 */ ;
+/*!50003 SET character_set_results = utf8mb4 */ ;
+/*!50003 SET collation_connection  = utf8mb4_general_ci */ ;
+DELIMITER ;;
+CREATE DEFINER=`root`@`localhost` PROCEDURE `sp_Update_Clientes`(
+spid int ,
+spnome varchar(100) ,
+spcpf varchar(11) ,
+spdata_cadastro timestamp,
+spdatanascimento  date,
+spativo bit(1) 
+)
+begin 
+update Clientes
+set 
+spnome = Nome,
+spcpf = CPF,
+spdatanascimento = DataNascimento,
+spAtivo = Ativo
+where pk_idClientes = spid;
+end ;;
+DELIMITER ;
+/*!50003 SET sql_mode              = @saved_sql_mode */ ;
+/*!50003 SET character_set_client  = @saved_cs_client */ ;
+/*!50003 SET character_set_results = @saved_cs_results */ ;
+/*!50003 SET collation_connection  = @saved_col_connection */ ;
+/*!50003 SET @saved_sql_mode       = @@sql_mode */ ;
+/*!50003 SET sql_mode              = 'NO_ZERO_IN_DATE,NO_ZERO_DATE,NO_ENGINE_SUBSTITUTION' */ ;
+/*!50003 DROP PROCEDURE IF EXISTS `sp_Update_Email` */;
+/*!50003 SET @saved_cs_client      = @@character_set_client */ ;
+/*!50003 SET @saved_cs_results     = @@character_set_results */ ;
+/*!50003 SET @saved_col_connection = @@collation_connection */ ;
+/*!50003 SET character_set_client  = utf8mb4 */ ;
+/*!50003 SET character_set_results = utf8mb4 */ ;
+/*!50003 SET collation_connection  = utf8mb4_general_ci */ ;
+DELIMITER ;;
+CREATE DEFINER=`root`@`localhost` PROCEDURE `sp_Update_Email`(
+spid int, 
+spemail varchar(100)
+)
+begin 
+update Email
+set Email = spemail
+where pk_idEmail = spid;
+END ;;
+DELIMITER ;
+/*!50003 SET sql_mode              = @saved_sql_mode */ ;
+/*!50003 SET character_set_client  = @saved_cs_client */ ;
+/*!50003 SET character_set_results = @saved_cs_results */ ;
+/*!50003 SET collation_connection  = @saved_col_connection */ ;
+/*!50003 SET @saved_sql_mode       = @@sql_mode */ ;
+/*!50003 SET sql_mode              = 'NO_ZERO_IN_DATE,NO_ZERO_DATE,NO_ENGINE_SUBSTITUTION' */ ;
+/*!50003 DROP PROCEDURE IF EXISTS `sp_Update_Endereco` */;
+/*!50003 SET @saved_cs_client      = @@character_set_client */ ;
+/*!50003 SET @saved_cs_results     = @@character_set_results */ ;
+/*!50003 SET @saved_col_connection = @@collation_connection */ ;
+/*!50003 SET character_set_client  = utf8mb4 */ ;
+/*!50003 SET character_set_results = utf8mb4 */ ;
+/*!50003 SET collation_connection  = utf8mb4_general_ci */ ;
+DELIMITER ;;
+CREATE DEFINER=`root`@`localhost` PROCEDURE `sp_Update_Endereco`(
+spid int, 
+splogradouro varchar(100), 
+spnumero varchar(5), 
+spbairro varchar(20), 
+spcidade varchar(20), 
+spuf varchar(2), 
+spcomplemento varchar(60), 
+spcep varchar(8)
+)
+begin 
+update Enderecos 
+set Logradouro = splogradouro,
+Numero = spnumero,
+Bairro = spbairro,
+Cidade = spcidade,
+UF = spuf,
+Complemento = spcomplemento,
+CEP = spcep
+where pk_idEnderecos = spid;
+END ;;
+DELIMITER ;
+/*!50003 SET sql_mode              = @saved_sql_mode */ ;
+/*!50003 SET character_set_client  = @saved_cs_client */ ;
+/*!50003 SET character_set_results = @saved_cs_results */ ;
+/*!50003 SET collation_connection  = @saved_col_connection */ ;
+/*!50003 SET @saved_sql_mode       = @@sql_mode */ ;
+/*!50003 SET sql_mode              = 'NO_ZERO_IN_DATE,NO_ZERO_DATE,NO_ENGINE_SUBSTITUTION' */ ;
+/*!50003 DROP PROCEDURE IF EXISTS `sp_Update_ItensPedido` */;
+/*!50003 SET @saved_cs_client      = @@character_set_client */ ;
+/*!50003 SET @saved_cs_results     = @@character_set_results */ ;
+/*!50003 SET @saved_col_connection = @@collation_connection */ ;
+/*!50003 SET character_set_client  = utf8mb4 */ ;
+/*!50003 SET character_set_results = utf8mb4 */ ;
+/*!50003 SET collation_connection  = utf8mb4_general_ci */ ;
+DELIMITER ;;
+CREATE DEFINER=`root`@`localhost` PROCEDURE `sp_Update_ItensPedido`(
+spid int ,
+spquantidade int ,
+spdesconto decimal(7,2)
+)
+begin
+update ItensPedidos
+set Quantidade = spquantidade,
+Desconto = spdesconto
+where pk_idItensPedidos =spid;
+end ;;
+DELIMITER ;
+/*!50003 SET sql_mode              = @saved_sql_mode */ ;
+/*!50003 SET character_set_client  = @saved_cs_client */ ;
+/*!50003 SET character_set_results = @saved_cs_results */ ;
+/*!50003 SET collation_connection  = @saved_col_connection */ ;
+/*!50003 SET @saved_sql_mode       = @@sql_mode */ ;
+/*!50003 SET sql_mode              = 'NO_ZERO_IN_DATE,NO_ZERO_DATE,NO_ENGINE_SUBSTITUTION' */ ;
+/*!50003 DROP PROCEDURE IF EXISTS `sp_Update_Pedidos` */;
+/*!50003 SET @saved_cs_client      = @@character_set_client */ ;
+/*!50003 SET @saved_cs_results     = @@character_set_results */ ;
+/*!50003 SET @saved_col_connection = @@collation_connection */ ;
+/*!50003 SET character_set_client  = utf8mb4 */ ;
+/*!50003 SET character_set_results = utf8mb4 */ ;
+/*!50003 SET collation_connection  = utf8mb4_general_ci */ ;
+DELIMITER ;;
+CREATE DEFINER=`root`@`localhost` PROCEDURE `sp_Update_Pedidos`(
+spid int,
+spestatus char(1),
+spdesconto decimal(7,2)
+)
+begin 
+update Pedidos
+set Estatus =spestatus,
+Desconto = spdesconto 
+where pk_idPedidos = spid;
+end ;;
+DELIMITER ;
+/*!50003 SET sql_mode              = @saved_sql_mode */ ;
+/*!50003 SET character_set_client  = @saved_cs_client */ ;
+/*!50003 SET character_set_results = @saved_cs_results */ ;
+/*!50003 SET collation_connection  = @saved_col_connection */ ;
+/*!50003 SET @saved_sql_mode       = @@sql_mode */ ;
+/*!50003 SET sql_mode              = 'NO_ZERO_IN_DATE,NO_ZERO_DATE,NO_ENGINE_SUBSTITUTION' */ ;
+/*!50003 DROP PROCEDURE IF EXISTS `sp_Update_Telefone` */;
+/*!50003 SET @saved_cs_client      = @@character_set_client */ ;
+/*!50003 SET @saved_cs_results     = @@character_set_results */ ;
+/*!50003 SET @saved_col_connection = @@collation_connection */ ;
+/*!50003 SET character_set_client  = utf8mb4 */ ;
+/*!50003 SET character_set_results = utf8mb4 */ ;
+/*!50003 SET collation_connection  = utf8mb4_general_ci */ ;
+DELIMITER ;;
+CREATE DEFINER=`root`@`localhost` PROCEDURE `sp_Update_Telefone`(
+sptelefone varchar(11),
+sptipo varchar(11),
+spid int
+)
+begin 
+update telefone
+set Telefone = sptelefone,
+Tipo = sptipo
+where pk_idTelefone = spid ;
+END ;;
+DELIMITER ;
+/*!50003 SET sql_mode              = @saved_sql_mode */ ;
+/*!50003 SET character_set_client  = @saved_cs_client */ ;
+/*!50003 SET character_set_results = @saved_cs_results */ ;
+/*!50003 SET collation_connection  = @saved_col_connection */ ;
+/*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
+
+/*!40101 SET SQL_MODE=@OLD_SQL_MODE */;
+/*!40014 SET FOREIGN_KEY_CHECKS=@OLD_FOREIGN_KEY_CHECKS */;
+/*!40014 SET UNIQUE_CHECKS=@OLD_UNIQUE_CHECKS */;
+/*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
+/*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
+/*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
+/*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
+
+-- Dump completed on 2024-11-19 11:23:58
