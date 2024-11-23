@@ -17,7 +17,6 @@ namespace SysPecNSLib
         public int Quantidade { get; set; }
         public DateTime DataUltMov { get; set; }
 
-
         public Estoque()
         {
 

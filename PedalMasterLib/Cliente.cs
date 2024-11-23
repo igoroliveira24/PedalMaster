@@ -17,6 +17,39 @@ namespace PedalMasterLib
         public DateTime DataCad { get; set; }
         public DateTime DataNasc { get; set; }
         public bool Ativo { get; set; }
+
+        public Endereco Endereco
+        {
+            get => default;
+            set
+            {
+            }
+        }
+
+        public Telefone Telefone
+        {
+            get => default;
+            set
+            {
+            }
+        }
+
+        public Email Email
+        {
+            get => default;
+            set
+            {
+            }
+        }
+
+        public Cartoes Cartoes
+        {
+            get => default;
+            set
+            {
+            }
+        }
+
         public Cliente()
         {
             

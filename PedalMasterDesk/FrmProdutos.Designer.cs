@@ -107,7 +107,6 @@
             txtPrecoProduto.Name = "txtPrecoProduto";
             txtPrecoProduto.Size = new Size(100, 23);
             txtPrecoProduto.TabIndex = 53;
-            txtPrecoProduto.Text = ".";
             txtPrecoProduto.TextChanged += txtPrecoProduto_TextChanged;
             txtPrecoProduto.KeyDown += txtPrecoProduto_KeyDown;
             txtPrecoProduto.KeyPress += txtPrecoProduto_KeyPress;

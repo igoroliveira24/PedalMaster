@@ -13,10 +13,10 @@ namespace PedalMasterLib
 {
     public class Funcionarios
     {
-        
+
 
         public int Id { get; set; }
-        public string? Nome { get; set;  }
+        public string? Nome { get; set; }
         public string? Cpf { get; set; }
         public string? Rg { get; set; }
         public DateTime DataNasc { get; set; }
@@ -32,9 +32,41 @@ namespace PedalMasterLib
         public int IdEmail { get; set; }
         public string Senha { get; set; }
 
+        public Email Email
+        {
+            get => default;
+            set
+            {
+            }
+        }
+
+        public Telefone Telefone
+        {
+            get => default;
+            set
+            {
+            }
+        }
+
+        public Cargos Cargos
+        {
+            get => default;
+            set
+            {
+            }
+        }
+
+        public Endereco Endereco
+        {
+            get => default;
+            set
+            {
+            }
+        }
+
         public Funcionarios()
         {
-            
+
         }
 
         public Funcionarios(string? nome, string? cpf, string? rg, DateTime dataNasc, Cargos idFuncionarios)
@@ -44,7 +76,7 @@ namespace PedalMasterLib
             Rg = rg;
             DataNasc = dataNasc;
             IdFuncionarios = idFuncionarios;
-           
+
         }
         public Funcionarios(string? nome, string? cpf, string? rg, DateTime dataNasc, Cargos idFuncionarios, bool ativo)
         {
@@ -122,10 +154,10 @@ namespace PedalMasterLib
             {
 
                 Id = dr.GetInt32(0);
-                    
+
             }
             cmd.Connection.Close();
-            
+
         }
 
         public static List<Funcionarios> ObrterLista()
@@ -172,7 +204,7 @@ namespace PedalMasterLib
                     Endereco.ObterListaPorIdFuncionarios(dr.GetInt32(0)),
                     Telefone.ObterListaPorIdFuncionarios(dr.GetInt32(0))
                     ));
-                
+
             }
             cmd.Connection.Close();
             return funcionarios;
@@ -183,10 +215,10 @@ namespace PedalMasterLib
             var cmd = Banco.Abrir();
             cmd.CommandType = System.Data.CommandType.StoredProcedure;
             cmd.CommandText = "spInsert_Funcionarios";
-            cmd.Parameters.AddWithValue("spnome",Nome);
-            cmd.Parameters.AddWithValue("spcpf",Cpf);
-            cmd.Parameters.AddWithValue("sprg",Rg);
-            cmd.Parameters.AddWithValue("spdatnasc",DataNasc);
+            cmd.Parameters.AddWithValue("spnome", Nome);
+            cmd.Parameters.AddWithValue("spcpf", Cpf);
+            cmd.Parameters.AddWithValue("sprg", Rg);
+            cmd.Parameters.AddWithValue("spdatnasc", DataNasc);
             cmd.Parameters.AddWithValue("spid_cargos", IdFuncionarios.Id);
             var dr = cmd.ExecuteReader();
             while (dr.Read())
@@ -207,7 +239,7 @@ namespace PedalMasterLib
             cmd.Parameters.AddWithValue("sprg", Rg);
             cmd.Parameters.AddWithValue("spdatanasc", DataNasc);
             cmd.Parameters.AddWithValue("spid_cargos", IdFuncionarios);
-            cmd.Parameters.AddWithValue("spativo", Ativo);          
+            cmd.Parameters.AddWithValue("spativo", Ativo);
             cmd.Connection.Close();
         }
 
@@ -229,7 +261,7 @@ namespace PedalMasterLib
             cmd.Connection.Close();
 
         }
-      
+
         public static Funcionarios EfetuarLogin(int email, string senha)
         {
             Funcionarios funcionarios = new();

@@ -340,7 +340,7 @@ namespace PedalMasterDesk
             {
 
 
-                if (!char.IsDigit(e.KeyChar))
+                if (!char.IsDigit(e.KeyChar) && !char.IsPunctuation(e.KeyChar))
                 {
                     //Atribui True no Handled para cancelar o evento
                     e.Handled = true;

@@ -10,6 +10,10 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "PedalMasterDesk", "PedalMas
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "PedalMasterLib", "PedalMasterLib\PedalMasterLib.csproj", "{6F0E5B51-5F12-4803-A13B-68905828D6FB}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Banco", "Banco", "{EFB36C97-6905-4E39-AA67-B4F54C4B7DE1}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Site", "Site", "{B77C6375-0E71-4AF1-B056-E6CB799B95DA}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU

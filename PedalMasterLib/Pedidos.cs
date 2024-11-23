@@ -14,6 +14,22 @@ namespace PedalMasterLib
         public Funcionarios IdFuncionarios { get; set; }
         public Cliente IdCliente { get; set; }
 
+        public ItemPedido ItemPedido
+        {
+            get => default;
+            set
+            {
+            }
+        }
+
+        public Pagamentos Pagamentos
+        {
+            get => default;
+            set
+            {
+            }
+        }
+
         public Pedidos()
         {
 

@@ -16,27 +16,83 @@ namespace PedalMasterLib
     
     }
 
-    public class Banco
+public class Banco
+{
+    public PedalMasterLib.Funcionarios Funcionarios
     {
-        /// <summary>
-        /// Método abrir da classe Banco é utilizado para representar comandos SQL no servidor, cujos dados foram inforados na string de conexão (strconn)
-        /// </summary>
-        /// <returns>Entrega um objeto de comandos SQL, que serão executados na conexão informada</returns>
-        public static MySqlCommand Abrir()
+        get => default;
+        set
         {
-            string strconn = @"server=localhost;database=pedalmaster;user=root;password=;convert zero datetime=true;";
-            MySqlConnection cn = new MySqlConnection(strconn);
-            MySqlCommand cmd = new MySqlCommand();
-            try
-            {
-                cn.Open();
-                cmd.Connection = cn;
-            }
-            catch (Exception)
-            {
-                throw;
-            }
-            return cmd;
         }
     }
+
+    public PedalMasterLib.Cliente Cliente
+    {
+        get => default;
+        set
+        {
+        }
+    }
+
+    public PedalMasterLib.Cargos Cargos
+    {
+        get => default;
+        set
+        {
+        }
+    }
+
+    public PedalMasterLib.Pedidos Pedidos
+    {
+        get => default;
+        set
+        {
+        }
+    }
+
+    public PedalMasterLib.ItemPedido ItemPedido
+    {
+        get => default;
+        set
+        {
+        }
+    }
+
+    public PedalMasterLib.Produto Produto
+    {
+        get => default;
+        set
+        {
+        }
+    }
+
+    public PedalMasterLib.TipoProduto TipoProduto
+    {
+        get => default;
+        set
+        {
+        }
+    }
+
+    /// <summary>
+    /// Método abrir da classe Banco é utilizado para representar comandos SQL no servidor, cujos dados foram inforados na string de conexão (strconn)
+    /// </summary>
+    /// <returns>Entrega um objeto de comandos SQL, que serão executados na conexão informada</returns>
+    public static MySqlCommand Abrir()
+    {
+        string strconn = @"server=localhost;database=pedalmaster;user=root;password=;convert zero datetime=true;";
+        MySqlConnection cn = new MySqlConnection(strconn);
+        MySqlCommand cmd = new MySqlCommand();
+        try
+        {
+            cn.Open();
+            cmd.Connection = cn;
+        }
+        catch (Exception)
+        {
+            throw;
+        }
+        return cmd;
+    }
+}
 

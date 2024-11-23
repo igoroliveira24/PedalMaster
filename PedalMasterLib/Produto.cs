@@ -25,6 +25,30 @@ namespace PedalMasterLib
         public string? Descricao { get; set; }
         public string? Imagem { get; set; }
 
+        public SysPecNSLib.Estoque Estoque
+        {
+            get => default;
+            set
+            {
+            }
+        }
+
+        public ItemPedido ItemPedido
+        {
+            get => default;
+            set
+            {
+            }
+        }
+
+        public TipoProduto TipoProduto
+        {
+            get => default;
+            set
+            {
+            }
+        }
+
         public Produto()
         {
 
