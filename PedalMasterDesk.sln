@@ -35,6 +35,7 @@ Project("{E24C65DC-7377-472B-9ABA-BC803B73C61A}") = "Projeto_UC16", "..\..\..\..
 		Release.AspNetCompiler.FixedNames = "false"
 		Release.AspNetCompiler.Debug = "False"
 		VWDPort = "49618"
+		SlnRelativePath = "..\..\..\..\Downloads\Projeto_UC16\"
 	EndProjectSection
 EndProject
 Global
